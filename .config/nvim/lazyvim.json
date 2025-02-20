@@ -1,0 +1,21 @@
+{
+  "extras": [
+    "lazyvim.plugins.extras.ai.codeium",
+    "lazyvim.plugins.extras.coding.luasnip",
+    "lazyvim.plugins.extras.coding.mini-comment",
+    "lazyvim.plugins.extras.coding.mini-surround",
+    "lazyvim.plugins.extras.coding.neogen",
+    "lazyvim.plugins.extras.editor.dial",
+    "lazyvim.plugins.extras.editor.inc-rename",
+    "lazyvim.plugins.extras.formatting.biome",
+    "lazyvim.plugins.extras.lang.markdown",
+    "lazyvim.plugins.extras.ui.treesitter-context",
+    "lazyvim.plugins.extras.util.dot"
+  ],
+  "install_version": 7,
+  "news": {
+    "NEWS.md": "10960",
+    "doc/news.txt": "24450"
+  },
+  "version": 8
+}
