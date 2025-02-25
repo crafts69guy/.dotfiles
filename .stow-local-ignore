@@ -4,3 +4,7 @@
 .gitconfig
 .git
 .gitignore
+
+# Assets
+images
+README.md
