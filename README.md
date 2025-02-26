@@ -33,6 +33,23 @@ sudo apt update && sudo apt install stow git fish tmux neovim
 sudo pacman -S stow git fish tmux neovim
 ```
 
+#### Install **Fisher**
+A plugin manager for Fish  
+**macOS:**
+```sh
+curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
+```
+
+#### Install **Tide** after installed **fisher** *(optional)*
+The ultimate Fish prompt.  
+
+![Tide-Configuration-Wizard](./images/tide_configuration_wizard.webp)
+
+**macOS:**
+```sh
+fisher install IlanCosman/tide@v6
+```
+
 ### **2. Clone This Repository**
 ```sh
 git clone https://github.com/crafts-cnc/.dotfiles.git ~/.dotfiles
@@ -42,7 +59,11 @@ cd ~/.dotfiles
 ### **3. Apply Dotfiles Using Stow**
 To symlink all configurations:
 ```sh
-stow -v .
+# Using run script (recommended)
+~/.dotfiles/stow_setup.sh
+
+# Without script
+stow -v . # [Add -R flag if need]
 ```
 To symlink specific configurations:
 ```sh
@@ -53,12 +74,12 @@ stow -v ~/.dotfiles/.config
 stow -v ~/.dotfiles/biome.json
 ```
 
-### **4. Restart Your Shell**
+### **4. Restart Your Shell** (*optional*)
 ```sh
 exec fish  # or exec zsh
 ```
 
-### **5. Verify the Setup**
+### **5. Verify the Setup** (*optional*)
 Check if configurations are correctly applied:
 ```sh
 echo $SHELL   # Should show fish or zsh
