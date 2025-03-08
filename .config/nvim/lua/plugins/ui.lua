@@ -134,6 +134,11 @@ return {
 	},
 
 	{
+		"MeanderingProgrammer/render-markdown.nvim",
+		enabled = false,
+	},
+
+	{
 		"folke/zen-mode.nvim",
 		cmd = "ZenMode",
 		opts = {
