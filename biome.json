@@ -9,7 +9,7 @@
     "indentStyle": "space",
     "indentWidth": 2,
     "lineEnding": "lf",
-    "lineWidth": 80,
+    "lineWidth": 100,
     "attributePosition": "auto",
     "bracketSpacing": true,
     "ignore": [
@@ -185,7 +185,7 @@
             ]
           }
         },
-        "noUselessElse": "error",
+        "noUselessElse": "off",
         "noVar": "error",
         "noYodaExpression": "error",
         "useBlockStatements": "off",
