@@ -74,6 +74,9 @@ Pods/
 .config/nvim.bak
 .config/nvim/pack
 
+# Tmux
+.config/tmux/plugins
+
 # Yarn
 .config/yarn
 
