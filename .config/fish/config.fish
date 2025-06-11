@@ -3,7 +3,7 @@ if status is-interactive
     set -gx PATH /opt/homebrew/bin $PATH
 
     set -x NVM_DIR ~/.local/share/nvm
-    set -x NODE_VERSION v20.14.0
+    set -x NODE_VERSION v22.16.0
     set -x PATH $NVM_DIR/$NODE_VERSION/bin $PATH
 
     set fish_greeting ""
