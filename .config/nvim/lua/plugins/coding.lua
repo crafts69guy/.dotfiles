@@ -163,4 +163,10 @@ return {
 			integrations = { blink_cmp = true },
 		},
 	},
+
+	{
+		"chentoast/marks.nvim",
+		event = "VeryLazy",
+		opts = {},
+	},
 }
