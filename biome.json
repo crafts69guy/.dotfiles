@@ -1,7 +1,7 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.0.0/schema.json",
   "vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": false },
-  "files": { "ignoreUnknown": false, "ignore": [] },
+  "files": { "ignoreUnknown": false },
   "formatter": {
     "enabled": true,
     "useEditorconfig": true,
@@ -11,18 +11,8 @@
     "lineEnding": "lf",
     "lineWidth": 100,
     "attributePosition": "auto",
-    "bracketSpacing": true,
-    "ignore": [
-      "**/build/",
-      "**/node_modules/",
-      "internals/generators/",
-      "internals/scripts/",
-      "**/package-lock.json",
-      "**/yarn.lock",
-      "**/package.json"
-    ]
+    "bracketSpacing": true
   },
-  "organizeImports": { "enabled": true },
   "linter": {
     "enabled": true,
     "rules": {
@@ -31,7 +21,6 @@
         "noAccessKey": "error",
         "noAriaUnsupportedElements": "error",
         "noAutofocus": "error",
-        "noBlankTarget": "off",
         "noDistractingElements": "error",
         "noHeaderScope": "error",
         "noInteractiveElementToNoninteractiveRole": "error",
@@ -64,7 +53,6 @@
       },
       "complexity": {
         "noExtraBooleanCast": "error",
-        "noMultipleSpacesInRegularExpressionLiterals": "error",
         "noUselessCatch": "off",
         "noUselessConstructor": "error",
         "noUselessLabel": "error",
@@ -74,7 +62,6 @@
         "noUselessTernary": "error",
         "noUselessUndefinedInitialization": "error",
         "noVoid": "error",
-        "noWith": "error",
         "useArrowFunction": "off",
         "useLiteralKeys": "error"
       },
@@ -88,7 +75,6 @@
         "noInnerDeclarations": "error",
         "noInvalidConstructorSuper": "error",
         "noInvalidUseBeforeDeclaration": "off",
-        "noNewSymbol": "error",
         "noNodejsModules": "off",
         "noSelfAssign": "error",
         "noSwitchDeclarations": "error",
@@ -99,7 +85,6 @@
         "noUnusedLabels": "error",
         "noUnusedVariables": "error",
         "noVoidElementsWithChildren": "error",
-        "useArrayLiterals": "error",
         "useHookAtTopLevel": "error",
         "useIsNan": "error",
         "useJsxKeyInIterable": "off",
@@ -112,88 +97,21 @@
         "noGlobalEval": "error"
       },
       "style": {
-        "noArguments": "error",
-        "noCommaOperator": "error",
         "noDefaultExport": "off",
         "noImplicitBoolean": "off",
         "noNegationElse": "off",
         "noParameterAssign": "error",
         "noRestrictedGlobals": {
           "level": "error",
-          "options": {
-            "deniedGlobals": [
-              "isFinite",
-              "isNaN",
-              "addEventListener",
-              "blur",
-              "close",
-              "closed",
-              "confirm",
-              "defaultStatus",
-              "defaultstatus",
-              "event",
-              "external",
-              "find",
-              "focus",
-              "frameElement",
-              "frames",
-              "history",
-              "innerHeight",
-              "innerWidth",
-              "length",
-              "location",
-              "locationbar",
-              "menubar",
-              "moveBy",
-              "moveTo",
-              "name",
-              "onblur",
-              "onerror",
-              "onfocus",
-              "onload",
-              "onresize",
-              "onunload",
-              "open",
-              "opener",
-              "opera",
-              "outerHeight",
-              "outerWidth",
-              "pageXOffset",
-              "pageYOffset",
-              "parent",
-              "print",
-              "removeEventListener",
-              "resizeBy",
-              "resizeTo",
-              "screen",
-              "screenLeft",
-              "screenTop",
-              "screenX",
-              "screenY",
-              "scroll",
-              "scrollbars",
-              "scrollBy",
-              "scrollTo",
-              "scrollX",
-              "scrollY",
-              "self",
-              "status",
-              "statusbar",
-              "stop",
-              "toolbar",
-              "top"
-            ]
-          }
+          "options": {}
         },
         "noUselessElse": "off",
-        "noVar": "error",
         "noYodaExpression": "error",
         "useBlockStatements": "off",
         "useCollapsedElseIf": "error",
         "useConsistentBuiltinInstantiation": "error",
         "useConst": "error",
         "useDefaultSwitchClause": "error",
-        "useNumericLiterals": "error",
         "useShorthandAssign": "error",
         "useSingleVarDeclarator": "error",
         "useTemplate": "error",
@@ -230,8 +148,7 @@
         "noSparseArray": "error",
         "noUnsafeNegation": "error",
         "useAwait": "off",
-        "useGetterReturn": "error",
-        "useValidTypeof": "error"
+        "useGetterReturn": "error"
       }
     }
   },
@@ -247,29 +164,5 @@
       "attributePosition": "auto",
       "bracketSpacing": true
     }
-  },
-  "overrides": [
-    {
-      "include": [
-        "*.stories.@(ts|tsx|js|jsx|mjs|cjs)",
-        "*.story.@(ts|tsx|js|jsx|mjs|cjs)"
-      ],
-      "linter": { "rules": {} }
-    },
-    {
-      "include": [".storybook/main.@(js|cjs|mjs|ts)"],
-      "linter": { "rules": {} }
-    },
-    {
-      "include": [
-        "*.stories.@(ts|tsx|js|jsx|mjs|cjs)",
-        "*.story.@(ts|tsx|js|jsx|mjs|cjs)"
-      ],
-      "linter": { "rules": {} }
-    },
-    {
-      "include": [".storybook/main.@(js|cjs|mjs|ts)"],
-      "linter": { "rules": {} }
-    }
-  ]
+  }
 }
