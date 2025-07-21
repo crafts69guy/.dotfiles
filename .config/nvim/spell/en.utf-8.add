@@ -144,3 +144,8 @@ initDestinationInput
 ContentPreview
 jr
 CreateCopy
+Unselected
+strategyType
+imageUrl
+advBtnLabel
+requestAnimationFrame
