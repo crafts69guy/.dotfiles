@@ -2,6 +2,7 @@ return {
 	-- tools
 	{
 		"williamboman/mason.nvim",
+		version = ">=2.0",
 		opts = function(_, opts)
 			vim.list_extend(opts.ensure_installed, {
 				"stylua",
@@ -13,6 +14,9 @@ return {
 				"typescript-language-server",
 				"css-lsp",
 			})
+		end,
+		config = function()
+			require("mason").setup()
 		end,
 	},
 
