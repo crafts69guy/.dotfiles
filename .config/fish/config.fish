@@ -19,6 +19,8 @@ if status is-interactive
     # alias ga git add
     # alias gc git commit
     # alias gp git push
+    alias c claude
+    alias claude-yolo "claude --dangerously-skip-permissions"
     command -qv nvim && alias vim nvim
 
     set -gx EDITOR nvim
