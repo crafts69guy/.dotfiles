@@ -73,6 +73,8 @@ Pods/
 # Nvim
 .config/nvim.bak
 .config/nvim/pack
+.config/nvim/lazy-lock.json
+.config/nvim/lazyvim.json
 
 # Tmux
 .config/tmux/plugins
@@ -91,3 +93,14 @@ Pods/
 
 # CZ-git
 .config/.czrc
+
+# Lazygit
+.config/lazygit/state.yml
+
+# Zed
+.config/zed/.tmp*
+.config/zed/embeddings
+.config/zed/prompts
+
+# Claude Code
+.claude/*.local.json
