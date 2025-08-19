@@ -1,5 +1,3 @@
-# **insideee.dev's Dotfiles**
-
 ![fish screenshot](./images/view_terminal.png)
 ![nvim screenshot](./images/view_project_js.png)
 
@@ -181,9 +179,9 @@ echo -e "\e[4:3mUndercurl Test\e[0m"
 
 ## **📌 About Me**
 - [LinkedIn](https://www.linkedin.com/in/cuong-cao-ngoc-792992229/)
-- [GitHub](https://github.com/CaoNgocCuong?tab=repositories)
+- [GitHub](https://github.com/crafts69guy?tab=repositories)
 - [Facebook](https://www.facebook.com/tony.cuong.39142/)
-- 📧 Email: `insideee.dev@gmail.com`
+- 📧 Email: `crafts69@guy@gmail.com`
 
 🚀 **Happy Coding!**
 
