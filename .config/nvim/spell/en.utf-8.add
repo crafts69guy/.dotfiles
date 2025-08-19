@@ -149,3 +149,15 @@ strategyType
 imageUrl
 advBtnLabel
 requestAnimationFrame
+Precompiled
+titleProps
+labelProps
+FormFieldSet
+helpTextProps
+translationKey
+regexes
+RequiredValidator
+ValidationError
+validators
+LRU
+missmatch
