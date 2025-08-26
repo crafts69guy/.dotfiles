@@ -162,3 +162,8 @@ validators
 LRU
 missmatch
 customFields
+afterEvaluate
+MetricsPlugin
+STATEFUL
+fromValue
+stateful
