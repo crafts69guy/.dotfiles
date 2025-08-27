@@ -90,3 +90,10 @@ end, utils.shallow_merge(opts, { desc = "Replace hex code with HSL" }))
 keymap.set("n", "<leader>i", function()
 	require("insideee-dev.lsp").toggleInlayHints()
 end, utils.shallow_merge(opts, { desc = "Toggle inlay hints" }))
+
+keymap.set("n", "<leader>ob", function()
+	local file = vim.fn.expand("%:p")
+	-- vim.fn.jobstart({ "xdg-open", file }, { detach = true }) -- Linux
+	vim.fn.jobstart({ "open", file }, { detach = true }) -- macOS
+	-- vim.fn.jobstart({ "start", file }, { detach = true }) -- Windows
+end, { desc = "Open in browser" })
