@@ -1,12 +1,13 @@
 return {
 	-- tools
 	{
-		"williamboman/mason.nvim",
+		"mason-org/mason.nvim",
 		version = ">=2.0",
 		opts = function(_, opts)
 			vim.list_extend(opts.ensure_installed, {
 				"stylua",
-				"biome",
+				"eslint-lsp",
+				"prettier",
 				"luacheck",
 				"shellcheck",
 				"shfmt",
@@ -28,6 +29,11 @@ return {
 			inlay_hints = { enabled = false },
 			---@type lspconfig.options
 			servers = {
+				eslint = {
+					settings = {
+						workingDirectory = { mode = "auto" },
+					},
+				},
 				cssls = {},
 				tailwindcss = {
 					root_dir = function(...)
