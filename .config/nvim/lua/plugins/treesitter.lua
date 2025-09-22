@@ -34,6 +34,7 @@ return {
 				-- "rust",
 				"css",
 				"scss",
+				"styled",
 				-- "sql",
 				-- "svelte",
 			},
