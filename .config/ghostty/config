@@ -1,0 +1,27 @@
+# https://ghostty.org/docs/config
+# keep-sorted start
+theme = Solarized Dark Patched
+
+background-opacity = 0.9
+background-blur-radius = 20
+# background = #061b22
+# foreground = #869395
+# cursor-color = #869395
+# cursor-text = #163540
+# selection-background = #163540
+# selection-foreground = #869395
+
+font-family = BlexMono Nerd Font Mono, FiraCode Nerd Font Mono
+
+macos-option-as-alt = left
+cursor-style = block
+cursor-style-blink = false
+
+#keybind = global:cmd+ctrl+shift+j=toggle_visibility
+keybind = shift+enter=text:\n
+keybind = alt+left=unbind
+keybind = alt+right=unbind
+
+macos-icon = chalkboard
+shell-integration-features = no-cursor
+# keep-sorted end
