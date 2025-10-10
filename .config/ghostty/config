@@ -2,6 +2,10 @@
 # keep-sorted start
 theme = Solarized Dark Patched
 
+# window size
+window-width = 215
+window-height = 51
+
 background-opacity = 0.9
 background-blur-radius = 20
 # background = #061b22
@@ -24,6 +28,5 @@ keybind = alt+left=unbind
 keybind = alt+right=unbind
 
 macos-icon = chalkboard
-shell-integration = detect
 # shell-integration-features = no-cursor
 # keep-sorted end
