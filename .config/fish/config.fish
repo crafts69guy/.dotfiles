@@ -2,10 +2,6 @@ if status is-interactive
     # Run home brew
     set -gx PATH /opt/homebrew/bin $PATH
 
-    set -x NVM_DIR ~/.local/share/nvm
-    set -x NODE_VERSION v22.16.0
-    set -x PATH $NVM_DIR/$NODE_VERSION/bin $PATH
-
     set fish_greeting ""
 
     set -gx TERM tmux-256color
@@ -82,8 +78,8 @@ if status is-interactive
 end
 
 # pnpm
-set -gx PNPM_HOME "/Users/caongoccuong/Library/pnpm"
+set -gx PNPM_HOME /Users/caongoccuong/Library/pnpm
 if not string match -q -- $PNPM_HOME $PATH
-  set -gx PATH "$PNPM_HOME" $PATH
+    set -gx PATH "$PNPM_HOME" $PATH
 end
 # pnpm end
