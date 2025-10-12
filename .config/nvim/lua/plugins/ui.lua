@@ -84,6 +84,7 @@ return {
 		"nvim-lualine/lualine.nvim",
 		opts = function(_, opts)
 			local LazyVim = require("lazyvim.util")
+
 			opts.sections.lualine_c[4] = {
 				LazyVim.lualine.pretty_path({
 					length = 0,
@@ -95,9 +96,6 @@ return {
 					readonly_icon = " 󰌾 ",
 				}),
 			}
-
-			-- For using codeium
-			table.insert(opts.sections.lualine_x, 2, LazyVim.lualine.cmp_source("codeium"))
 		end,
 	},
 

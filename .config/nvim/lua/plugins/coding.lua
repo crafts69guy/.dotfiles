@@ -58,7 +58,7 @@ return {
 		"saghen/blink.cmp",
 		dependencies = {
 			{
-				"codeium.nvim",
+				"mgalliou/blink-cmp-tmux",
 				"saghen/blink.compat",
 				"rafamadriz/friendly-snippets",
 			},
@@ -116,10 +116,7 @@ return {
 			},
 
 			sources = {
-				-- adding any nvim-cmp sources here will enable them
-				-- with blink.compat
-				compat = { "codeium" },
-				default = { "lsp", "path", "snippets", "buffer" },
+				default = { "lsp", "path", "snippets", "buffer", "tmux" },
 
 				-- add lazydev to your completion providers
 				providers = {
@@ -128,10 +125,18 @@ return {
 						module = "lazydev.integrations.blink",
 						score_offset = 100, -- show at a higher priority than lsp
 					},
-					codeium = {
-						kind = "Codeium",
-						score_offset = 100,
-						async = true,
+					tmux = {
+						module = "blink-cmp-tmux",
+						name = "tmux",
+						-- default options
+						opts = {
+							all_panes = false,
+							capture_history = false,
+							-- only suggest completions from `tmux` if the `trigger_chars` are
+							-- used
+							triggered_only = false,
+							trigger_chars = { "." },
+						},
 					},
 				},
 			},
