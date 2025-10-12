@@ -102,5 +102,17 @@ Pods/
 .config/zed/embeddings
 .config/zed/prompts
 
-# Claude Code
+# Claude Code - Runtime data only
+.claude/todos/
+.claude/projects/
+.claude/shell-snapshots/
+.claude/statsig/
+.claude/debug/
+.claude/file-history/
+.claude/history.jsonl
+.claude/plugins/repos/
 .claude/*.local.json
+
+# Track these configs
+!.claude/settings.json
+!.claude/plugins/config.json
