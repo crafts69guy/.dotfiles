@@ -188,3 +188,6 @@ InputTagPersonalizableProvider
 readonlyWhenNotEmpty
 readonlyText
 contenteditable
+useInputTagActions
+useEffect
+namespace
