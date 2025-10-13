@@ -6,6 +6,8 @@ return {
 
 			input = { enabled = true },
 
+			statuscolumn = { enabled = true },
+
 			dashboard = {
 				preset = {
 					header = [[
