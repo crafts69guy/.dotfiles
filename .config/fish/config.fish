@@ -17,6 +17,7 @@ if status is-interactive
     # alias gp git push
     alias c claude
     alias claude-yolo "claude --dangerously-skip-permissions"
+    alias oc opencode
     command -qv nvim && alias vim nvim
 
     set -gx EDITOR nvim
@@ -83,3 +84,6 @@ if not string match -q -- $PNPM_HOME $PATH
     set -gx PATH "$PNPM_HOME" $PATH
 end
 # pnpm end
+
+# opencode
+fish_add_path /Users/caongoccuong/.opencode/bin
