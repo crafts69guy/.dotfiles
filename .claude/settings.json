@@ -25,7 +25,10 @@
     "blockchain-web3@claude-code-workflows": false,
     "quantitative-trading@claude-code-workflows": false,
     "payment-processing@claude-code-workflows": false,
-    "accessibility-compliance@claude-code-workflows": false
+    "accessibility-compliance@claude-code-workflows": false,
+    "javascript-typescript@claude-code-workflows": false,
+    "code-documentation@claude-code-workflows": false,
+    "full-stack-orchestration@claude-code-workflows": true
   },
   "alwaysThinkingEnabled": true
 }
