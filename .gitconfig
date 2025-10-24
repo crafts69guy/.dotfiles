@@ -43,11 +43,11 @@
   protocol = https
 
 [github]
-	user = NgocCuong
+	user = crafts69
 
 [user]
-  name = insideee.dev
-  email = insideee.dev@gmail.com
+  name = crafts69.guy
+  email = crafts69.guy@gmail.com
 
 [diff]
   tool = nvimdiff
