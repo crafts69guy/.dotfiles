@@ -77,6 +77,7 @@ require("lazy").setup({
 		},
 	},
 	ui = {
+		border = "rounded",
 		custom_keys = {
 			["<localleader>d"] = function(plugin)
 				dd(plugin)
