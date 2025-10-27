@@ -21,6 +21,7 @@ macos-option-as-alt = left
 cursor-style = block
 cursor-style-blink = false
 mouse-scroll-multiplier = 1.5
+mouse-hide-while-typing = true
 
 #keybind = global:cmd+ctrl+shift+j=toggle_visibility
 keybind = shift+enter=text:\n
