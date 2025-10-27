@@ -39,6 +39,16 @@ local function set_transparent_floats()
 		vim.api.nvim_set_hl(0, "WhichKeyBorder", { fg = border_color, bg = "NONE" })
 		vim.api.nvim_set_hl(0, "WhichKeyFloat", { bg = "NONE" })
 		vim.api.nvim_set_hl(0, "WhichKeyTitle", { bg = "NONE" })
+
+		-- Sidekick
+		vim.api.nvim_set_hl(0, "SidekickNormal", { bg = "NONE" })
+		vim.api.nvim_set_hl(0, "SidekickBorder", { fg = border_color, bg = "NONE" })
+		vim.api.nvim_set_hl(0, "SidekickFloat", { bg = "NONE" })
+		vim.api.nvim_set_hl(0, "SidekickTitle", { bg = "NONE" })
+
+		-- Snacks Picker (used by Sidekick)
+		vim.api.nvim_set_hl(0, "SnacksPickerBorder", { fg = border_color, bg = "NONE" })
+		vim.api.nvim_set_hl(0, "SnacksSidekickCliSelectBorder", { fg = border_color, bg = "NONE" })
 	end)
 end
 

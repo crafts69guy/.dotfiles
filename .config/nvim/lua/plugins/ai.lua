@@ -8,6 +8,9 @@ return {
 					backend = "tmux",
 					enabled = true,
 				},
+				ui = {
+					border = "rounded",
+				},
 			},
 			nes = { enabled = false },
 		},
