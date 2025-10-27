@@ -48,7 +48,6 @@ local function set_transparent_floats()
 
 		-- Snacks Picker (used by Sidekick)
 		vim.api.nvim_set_hl(0, "SnacksPickerBorder", { fg = border_color, bg = "NONE" })
-		vim.api.nvim_set_hl(0, "SnacksSidekickCliSelectBorder", { fg = border_color, bg = "NONE" })
 	end)
 end
 
