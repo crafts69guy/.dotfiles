@@ -224,3 +224,5 @@ backoff
 v4
 useAppNavigate
 currentBatch
+colorscheme
+FloatBorder
