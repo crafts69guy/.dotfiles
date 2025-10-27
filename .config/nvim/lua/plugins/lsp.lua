@@ -15,9 +15,17 @@ return {
 				"typescript-language-server",
 				"css-lsp",
 			})
+			opts.ui = {
+				border = "rounded",
+				icons = {
+					package_installed = "✓",
+					package_pending = "➜",
+					package_uninstalled = "✗",
+				},
+			}
 		end,
-		config = function()
-			require("mason").setup()
+		config = function(_, opts)
+			require("mason").setup(opts)
 		end,
 	},
 
