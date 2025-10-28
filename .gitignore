@@ -64,6 +64,7 @@ Pods/
 # Fish local config
 .config/fish/config-local.fish
 .config/fish/fish_variables
+.config/fish/fish_variables.*
 .config/fish/fishd.tmp.*
 
 # Karabiner
@@ -101,6 +102,9 @@ Pods/
 .config/zed/.tmp*
 .config/zed/embeddings
 .config/zed/prompts
+
+# Raycast
+.config/raycast/*
 
 # Claude Code - Runtime data only
 .claude/todos/
