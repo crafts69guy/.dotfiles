@@ -80,8 +80,30 @@ end, utils.shallow_merge(opts, { desc = "Copy relative path and line number to c
 
 -- Diagnostics
 keymap.set("n", "<C-j>", function()
-	vim.diagnostic.goto_next()
+	vim.diagnostic.jump({ count = 1, float = true })
 end, opts)
+
+-- Open diagnostic float at current line and enter it
+keymap.set("n", "<leader>de", function()
+	local float_opts = {
+		scope = "line",
+		focusable = true,
+		focus_id = "diagnostics",
+		close_events = { "CursorMoved", "CursorMovedI", "BufHidden", "InsertCharPre" },
+	}
+	vim.diagnostic.open_float(float_opts)
+
+	-- Explicitly move cursor to the floating window
+	local win = vim.api.nvim_get_current_win()
+	local wins = vim.api.nvim_list_wins()
+	for _, w in ipairs(wins) do
+		local config = vim.api.nvim_win_get_config(w)
+		if config.relative ~= "" and w ~= win then
+			vim.api.nvim_set_current_win(w)
+			break
+		end
+	end
+end, utils.shallow_merge(opts, { desc = "Enter diagnostic popup at current line" }))
 
 keymap.set("n", "<leader>r", function()
 	utils.replace_hex_with_HSL()
