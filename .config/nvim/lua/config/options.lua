@@ -54,6 +54,13 @@ if vim.fn.has("nvim-0.8") == 1 then
 	vim.opt.cmdheight = 0
 end
 
+-- Diagnostic floating windows with borders
+vim.diagnostic.config({
+	float = {
+		border = "rounded",
+	},
+})
+
 -- File types
 vim.filetype.add({
 	extension = {
