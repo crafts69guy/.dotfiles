@@ -1,19 +1,14 @@
 return {
-	-- tools
+	-- Mason tools installation
 	{
 		"mason-org/mason.nvim",
-		version = ">=2.0",
 		opts = function(_, opts)
 			vim.list_extend(opts.ensure_installed, {
 				"stylua",
-				"eslint-lsp",
-				"prettier",
 				"luacheck",
 				"shellcheck",
 				"shfmt",
-				"tailwindcss-language-server",
-				"typescript-language-server",
-				"css-lsp",
+				-- Note: prettier and eslint-lsp are installed by their respective extras
 			})
 			opts.ui = {
 				border = "rounded",
@@ -24,61 +19,23 @@ return {
 				},
 			}
 		end,
-		config = function(_, opts)
-			require("mason").setup(opts)
-		end,
 	},
 
-	-- lsp servers
+	-- LSP Configuration
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = { "saghen/blink.cmp" },
 		opts = {
+			-- Disable inlay hints globally
 			inlay_hints = { enabled = false },
-			---@type lspconfig.options
+
+			-- Server configurations
 			servers = {
-				eslint = {
-					settings = {
-						workingDirectory = { mode = "auto" },
-					},
-				},
-				cssls = {},
-				tailwindcss = {
-					root_dir = function(...)
-						return require("lspconfig.util").root_pattern(".git")(...)
-					end,
-				},
-				tsserver = {
-					root_dir = function(...)
-						return require("lspconfig.util").root_pattern(".git")(...)
-					end,
-					single_file_support = false,
-					settings = {
-						typescript = {
-							inlayHints = {
-								includeInlayParameterNameHints = "literal",
-								includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-								includeInlayFunctionParameterTypeHints = true,
-								includeInlayVariableTypeHints = false,
-								includeInlayPropertyDeclarationTypeHints = true,
-								includeInlayFunctionLikeReturnTypeHints = true,
-								includeInlayEnumMemberValueHints = true,
-							},
-						},
-						javascript = {
-							inlayHints = {
-								includeInlayParameterNameHints = "all",
-								includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-								includeInlayFunctionParameterTypeHints = true,
-								includeInlayVariableTypeHints = true,
-								includeInlayPropertyDeclarationTypeHints = true,
-								includeInlayFunctionLikeReturnTypeHints = true,
-								includeInlayEnumMemberValueHints = true,
-							},
-						},
-					},
-				},
+				-- HTML & CSS (not covered by extras)
 				html = {},
+				cssls = {},
+
+				-- YAML (not covered by extras)
 				yamlls = {
 					settings = {
 						yaml = {
@@ -86,9 +43,9 @@ return {
 						},
 					},
 				},
+
+				-- Lua (not covered by extras)
 				lua_ls = {
-					-- enabled = false,
-					single_file_support = true,
 					settings = {
 						Lua = {
 							workspace = {
@@ -97,11 +54,6 @@ return {
 							completion = {
 								workspaceWord = true,
 								callSnippet = "Both",
-							},
-							misc = {
-								parameters = {
-									-- "--log-level=trace",
-								},
 							},
 							hint = {
 								enable = true,
@@ -119,7 +71,6 @@ return {
 							},
 							diagnostics = {
 								disable = { "incomplete-signature-doc", "trailing-space" },
-								-- enable = false,
 								groupSeverity = {
 									strong = "Warning",
 									strict = "Warning",
@@ -151,12 +102,13 @@ return {
 						},
 					},
 				},
+
+				-- Global settings for all servers
 				["*"] = {
 					keys = {
 						{
 							"gd",
 							function()
-								-- DO NOT RESUSE WINDOW
 								require("telescope.builtin").lsp_definitions({ reuse_win = false })
 							end,
 							desc = "Goto Definition",
@@ -165,16 +117,6 @@ return {
 					},
 				},
 			},
-			config = function(_, opts)
-				local lspconfig = require("lspconfig")
-				for server, config in pairs(opts.servers) do
-					-- passing config.capabilities to blink.cmp merges with the capabilities in your
-					-- `opts[server].capabilities, if you've defined it
-					config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
-					lspconfig[server].setup(config)
-				end
-			end,
-			setup = {},
 		},
 	},
 }

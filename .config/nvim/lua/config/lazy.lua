@@ -26,13 +26,18 @@ require("lazy").setup({
 			},
 		},
 		-- import any extras modules here
-		-- { import = "lazyvim.plugins.extras.linting.eslint" },
-		-- { import = "lazyvim.plugins.extras.formatting.prettier" },
+		-- Language support
 		{ import = "lazyvim.plugins.extras.lang.typescript" },
 		{ import = "lazyvim.plugins.extras.lang.json" },
+		{ import = "lazyvim.plugins.extras.lang.tailwind" },
 		-- { import = "lazyvim.plugins.extras.lang.markdown" },
 		-- { import = "lazyvim.plugins.extras.lang.rust" },
-		{ import = "lazyvim.plugins.extras.lang.tailwind" },
+
+		-- Linting and Formatting
+		{ import = "lazyvim.plugins.extras.linting.eslint" },
+		{ import = "lazyvim.plugins.extras.formatting.prettier" },
+
+		-- Optional extras (uncomment if needed)
 		-- { import = "lazyvim.plugins.extras.coding.copilot" },
 		-- { import = "lazyvim.plugins.extras.dap.core" },
 		-- { import = "lazyvim.plugins.extras.vscode" },
@@ -41,6 +46,7 @@ require("lazy").setup({
 		-- { import = "lazyvim.plugins.extras.coding.yanky" },
 		-- { import = "lazyvim.plugins.extras.editor.mini-files" },
 		-- { import = "lazyvim.plugins.extras.util.project" },
+
 		{ import = "plugins" },
 	},
 	defaults = {

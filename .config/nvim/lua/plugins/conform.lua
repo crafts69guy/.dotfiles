@@ -2,15 +2,12 @@ return {
 	"stevearc/conform.nvim",
 	opts = {
 		formatters_by_ft = {
+			-- Lua formatting (not covered by extras)
 			lua = { "stylua" },
-			["javascript"] = { "prettier" },
-			["javascriptreact"] = { "prettier" },
-			["typescript"] = { "prettier" },
-			["typescriptreact"] = { "prettier" },
-			["json"] = { "prettier" },
-			["css"] = { "prettier" },
-			["html"] = { "prettier" },
-			["markdown"] = { "prettier" },
+
+			-- Note: The prettier extra already configures these file types:
+			-- javascript, javascriptreact, typescript, typescriptreact, json, css, html, markdown
+			-- Only override here if you need custom settings
 		},
 	},
 }
