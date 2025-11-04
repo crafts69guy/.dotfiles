@@ -23,6 +23,7 @@ local function set_transparent_floats()
 		-- Floating windows
 		vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
 		vim.api.nvim_set_hl(0, "FloatBorder", { fg = border_color, bg = "NONE" })
+		vim.api.nvim_set_hl(0, "FloatTitle", { fg = colors.orange, bg = "NONE", bold = true })
 
 		-- Telescope
 		vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = "NONE" })
@@ -48,6 +49,8 @@ local function set_transparent_floats()
 
 		-- Snacks Picker (used by Sidekick)
 		vim.api.nvim_set_hl(0, "SnacksPickerBorder", { fg = border_color, bg = "NONE" })
+		vim.api.nvim_set_hl(0, "SnacksPickerTitle", { fg = colors.orange, bg = "NONE", bold = true })
+		vim.api.nvim_set_hl(0, "SnacksPickerPreviewTitle", { fg = colors.cyan, bg = "NONE", bold = true })
 
 		-- Diagnostic floating windows
 		vim.api.nvim_set_hl(0, "DiagnosticFloatingBorder", { fg = border_color, bg = "NONE" })
