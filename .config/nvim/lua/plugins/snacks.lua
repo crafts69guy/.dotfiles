@@ -1,6 +1,10 @@
 return {
 	{
 		"folke/snacks.nvim",
+		keys = {
+			{ "<leader>e", function() Snacks.explorer() end, desc = "Explorer (Snacks)" },
+			{ "<leader>.", function() Snacks.explorer() end, desc = "Explorer (Snacks)" },
+		},
 		opts = {
 			scroll = { enabled = false },
 
@@ -9,6 +13,8 @@ return {
 			statuscolumn = { enabled = true },
 
 			image = { enabled = true },
+
+			explorer = { enabled = true },
 
 			dashboard = {
 				preset = {
