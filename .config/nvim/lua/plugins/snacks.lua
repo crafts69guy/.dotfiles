@@ -2,41 +2,259 @@ return {
 	{
 		"folke/snacks.nvim",
 		keys = {
-			{ "<leader>e", function() Snacks.explorer() end, desc = "Explorer (Snacks)" },
-			{ "<leader>.", function() Snacks.explorer() end, desc = "Explorer (Snacks)" },
+			{
+				"<leader>e",
+				function()
+					Snacks.explorer()
+				end,
+				desc = "Explorer (Snacks)",
+			},
+			{
+				"<leader>.",
+				function()
+					Snacks.explorer()
+				end,
+				desc = "Explorer (Snacks)",
+			},
 
 			-- Snacks Picker keymaps
-			{ "<leader><space>", function() Snacks.picker.files() end, desc = "Find Files" },
-			{ "<leader>ff", function() Snacks.picker.files() end, desc = "Find Files" },
-			{ "<leader>fb", function() Snacks.picker.buffers() end, desc = "Find Buffers" },
-			{ "<leader>fr", function() Snacks.picker.recent() end, desc = "Recent Files" },
-			{ "<leader>fg", function() Snacks.picker.grep() end, desc = "Grep" },
-			{ "<leader>fw", function() Snacks.picker.grep_word() end, desc = "Grep Word" },
-			{ "<leader>fc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config Files" },
+			{
+				"<leader><space>",
+				function()
+					Snacks.picker.files()
+				end,
+				desc = "Find Files",
+			},
+			{
+				"<leader>ff",
+				function()
+					Snacks.picker.files()
+				end,
+				desc = "Find Files",
+			},
+			{
+				"<leader>fb",
+				function()
+					Snacks.picker.buffers()
+				end,
+				desc = "Find Buffers",
+			},
+			{
+				"<leader>fr",
+				function()
+					Snacks.picker.recent()
+				end,
+				desc = "Recent Files",
+			},
+			{
+				"<leader>fg",
+				function()
+					Snacks.picker.grep()
+				end,
+				desc = "Grep",
+			},
+			{
+				"<leader>fw",
+				function()
+					Snacks.picker.grep_word()
+				end,
+				desc = "Grep Word",
+			},
+			{
+				"<leader>fc",
+				function()
+					Snacks.picker.files({ cwd = vim.fn.stdpath("config") })
+				end,
+				desc = "Find Config Files",
+			},
 
 			-- Git pickers
-			{ "<leader>gc", function() Snacks.picker.git_log() end, desc = "Git Log" },
-			{ "<leader>gs", function() Snacks.picker.git_status() end, desc = "Git Status" },
+			{
+				"<leader>gc",
+				function()
+					Snacks.picker.git_log()
+				end,
+				desc = "Git Log",
+			},
+			{
+				"<leader>gs",
+				function()
+					Snacks.picker.git_status()
+				end,
+				desc = "Git Status",
+			},
 
 			-- LSP pickers
-			{ "<leader>sd", function() Snacks.picker.diagnostics() end, desc = "Diagnostics" },
-			{ "<leader>ss", function() Snacks.picker.lsp_symbols() end, desc = "LSP Symbols" },
-			{ "gr", function() Snacks.picker.lsp_references() end, desc = "LSP References" },
-			{ "gd", function() Snacks.picker.lsp_definitions() end, desc = "LSP Definitions" },
+			{
+				"<leader>sd",
+				function()
+					Snacks.picker.diagnostics()
+				end,
+				desc = "Diagnostics",
+			},
+			{
+				"<leader>ss",
+				function()
+					Snacks.picker.lsp_symbols()
+				end,
+				desc = "LSP Symbols",
+			},
+			{
+				"gr",
+				function()
+					Snacks.picker.lsp_references()
+				end,
+				desc = "LSP References",
+			},
+			{
+				"gd",
+				function()
+					Snacks.picker.lsp_definitions()
+				end,
+				desc = "LSP Definitions",
+			},
 
 			-- Other useful pickers
-			{ "<leader>sk", function() Snacks.picker.keymaps() end, desc = "Keymaps" },
-			{ "<leader>sh", function() Snacks.picker.help() end, desc = "Help Pages" },
-			{ "<leader>sm", function() Snacks.picker.marks() end, desc = "Marks" },
-			{ "<leader>sj", function() Snacks.picker.jumps() end, desc = "Jumps" },
-			{ "<leader>su", function() Snacks.picker.undo() end, desc = "Undo History" },
-			{ "<leader>sp", function() Snacks.picker() end, desc = "Pickers" },
-			{ '<leader>s"', function() Snacks.picker.registers() end, desc = "Registers" },
-			{ "<leader>sq", function() Snacks.picker.qflist() end, desc = "Quickfix List" },
-			{ "<leader>sl", function() Snacks.picker.loclist() end, desc = "Location List" },
+			{
+				"<leader>sk",
+				function()
+					Snacks.picker.keymaps()
+				end,
+				desc = "Keymaps",
+			},
+			{
+				"<leader>sh",
+				function()
+					Snacks.picker.help()
+				end,
+				desc = "Help Pages",
+			},
+			{
+				"<leader>sm",
+				function()
+					Snacks.picker.marks()
+				end,
+				desc = "Marks",
+			},
+			{
+				"<leader>sj",
+				function()
+					Snacks.picker.jumps()
+				end,
+				desc = "Jumps",
+			},
+			{
+				"<leader>su",
+				function()
+					Snacks.picker.undo()
+				end,
+				desc = "Undo History",
+			},
+			{
+				"<leader>sp",
+				function()
+					Snacks.picker()
+				end,
+				desc = "Pickers",
+			},
+			{
+				'<leader>s"',
+				function()
+					Snacks.picker.registers()
+				end,
+				desc = "Registers",
+			},
+			{
+				"<leader>sq",
+				function()
+					Snacks.picker.qflist()
+				end,
+				desc = "Quickfix List",
+			},
+			{
+				"<leader>sl",
+				function()
+					Snacks.picker.loclist()
+				end,
+				desc = "Location List",
+			},
 
 			-- Resume last picker
-			{ "<leader>sR", function() Snacks.picker.resume() end, desc = "Resume Picker" },
+			{
+				"<leader>sR",
+				function()
+					Snacks.picker.resume()
+				end,
+				desc = "Resume Picker",
+			},
+
+			-- Terminal keymaps
+			{
+				"<C-/>",
+				function()
+					Snacks.terminal()
+				end,
+				desc = "Toggle Terminal",
+				mode = { "n", "t" },
+			},
+			{
+				"<C-_>", -- Terminal sees <C-/> as <C-_> in some terminals
+				function()
+					Snacks.terminal()
+				end,
+				desc = "Toggle Terminal",
+				mode = { "n", "t" },
+			},
+			{
+				"<leader>ft",
+				function()
+					Snacks.terminal()
+				end,
+				desc = "Terminal (Root Dir)",
+			},
+			{
+				"<leader>fT",
+				function()
+					Snacks.terminal(nil, { cwd = vim.fn.expand("%:p:h") })
+				end,
+				desc = "Terminal (Current Dir)",
+			},
+			{
+				"<leader>gg",
+				function()
+					Snacks.lazygit()
+				end,
+				desc = "Lazygit (Root Dir)",
+			},
+			{
+				"<leader>gG",
+				function()
+					Snacks.lazygit({ cwd = vim.fn.expand("%:p:h") })
+				end,
+				desc = "Lazygit (Current Dir)",
+			},
+			{
+				"<leader>gf",
+				function()
+					Snacks.lazygit.log_file()
+				end,
+				desc = "Lazygit Current File History",
+			},
+			{
+				"<leader>gl",
+				function()
+					Snacks.lazygit.log()
+				end,
+				desc = "Lazygit Log",
+			},
+			{
+				"<C-\\>",
+				function()
+					Snacks.terminal()
+				end,
+				desc = "Terminal (floating)",
+				mode = { "n", "t" },
+			},
 		},
 		opts = {
 			scroll = { enabled = false },
@@ -48,6 +266,33 @@ return {
 			image = { enabled = true },
 
 			explorer = { enabled = true },
+
+			terminal = {
+				enabled = true,
+				win = {
+					position = "float",
+					height = 0.95,
+					width = 0.95,
+					border = "rounded",
+				},
+				-- Terminal buffer options
+				bo = {
+					filetype = "snacks_terminal",
+				},
+				-- Window options
+				wo = {},
+			},
+
+			lazygit = {
+				enabled = true,
+				configure = true,
+				win = {
+					position = "float",
+					height = 0.9,
+					width = 0.9,
+					border = "rounded",
+				},
+			},
 
 			picker = {
 				enabled = true,
