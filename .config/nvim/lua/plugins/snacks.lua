@@ -4,6 +4,39 @@ return {
 		keys = {
 			{ "<leader>e", function() Snacks.explorer() end, desc = "Explorer (Snacks)" },
 			{ "<leader>.", function() Snacks.explorer() end, desc = "Explorer (Snacks)" },
+
+			-- Snacks Picker keymaps
+			{ "<leader><space>", function() Snacks.picker.files() end, desc = "Find Files" },
+			{ "<leader>ff", function() Snacks.picker.files() end, desc = "Find Files" },
+			{ "<leader>fb", function() Snacks.picker.buffers() end, desc = "Find Buffers" },
+			{ "<leader>fr", function() Snacks.picker.recent() end, desc = "Recent Files" },
+			{ "<leader>fg", function() Snacks.picker.grep() end, desc = "Grep" },
+			{ "<leader>fw", function() Snacks.picker.grep_word() end, desc = "Grep Word" },
+			{ "<leader>fc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config Files" },
+
+			-- Git pickers
+			{ "<leader>gc", function() Snacks.picker.git_log() end, desc = "Git Log" },
+			{ "<leader>gs", function() Snacks.picker.git_status() end, desc = "Git Status" },
+
+			-- LSP pickers
+			{ "<leader>sd", function() Snacks.picker.diagnostics() end, desc = "Diagnostics" },
+			{ "<leader>ss", function() Snacks.picker.lsp_symbols() end, desc = "LSP Symbols" },
+			{ "gr", function() Snacks.picker.lsp_references() end, desc = "LSP References" },
+			{ "gd", function() Snacks.picker.lsp_definitions() end, desc = "LSP Definitions" },
+
+			-- Other useful pickers
+			{ "<leader>sk", function() Snacks.picker.keymaps() end, desc = "Keymaps" },
+			{ "<leader>sh", function() Snacks.picker.help() end, desc = "Help Pages" },
+			{ "<leader>sm", function() Snacks.picker.marks() end, desc = "Marks" },
+			{ "<leader>sj", function() Snacks.picker.jumps() end, desc = "Jumps" },
+			{ "<leader>su", function() Snacks.picker.undo() end, desc = "Undo History" },
+			{ "<leader>sp", function() Snacks.picker() end, desc = "Pickers" },
+			{ '<leader>s"', function() Snacks.picker.registers() end, desc = "Registers" },
+			{ "<leader>sq", function() Snacks.picker.qflist() end, desc = "Quickfix List" },
+			{ "<leader>sl", function() Snacks.picker.loclist() end, desc = "Location List" },
+
+			-- Resume last picker
+			{ "<leader>sR", function() Snacks.picker.resume() end, desc = "Resume Picker" },
 		},
 		opts = {
 			scroll = { enabled = false },
@@ -15,6 +48,90 @@ return {
 			image = { enabled = true },
 
 			explorer = { enabled = true },
+
+			picker = {
+				enabled = true,
+
+				-- UI Configuration
+				prompt = " ",
+				focus = "input",
+
+				-- Layout options: "default", "vertical", "horizontal", "ivy", "dropdown"
+				layout = {
+					preset = "default",
+					width = 0.8,
+					height = 0.8,
+					preview = {
+						width = 0.5,
+					},
+				},
+
+				-- Matching and sorting
+				matcher = {
+					fuzzy = true,
+					smartcase = true,
+					filename_bonus = true,
+				},
+
+				-- Icons
+				icons = {
+					files = {
+						enabled = true,
+					},
+					git = {
+						enabled = true,
+					},
+				},
+
+				-- Formatters
+				formatters = {
+					file = {
+						truncate = "right",
+					},
+				},
+
+				-- Performance
+				debounce = 10,
+
+				-- Window options
+				win = {
+					input = {
+						keys = {
+							["<Esc>"] = "close",
+							["<C-c>"] = "close",
+							["<CR>"] = "confirm",
+							["<C-s>"] = "confirm_split",
+							["<C-v>"] = "confirm_vsplit",
+							["<C-t>"] = "confirm_tab",
+							["<Tab>"] = "select_next",
+							["<S-Tab>"] = "select_prev",
+							["<C-j>"] = "list_down",
+							["<C-k>"] = "list_up",
+							["<C-d>"] = "preview_scroll_down",
+							["<C-u>"] = "preview_scroll_up",
+							["<C-q>"] = "qflist",
+							["<a-p>"] = "toggle_preview",
+							["<a-f>"] = "toggle_follow",
+						},
+					},
+				},
+
+				-- Source-specific configurations
+				sources = {
+					files = {
+						follow = true,
+						hidden = true,
+						respect_gitignore = true,
+					},
+					buffers = {
+						sort_mru = true,
+					},
+					grep = {
+						hidden = true,
+						follow = true,
+					},
+				},
+			},
 
 			dashboard = {
 				preset = {

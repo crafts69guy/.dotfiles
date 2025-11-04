@@ -226,4 +226,10 @@ return {
 			"nvim-tree/nvim-web-devicons",
 		},
 	},
+
+	-- Disable neo-tree (using Snacks explorer instead)
+	{
+		"neo-tree.nvim",
+		enabled = false,
+	},
 }
