@@ -1,5 +1,6 @@
 # FZF Configuration for Fish Shell
-# Optimized for LazyVim + Tide + Tmux workflow
+# Based on official fzf documentation: https://github.com/junegunn/fzf
+# Optimized for fd, ripgrep, bat integration
 
 # FZF default options with Solarized Dark theme (matching Ghostty)
 set -gx FZF_DEFAULT_OPTS "
@@ -22,42 +23,57 @@ set -gx FZF_DEFAULT_OPTS "
   --color=border:#586e75
 "
 
-# Default command - use fd if available, fallback to find
+# FZF_DEFAULT_COMMAND: Primary file search command (using fd)
+# Reference: https://github.com/junegunn/fzf#environment-variables
 if type -q fd
-    set -gx FZF_DEFAULT_COMMAND "fd --type f --hidden --follow --exclude .git --exclude node_modules"
+    set -gx FZF_DEFAULT_COMMAND "fd --type f --strip-cwd-prefix --hidden --follow --exclude .git"
 else
-    set -gx FZF_DEFAULT_COMMAND "find . -type f -not -path '*/\.git/*' -not -path '*/node_modules/*'"
+    set -gx FZF_DEFAULT_COMMAND "find . -type f -not -path '*/\.git/*'"
 end
 
-# File preview command - use bat if available
+# FZF_CTRL_T_COMMAND: File picker command (Ctrl+T in terminal)
+if type -q fd
+    set -gx FZF_CTRL_T_COMMAND "fd --type f --strip-cwd-prefix --hidden --follow --exclude .git"
+end
+
+# FZF_ALT_C_COMMAND: Directory picker command (Alt+C in terminal)
+if type -q fd
+    set -gx FZF_ALT_C_COMMAND "fd --type d --strip-cwd-prefix --hidden --follow --exclude .git"
+end
+
+# FZF_CTRL_T_OPTS: Options for file picker with bat preview
 if type -q bat
-    set -gx FZF_PREVIEW_FILE_CMD "bat --style=numbers,changes --color=always --line-range :500 {}"
+    set -gx FZF_CTRL_T_OPTS "
+      --preview 'bat --style=numbers,changes --color=always --line-range :500 {}'
+      --preview-window right:60%:wrap
+      --bind 'ctrl-/:toggle-preview'
+    "
 else
-    set -gx FZF_PREVIEW_FILE_CMD "cat {}"
+    set -gx FZF_CTRL_T_OPTS "
+      --preview 'cat {}'
+      --preview-window right:60%:wrap
+    "
 end
 
-# Directory preview command - use eza/exa if available
+# FZF_ALT_C_OPTS: Options for directory picker
 if type -q eza
-    set -gx FZF_PREVIEW_DIR_CMD "eza --tree --level=2 --color=always --icons {}"
+    set -gx FZF_ALT_C_OPTS "
+      --preview 'eza --tree --level=2 --color=always --icons {}'
+      --preview-window right:50%
+    "
 else if type -q exa
-    set -gx FZF_PREVIEW_DIR_CMD "exa --tree --level=2 --color=always --icons {}"
+    set -gx FZF_ALT_C_OPTS "
+      --preview 'exa --tree --level=2 --color=always --icons {}'
+      --preview-window right:50%
+    "
 else
-    set -gx FZF_PREVIEW_DIR_CMD "ls -la {}"
+    set -gx FZF_ALT_C_OPTS "
+      --preview 'ls -la {}'
+      --preview-window right:50%
+    "
 end
 
-# Ctrl+T options for file selection
-set -gx FZF_CTRL_T_OPTS "
-  --preview '$FZF_PREVIEW_FILE_CMD'
-  --preview-window right:60%:wrap
-"
-
-# Alt+C options for directory navigation
-set -gx FZF_ALT_C_OPTS "
-  --preview '$FZF_PREVIEW_DIR_CMD'
-  --preview-window right:50%
-"
-
-# Ctrl+R options for command history
+# FZF_CTRL_R_OPTS: Options for command history
 set -gx FZF_CTRL_R_OPTS "
   --preview 'echo {}'
   --preview-window down:3:wrap
