@@ -20,6 +20,109 @@
                         ]
                     },
                     {
+                        "description": "Map Fn + keys to Ctrl+Alt (for FZF workflows)",
+                        "manipulators": [
+                            {
+                                "description": "Fn+f -> Ctrl+Alt+f (Files)",
+                                "from": {
+                                    "key_code": "f",
+                                    "modifiers": { "mandatory": ["fn"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "f",
+                                        "modifiers": ["left_control", "left_alt"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "description": "Fn+d -> Ctrl+Alt+d (Directories)",
+                                "from": {
+                                    "key_code": "d",
+                                    "modifiers": { "mandatory": ["fn"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "d",
+                                        "modifiers": ["left_control", "left_alt"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "description": "Fn+g -> Ctrl+Alt+g (Git)",
+                                "from": {
+                                    "key_code": "g",
+                                    "modifiers": { "mandatory": ["fn"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "g",
+                                        "modifiers": ["left_control", "left_alt"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "description": "Fn+r -> Ctrl+Alt+r (Command history/Recent)",
+                                "from": {
+                                    "key_code": "r",
+                                    "modifiers": { "mandatory": ["fn"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "r",
+                                        "modifiers": ["left_control", "left_alt"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "description": "Fn+p -> Ctrl+Alt+p (Projects/Processes)",
+                                "from": {
+                                    "key_code": "p",
+                                    "modifiers": { "mandatory": ["fn"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "p",
+                                        "modifiers": ["left_control", "left_alt"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "description": "Fn+b -> Ctrl+Alt+b (Git branches)",
+                                "from": {
+                                    "key_code": "b",
+                                    "modifiers": { "mandatory": ["fn"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "b",
+                                        "modifiers": ["left_control", "left_alt"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "description": "Fn+t -> Ctrl+Alt+t (Tmux sessions)",
+                                "from": {
+                                    "key_code": "t",
+                                    "modifiers": { "mandatory": ["fn"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "t",
+                                        "modifiers": ["left_control", "left_alt"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Change Fn + h/j/k/l to Arrows",
                         "manipulators": [
                             {
