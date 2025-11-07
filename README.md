@@ -4,11 +4,12 @@
 **Warning**: Don’t blindly use my settings unless you know what that entails. Use at your own risk!
 
 ## **📌 Contents**
-- **Neovim** – Custom plugins, keybindings, and themes
+- **Neovim** – Custom plugins, keybindings, and themes (LazyVim)
 - **Tmux** – Optimized terminal workflow
 - **Git** – Configuration for efficient version control
-- **Karabiner** – Custom key mappings for Vim efficiency
-- **Fish Shell** – Enhanced terminal experience
+- **Karabiner** – Custom key mappings with Fn (Hyper) key
+- **Fish Shell** – Enhanced terminal experience with Tide prompt
+- **FZF** – Fuzzy finder with fd, ripgrep, bat integration
 - **GNU Stow** – Simple dotfiles management
 
 ---
@@ -20,7 +21,7 @@ This repository uses **GNU Stow** to manage dotfiles efficiently with symlinks. 
 #### **Install Stow & Essential Tools**
 **macOS:**
 ```sh
-brew install stow git fish tmux neovim
+brew install stow git fish tmux neovim fd ripgrep bat eza fzf
 ```
 **Linux (Debian/Ubuntu):**
 ```sh
@@ -87,18 +88,88 @@ nvim --version  # Ensure Neovim is installed
 ---
 
 ## **🚀 Karabiner Element Application**
-I use Karabiner to customize some keys for my keyboard to make Vim easier to use.
+I use Karabiner to customize keyboard mappings for Vim efficiency and FZF workflows.
 
 ### **Installation**
 ```sh
 brew install --cask karabiner-elements
 ```
+
+### **Custom Mappings**
+**Vim Efficiency:**
+- `Caps Lock` → `Left Control`
+- `Ctrl + [` → `Escape`
+- `Fn + h/j/k/l` → Arrow keys
+
+**FZF Workflows (Fn as Hyper Key):**
+- `Fn + f` → Fuzzy find files
+- `Fn + d` → Fuzzy find directories
+- `Fn + g` → Git modified files
+- `Fn + b` → Git branches
+- `Fn + p` → Projects switcher
+- `Fn + t` → Tmux sessions
+- `Fn + s` → Ripgrep search
+- `Fn + x` → Kill processes
+- `Fn + o` → Kill by port
+
 Search in the registry:
 - [Vim style escape key mapping](https://ke-complex-modifications.pqrs.org/?q=escape%20to%20ctrl%20%2B%20%5B)
 - [Vim style arrows](https://ke-complex-modifications.pqrs.org/?q=vim%20style%20arrows)
 
 ![karabiner screenshot simple](./images/karabiner_simp.png)
 ![karabiner screenshot complex](./images/karabiner_complex.png)
+
+---
+
+## **🔍 FZF Setup**
+Comprehensive fuzzy finder integration with modern CLI tools, based on [official fzf documentation](https://github.com/junegunn/fzf).
+
+### **Dependencies**
+```sh
+brew install fzf fd ripgrep bat eza
+```
+
+### **Features**
+- **fd** – Fast file/directory search (replaces find)
+- **ripgrep** – Fast text search with live reload
+- **bat** – Syntax-highlighted file previews
+- **eza** – Modern ls with tree view for directories
+- **Solarized Dark** theme matching Ghostty terminal
+
+### **Key Bindings**
+| Key | Function | Description |
+|-----|----------|-------------|
+| `Fn+f` | Files | Search files with fd + bat preview |
+| `Fn+d` | Directories | Navigate directories with eza tree |
+| `Fn+g` | Git files | Browse git modified files |
+| `Fn+b` | Git branches | Switch git branches |
+| `Fn+p` | Projects | Switch between projects (ghq) |
+| `Fn+t` | Tmux | Switch tmux sessions |
+| `Fn+s` | Ripgrep | Interactive text search with live reload |
+| `Fn+x` | Processes | Kill processes with confirmation |
+| `Fn+o` | Ports | Kill processes by port number |
+| `Ctrl+r` | History | Search command history |
+
+### **Functions**
+```fish
+# Interactive ripgrep search
+fzf_ripgrep [pattern]
+
+# Quick process killer
+fzf_kill        # SIGTERM
+fzf_kill -9     # SIGKILL
+
+# Simple ripgrep search
+fzf_rg_simple "search term"
+
+# And more: fzf_files, fzf_directories, fzf_git_branches, etc.
+```
+
+### **Configuration Files**
+- `.config/fish/conf.d/fzf.fish` – FZF environment variables
+- `.config/fish/conf.d/fzf_bindings.fish` – Key bindings
+- `.config/fish/functions/fzf_*.fish` – Individual workflow functions
+- `.config/karabiner/karabiner.json` – Fn key mappings
 
 ---
 
