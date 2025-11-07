@@ -155,7 +155,7 @@ Comprehensive fuzzy finder integration with modern CLI tools, based on [official
 ### **Dependencies**
 
 ```sh
-brew install fzf fd ripgrep bat eza
+brew install fzf fd ripgrep bat eza ghq
 ```
 
 ### **Features**
@@ -165,6 +165,7 @@ brew install fzf fd ripgrep bat eza
 - **bat** – Syntax-highlighted file previews
 - **eza** – Modern ls with tree view for directories
 - **Solarized Dark** theme matching Ghostty terminal
+- **ghq** – Project management
 
 ### **Key Bindings**
 
