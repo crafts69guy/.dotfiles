@@ -290,7 +290,7 @@ Close and reopen iTerm2, then check if undercurl works:
 echo -e "\e[4:3mUndercurl Test\e[0m"
 ```
 
-![Result undercurl](./images/show-undercurl.jpg)
+![Result undercurl](./images/show_undercurl.png)
 
 ---
 
