@@ -44,6 +44,21 @@ return {
 					},
 				},
 
+				-- Tailwind CSS
+				tailwindcss = {
+					settings = {
+						tailwindCSS = {
+							classFunctions = { "cva", "cx", "clsx", "classnames" },
+							experimental = {
+								classRegex = {
+									-- For styled-components, emotion, etc.
+									{ "tw`([^`]*)", "([\"'`]([^\"'`]*).*?[\"'`])" },
+								},
+							},
+						},
+					},
+				},
+
 				-- Lua (not covered by extras)
 				lua_ls = {
 					settings = {
