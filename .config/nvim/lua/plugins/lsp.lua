@@ -8,7 +8,6 @@ return {
 				"luacheck",
 				"shellcheck",
 				"shfmt",
-				-- Note: prettier and eslint-lsp are installed by their respective extras
 			})
 			opts.ui = {
 				border = "rounded",

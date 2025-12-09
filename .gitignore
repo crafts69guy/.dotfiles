@@ -25,6 +25,8 @@ node_modules
 bower_components
 fishd.*
 
+.config/nvim/spell/*
+
 # Vim
 Session.vim
 .vim/bundle/

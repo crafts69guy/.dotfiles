@@ -30,5 +30,6 @@
     "code-documentation@claude-code-workflows": false,
     "full-stack-orchestration@claude-code-workflows": true
   },
-  "alwaysThinkingEnabled": true
+  "alwaysThinkingEnabled": false,
+  "model": "opus"
 }
