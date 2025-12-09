@@ -118,16 +118,10 @@ return {
 			},
 
 			sources = {
-				default = { "lsp", "path", "snippets", "buffer", "copilot", "tmux" },
+				default = { "lsp", "path", "snippets", "buffer", "tmux" },
 
 				-- add lazydev to your completion providers
 				providers = {
-					copilot = {
-						name = "copilot",
-						module = "blink-copilot",
-						score_offset = 100,
-						async = true,
-					},
 					lazydev = {
 						name = "LazyDev",
 						module = "lazydev.integrations.blink",
