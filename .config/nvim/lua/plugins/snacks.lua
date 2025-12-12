@@ -3,14 +3,6 @@ return {
 		"folke/snacks.nvim",
 		priority = 1000,
 		lazy = false,
-		init = function()
-			vim.api.nvim_create_autocmd("User", {
-				pattern = "VeryLazy",
-				callback = function()
-					Snacks.dim.enable()
-				end,
-			})
-		end,
 		keys = {
 			{
 				"<leader>e",
@@ -265,11 +257,57 @@ return {
 				desc = "Terminal (floating)",
 				mode = { "n", "t" },
 			},
+			-- Zen mode
+			{
+				"<leader>z",
+				function()
+					Snacks.zen()
+				end,
+				desc = "Zen Mode",
+			},
 		},
 		opts = {
 			scroll = { enabled = false },
 
 			dim = {},
+
+			zen = {
+				enabled = true,
+				toggles = {
+					dim = true,
+					git_signs = true,
+				},
+				show = {
+					statusline = false,
+					tabline = false,
+				},
+				win = {
+					backdrop = { transparent = false },
+				},
+				-- Integration with tmux and kitty
+				on_open = function()
+					-- Tmux integration
+					if vim.env.TMUX then
+						vim.fn.system("tmux set status off")
+						vim.fn.system("tmux list-panes -F '#F' | grep -q Z || tmux resize-pane -Z")
+					end
+					-- Kitty integration
+					if vim.env.KITTY_LISTEN_ON then
+						vim.fn.system("kitty @ set-font-size +2")
+					end
+				end,
+				on_close = function()
+					-- Tmux integration
+					if vim.env.TMUX then
+						vim.fn.system("tmux set status on")
+						vim.fn.system("tmux list-panes -F '#F' | grep -q Z && tmux resize-pane -Z")
+					end
+					-- Kitty integration
+					if vim.env.KITTY_LISTEN_ON then
+						vim.fn.system("kitty @ set-font-size -2")
+					end
+				end,
+			},
 
 			input = { enabled = true },
 
