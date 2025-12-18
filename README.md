@@ -192,8 +192,8 @@ fzf_ripgrep [pattern]
 fzf_kill        # SIGTERM
 fzf_kill -9     # SIGKILL
 
-# Simple ripgrep search
-fzf_rg_simple "search term"
+# Two-phase ripgrep search
+fzf_rg "search term"
 
 # And more: fzf_files, fzf_directories, fzf_git_branches, etc.
 ```
