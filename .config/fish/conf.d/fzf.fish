@@ -2,25 +2,37 @@
 # Based on official fzf documentation: https://github.com/junegunn/fzf
 # Optimized for fd, ripgrep, bat integration
 
-# FZF default options with Solarized Dark theme (matching Ghostty)
+# Solarized Osaka color palette (from craftzdog/solarized-osaka.nvim)
+# Base colors:
+#   base03: #002b36 (bg)        base02: #073642 (bg_highlight)
+#   base01: #586e75 (comment)   base00: #657b83
+#   base0:  #839496 (fg)        base1:  #93a1a1 (fg_bright)
+# Accent colors:
+#   yellow: #b58900  orange: #cb4b16  red:     #dc322f
+#   magenta:#d33682  violet: #6c71c4  blue:    #268bd2
+#   cyan:   #2aa198  green:  #859900
+
 set -gx FZF_DEFAULT_OPTS "
   --height=40%
   --layout=reverse
   --border=rounded
-  --info=inline
-  --prompt='❯ '
-  --pointer='▶'
-  --marker='✓'
+  --info=inline-right
+  --prompt='  '
+  --pointer=' '
+  --marker=' '
+  --separator='─'
+  --scrollbar='│'
   --ansi
   --bind='ctrl-/:toggle-preview'
   --bind='ctrl-u:preview-half-page-up'
   --bind='ctrl-d:preview-half-page-down'
   --bind='ctrl-a:select-all'
   --bind='ctrl-y:execute-silent(echo {+} | pbcopy)'
-  --color=bg+:#073642,bg:#002b36,spinner:#2aa198,hl:#268bd2
-  --color=fg:#839496,header:#586e75,info:#b58900,pointer:#2aa198
-  --color=marker:#859900,fg+:#93a1a1,prompt:#268bd2,hl+:#268bd2
-  --color=border:#586e75
+  --color=bg+:#073642,bg:-1,spinner:#6c71c4,hl:#268bd2
+  --color=fg:#839496,header:#586e75,info:#586e75,pointer:#859900
+  --color=marker:#b58900,fg+:#93a1a1,prompt:#2aa198,hl+:#268bd2
+  --color=border:#073642,label:#cb4b16,query:#93a1a1
+  --color=gutter:-1,separator:#073642,scrollbar:#073642
 "
 
 # FZF_DEFAULT_COMMAND: Primary file search command (using fd)

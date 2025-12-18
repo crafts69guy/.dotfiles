@@ -5,51 +5,50 @@
 # Fish binds: Ctrl+Alt+key → fzf functions
 # Result: Press Fn+f to trigger fzf_files, etc.
 #
-# Key mappings:
-# - Fn+f (or Ctrl+Alt+f): Fuzzy find files (fd + bat)
-# - Fn+d (or Ctrl+Alt+d): Fuzzy find directories (fd + eza)
-# - Fn+g (or Ctrl+Alt+g): Git modified files
-# - Fn+b (or Ctrl+Alt+b): Git branches
-# - Fn+p (or Ctrl+Alt+p): Projects (ghq)
-# - Fn+t (or Ctrl+Alt+t): Tmux sessions
-# - Fn+s (or Ctrl+Alt+s): Interactive ripgrep search
-# - Fn+x (or Ctrl+Alt+x): Kill processes (x=terminate)
-# - Fn+o (or Ctrl+Alt+o): Kill processes by port
-# - Fn+r (or Ctrl+Alt+r): Command history (alt, see Ctrl+r below)
-# - Ctrl+r: Command history (standard)
+# ┌─────────────────────────────────────────────────────────────┐
+# │ Keybinding          │ Function              │ Description   │
+# ├─────────────────────┼───────────────────────┼───────────────┤
+# │ Fn+f / Ctrl+Alt+f   │ fzf_files            │ 󰈔 Files        │
+# │ Fn+d / Ctrl+Alt+d   │ fzf_directories      │ 󰉋 Directories  │
+# │ Fn+g / Ctrl+Alt+g   │ fzf_git_files        │  Git changes  │
+# │ Fn+b / Ctrl+Alt+b   │ fzf_git_branches     │  Git branches │
+# │ Fn+l / Ctrl+Alt+l   │ fzf_git_log          │ 󰜘 Git log      │
+# │ Fn+p / Ctrl+Alt+p   │ fzf_projects         │  Projects     │
+# │ Fn+t / Ctrl+Alt+t   │ fzf_tmux_sessions    │  Tmux         │
+# │ Fn+w / Ctrl+Alt+w   │ fzf_tmux_windows     │  Tmux windows │
+# │ Fn+s / Ctrl+Alt+s   │ fzf_ripgrep          │  Ripgrep      │
+# │ Fn+x / Ctrl+Alt+x   │ fzf_processes        │ 󰓛 Processes    │
+# │ Fn+o / Ctrl+Alt+o   │ fzf_ports            │ 󰒍 Ports        │
+# │ Ctrl+r              │ fzf_history          │ 󰋚 History      │
+# └─────────────────────────────────────────────────────────────┘
+#
+# Not bound (call manually):
+#   fzf_kill [-9]  - Quick kill (no confirm)
+#   fzf_rg <pat>   - Two-phase ripgrep
 
 if status is-interactive
-    # Fn+f / Ctrl+Alt+f: Fuzzy find files (fd + bat)
+    # ─── File Navigation ───────────────────────────────────────
     bind \e\cf 'fzf_files; commandline -f repaint'
-
-    # Fn+d / Ctrl+Alt+d: Fuzzy find directories (fd + eza)
     bind \e\cd 'fzf_directories; commandline -f repaint'
 
-    # Fn+g / Ctrl+Alt+g: Git modified files
+    # ─── Git ───────────────────────────────────────────────────
     bind \e\cg 'fzf_git_files; commandline -f repaint'
-
-    # Fn+b / Ctrl+Alt+b: Git branches
     bind \e\cb 'fzf_git_branches; commandline -f repaint'
+    bind \e\cl 'fzf_git_log; commandline -f repaint'
 
-    # Fn+p / Ctrl+Alt+p: Projects (ghq)
+    # ─── Projects & Sessions ───────────────────────────────────
     bind \e\cp 'fzf_projects; commandline -f repaint'
-
-    # Fn+t / Ctrl+Alt+t: Tmux sessions
-    # NOTE: Ctrl+Alt+t might conflict with terminal new tab - use Fn+t instead
     bind \e\ct 'fzf_tmux_sessions; commandline -f repaint'
+    bind \e\cw 'fzf_tmux_windows; commandline -f repaint'
 
-    # Fn+s / Ctrl+Alt+s: Interactive ripgrep search
+    # ─── Search ────────────────────────────────────────────────
     bind \e\cs 'fzf_ripgrep; commandline -f repaint'
 
-    # Fn+x / Ctrl+Alt+x: Kill processes (x = terminate)
+    # ─── Process Management ────────────────────────────────────
     bind \e\cx 'fzf_processes; commandline -f repaint'
-
-    # Fn+o / Ctrl+Alt+o: Kill processes by port
     bind \e\co 'fzf_ports; commandline -f repaint'
 
-    # Fn+r / Ctrl+Alt+r: Command history (alternative)
+    # ─── History ───────────────────────────────────────────────
     bind \e\cr 'fzf_history; commandline -f repaint'
-
-    # Ctrl+r: Command history (standard, overrides default fish behavior)
     bind \cr 'fzf_history; commandline -f repaint'
 end
