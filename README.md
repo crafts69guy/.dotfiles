@@ -146,7 +146,7 @@ Search in the registry:
 ![karabiner screenshot simple](./images/karabiner_simp.png)
 ![karabiner screenshot complex](./images/karabiner_complex.png)
 
----
+## ![karabiner screenshot sample](./images/sample-01.png)
 
 ## **🔍 FZF Setup**
 
