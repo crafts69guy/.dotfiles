@@ -3,8 +3,10 @@
 theme = Solarized Dark Patched
 
 # window size
-window-width = 215
-window-height = 51
+# window-width = 215
+# window-height = 51
+window-decoration = true
+window-save-state = always
 
 background-opacity = 0.9
 background-blur-radius = 20
