@@ -319,25 +319,6 @@ return {
 
 			explorer = { enabled = true },
 
-			terminal = {
-				enabled = true,
-				win = {
-					position = "float",
-					height = 0.95,
-					width = 0.95,
-					border = "rounded",
-					backdrop = 90, -- Dims the background (0-100, higher = darker)
-				},
-				-- Terminal buffer options
-				bo = {
-					filetype = "snacks_terminal",
-				},
-				-- Window options
-				wo = {
-					winblend = 20, -- Terminal window opacity (0-100, 0=opaque, 100=transparent)
-				},
-			},
-
 			lazygit = {
 				enabled = true,
 				configure = true,
