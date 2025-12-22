@@ -161,6 +161,48 @@
                                     }
                                 ],
                                 "type": "basic"
+                            },
+                            {
+                                "description": "Fn+w -> Ctrl+Alt+w (Tmux windows)",
+                                "from": {
+                                    "key_code": "w",
+                                    "modifiers": { "mandatory": ["fn"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "w",
+                                        "modifiers": ["left_control", "left_alt"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "description": "Fn+; -> Ctrl+Alt+; (Git log)",
+                                "from": {
+                                    "key_code": "semicolon",
+                                    "modifiers": { "mandatory": ["fn"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "semicolon",
+                                        "modifiers": ["left_control", "left_alt"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "description": "Fn+q -> Ctrl+Alt+q (Kill tmux session)",
+                                "from": {
+                                    "key_code": "q",
+                                    "modifiers": { "mandatory": ["fn"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "q",
+                                        "modifiers": ["left_control", "left_alt"]
+                                    }
+                                ],
+                                "type": "basic"
                             }
                         ]
                     },

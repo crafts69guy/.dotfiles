@@ -132,8 +132,11 @@ brew install --cask karabiner-elements
 - `Fn + d` → Fuzzy find directories
 - `Fn + g` → Git modified files
 - `Fn + b` → Git branches
+- `Fn + ;` → Git log
 - `Fn + p` → Projects switcher
 - `Fn + t` → Tmux sessions
+- `Fn + w` → Tmux windows
+- `Fn + q` → Kill tmux session
 - `Fn + s` → Ripgrep search
 - `Fn + x` → Kill processes
 - `Fn + o` → Kill by port
@@ -169,18 +172,21 @@ brew install fzf fd ripgrep bat eza ghq
 
 ### **Key Bindings**
 
-| Key      | Function     | Description                              |
-| -------- | ------------ | ---------------------------------------- |
-| `Fn+f`   | Files        | Search files with fd + bat preview       |
-| `Fn+d`   | Directories  | Navigate directories with eza tree       |
-| `Fn+g`   | Git files    | Browse git modified files                |
-| `Fn+b`   | Git branches | Switch git branches                      |
-| `Fn+p`   | Projects     | Switch between projects (ghq)            |
-| `Fn+t`   | Tmux         | Switch tmux sessions                     |
-| `Fn+s`   | Ripgrep      | Interactive text search with live reload |
-| `Fn+x`   | Processes    | Kill processes with confirmation         |
-| `Fn+o`   | Ports        | Kill processes by port number            |
-| `Ctrl+r` | History      | Search command history                   |
+| Key      | Function      | Description                              |
+| -------- | ------------- | ---------------------------------------- |
+| `Fn+f`   | Files         | Search files with fd + bat preview       |
+| `Fn+d`   | Directories   | Navigate directories with eza tree       |
+| `Fn+g`   | Git files     | Browse git modified files                |
+| `Fn+b`   | Git branches  | Switch git branches                      |
+| `Fn+;`   | Git log       | Browse git commit history                |
+| `Fn+p`   | Projects      | Switch between projects (ghq)            |
+| `Fn+t`   | Tmux sessions | Switch tmux sessions                     |
+| `Fn+w`   | Tmux windows  | Switch tmux windows                      |
+| `Fn+q`   | Tmux kill     | Kill tmux sessions/panes                 |
+| `Fn+s`   | Ripgrep       | Interactive text search with live reload |
+| `Fn+x`   | Processes     | Kill processes with confirmation         |
+| `Fn+o`   | Ports         | Kill processes by port number            |
+| `Ctrl+r` | History       | Search command history                   |
 
 ### **Functions**
 
@@ -192,10 +198,14 @@ fzf_ripgrep [pattern]
 fzf_kill        # SIGTERM
 fzf_kill -9     # SIGKILL
 
+# Kill tmux sessions or panes
+fzf_tmux_kill          # Kill sessions (multi-select)
+fzf_tmux_kill --panes  # Kill panes
+
 # Two-phase ripgrep search
 fzf_rg "search term"
 
-# And more: fzf_files, fzf_directories, fzf_git_branches, etc.
+# And more: fzf_files, fzf_directories, fzf_git_branches, fzf_git_log, etc.
 ```
 
 ### **Configuration Files**

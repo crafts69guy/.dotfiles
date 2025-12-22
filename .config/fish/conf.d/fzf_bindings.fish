@@ -12,10 +12,11 @@
 # │ Fn+d / Ctrl+Alt+d   │ fzf_directories      │ 󰉋 Directories  │
 # │ Fn+g / Ctrl+Alt+g   │ fzf_git_files        │  Git changes  │
 # │ Fn+b / Ctrl+Alt+b   │ fzf_git_branches     │  Git branches │
-# │ Fn+l / Ctrl+Alt+l   │ fzf_git_log          │ 󰜘 Git log      │
+# │ Fn+; / Ctrl+Alt+;   │ fzf_git_log          │ 󰜘 Git log      │
 # │ Fn+p / Ctrl+Alt+p   │ fzf_projects         │  Projects     │
 # │ Fn+t / Ctrl+Alt+t   │ fzf_tmux_sessions    │  Tmux         │
 # │ Fn+w / Ctrl+Alt+w   │ fzf_tmux_windows     │  Tmux windows │
+# │ Fn+q / Ctrl+Alt+q   │ fzf_tmux_kill        │ 󰆴 Kill session │
 # │ Fn+s / Ctrl+Alt+s   │ fzf_ripgrep          │  Ripgrep      │
 # │ Fn+x / Ctrl+Alt+x   │ fzf_processes        │ 󰓛 Processes    │
 # │ Fn+o / Ctrl+Alt+o   │ fzf_ports            │ 󰒍 Ports        │
@@ -34,12 +35,13 @@ if status is-interactive
     # ─── Git ───────────────────────────────────────────────────
     bind \e\cg 'fzf_git_files; commandline -f repaint'
     bind \e\cb 'fzf_git_branches; commandline -f repaint'
-    bind \e\cl 'fzf_git_log; commandline -f repaint'
+    bind \e\; 'fzf_git_log; commandline -f repaint'
 
     # ─── Projects & Sessions ───────────────────────────────────
     bind \e\cp 'fzf_projects; commandline -f repaint'
     bind \e\ct 'fzf_tmux_sessions; commandline -f repaint'
     bind \e\cw 'fzf_tmux_windows; commandline -f repaint'
+    bind \e\cq 'fzf_tmux_kill; commandline -f repaint'
 
     # ─── Search ────────────────────────────────────────────────
     bind \e\cs 'fzf_ripgrep; commandline -f repaint'
