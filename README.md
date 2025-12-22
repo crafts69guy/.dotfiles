@@ -136,6 +136,7 @@ brew install --cask karabiner-elements
 - `Fn + p` → Projects switcher
 - `Fn + t` → Tmux sessions
 - `Fn + w` → Tmux windows
+- `Fn + n` → New tmux session
 - `Fn + q` → Kill tmux session
 - `Fn + s` → Ripgrep search
 - `Fn + x` → Kill processes
@@ -182,6 +183,7 @@ brew install fzf fd ripgrep bat eza ghq
 | `Fn+p`   | Projects      | Switch between projects (ghq)            |
 | `Fn+t`   | Tmux sessions | Switch tmux sessions                     |
 | `Fn+w`   | Tmux windows  | Switch tmux windows                      |
+| `Fn+n`   | New session   | Create and switch to new tmux session    |
 | `Fn+q`   | Tmux kill     | Kill tmux sessions/panes                 |
 | `Fn+s`   | Ripgrep       | Interactive text search with live reload |
 | `Fn+x`   | Processes     | Kill processes with confirmation         |
@@ -201,6 +203,9 @@ fzf_kill -9     # SIGKILL
 # Kill tmux sessions or panes
 fzf_tmux_kill          # Kill sessions (multi-select)
 fzf_tmux_kill --panes  # Kill panes
+
+# Create new tmux session
+fzf_tmux_new_session   # Prompt for name, create and switch
 
 # Two-phase ripgrep search
 fzf_rg "search term"

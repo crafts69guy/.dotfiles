@@ -203,6 +203,20 @@
                                     }
                                 ],
                                 "type": "basic"
+                            },
+                            {
+                                "description": "Fn+n -> Ctrl+Alt+n (New tmux session)",
+                                "from": {
+                                    "key_code": "n",
+                                    "modifiers": { "mandatory": ["fn"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "n",
+                                        "modifiers": ["left_control", "left_alt"]
+                                    }
+                                ],
+                                "type": "basic"
                             }
                         ]
                     },
