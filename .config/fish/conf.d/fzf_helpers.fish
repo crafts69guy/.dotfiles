@@ -20,15 +20,17 @@ function _fzf_opts --description "Get common fzf options with Solarized Osaka th
         --padding=1,2 \
         "--prompt=  " \
         "--pointer= " \
-        "--marker= " \
+        "--marker=󰄴 " \
         --info=inline-right \
         "--separator=─" \
         "--scrollbar=│" \
         --header-first \
         --bind=ctrl-/:toggle-preview \
-        --color=fg:#839496,fg+:#93a1a1,bg:-1,bg+:#073642 \
+        --bind=tab:toggle+down \
+        --bind=shift-tab:toggle+up \
+        --color=fg:#839496,fg+:#2aa198:bold,bg:-1,bg+:#073642,selected-bg:#073642,selected-fg:#859900 \
         --color=hl:#268bd2,hl+:#268bd2,info:#586e75,border:#073642 \
-        --color=prompt:#2aa198,pointer:#859900,marker:#b58900,spinner:#6c71c4 \
+        --color=prompt:#2aa198,pointer:#859900,marker:#859900:bold,spinner:#6c71c4 \
         --color=header:#586e75,gutter:-1,query:#93a1a1,label:#cb4b16
 end
 
