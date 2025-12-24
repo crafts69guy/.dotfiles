@@ -176,4 +176,31 @@ return {
 		event = "VeryLazy",
 		opts = {},
 	},
+
+	{
+		"andrewferrier/debugprint.nvim",
+		dependencies = {
+			"nvim-mini/mini.hipatterns",
+			"nvim-telescope/telescope.nvim",
+			"folke/snacks.nvim",
+		},
+		lazy = false, -- Required to make line highlighting work before debugprint is first used
+		version = "*", -- Remove if you DON'T want to use the stable version
+		opts = function()
+			local js_like = {
+				left = 'console.log("',
+				right = '")',
+				mid_var = '", ',
+				right_var = ")",
+			}
+			return {
+				filetypes = {
+					javascript = js_like,
+					javascriptreact = js_like,
+					typescript = js_like,
+					typescriptreact = js_like,
+				},
+			}
+		end,
+	},
 }
