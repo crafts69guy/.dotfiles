@@ -33,6 +33,7 @@
     "agent-orchestration@claude-code-workflows": true,
     "code-refactoring@claude-code-workflows": true,
     "code-review-ai@claude-code-workflows": true,
-    "typescript-lsp@claude-plugins-official": true
+    "typescript-lsp@claude-plugins-official": true,
+    "lua-lsp@claude-plugins-official": true
   }
 }

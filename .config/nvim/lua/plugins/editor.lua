@@ -1,5 +1,17 @@
 return {
 	{
+		"folke/which-key.nvim",
+		opts = {
+			spec = {
+				{ "<leader>o", group = "Open", icon = { icon = "󰏌 ", color = "azure" } },
+				{ "<leader>y", group = "Yank", icon = { icon = "󰅍 ", color = "yellow" } },
+				{ "<leader>r", icon = { icon = "󰸱 ", color = "purple" } },
+				{ "<leader>t", group = "Tabs", icon = { icon = "󰓩 ", color = "cyan" } },
+			},
+		},
+	},
+
+	{
 		"folke/flash.nvim",
 		enabled = false,
 	},

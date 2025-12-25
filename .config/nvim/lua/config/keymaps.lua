@@ -22,13 +22,6 @@ keymap.set("n", "dw", 'vb"_d')
 -- Select all
 keymap.set("n", "<C-a>a", "gg<S-v>G")
 
--- Save with root permission (not working for now)
---vim.api.nvim_create_user_command('W', 'w !sudo tee > /dev/null %', {})
-
--- Disable continuations
-keymap.set("n", "<Leader>o", "o<Esc>^Da", opts)
-keymap.set("n", "<Leader>O", "O<Esc>^Da", opts)
-
 -- Jumplist
 keymap.set("n", "<C-m>", "<C-i>", opts)
 
@@ -105,17 +98,25 @@ keymap.set("n", "<leader>de", function()
 	end
 end, utils.shallow_merge(opts, { desc = "Enter diagnostic popup at current line" }))
 
+-- Replace hex with HSL
 keymap.set("n", "<leader>r", function()
 	utils.replace_hex_with_HSL()
 end, utils.shallow_merge(opts, { desc = "Replace hex code with HSL" }))
 
+-- Inlay hints
 keymap.set("n", "<leader>i", function()
 	require("insideee-dev.lsp").toggleInlayHints()
 end, utils.shallow_merge(opts, { desc = "Toggle inlay hints" }))
 
+-- Open
+keymap.set("n", "<leader>o", "", { desc = "Open" })
 keymap.set("n", "<leader>ob", function()
 	local file = vim.fn.expand("%:p")
 	-- vim.fn.jobstart({ "xdg-open", file }, { detach = true }) -- Linux
 	vim.fn.jobstart({ "open", file }, { detach = true }) -- macOS
 	-- vim.fn.jobstart({ "start", file }, { detach = true }) -- Windows
 end, { desc = "Open in browser" })
+keymap.set("n", "<leader>oF", function()
+	local file = vim.fn.expand("%:p")
+	vim.fn.jobstart({ "open", "-R", file }, { detach = true })
+end, { desc = "Reveal file in Finder" })
