@@ -1,32 +1,32 @@
 # FZF Tmux Session/Pane Killer
 # Theme: Solarized Osaka | Tmux popup support
-# Usage: fzf_tmux_kill [--panes] [--others]
+# Usage: fzf_tmux_kill [--panes] [--windows]
 # Helpers: _fzf_run (from conf.d/fzf_helpers.fish)
 
-function fzf_tmux_kill --description "Kill tmux sessions or panes with fzf"
+function fzf_tmux_kill --description "Kill tmux sessions, windows or panes with fzf"
     if not type -q tmux
         echo "tmux not found"
         return 1
     end
 
     set -l mode "sessions"
-    set -l kill_others false
 
     for arg in $argv
         switch $arg
             case --panes
                 set mode "panes"
-            case --others
-                set kill_others true
+            case --windows
+                set mode "windows"
         end
     end
 
-    if test "$kill_others" = true
-        _fzf_tmux_kill_others
-    else if test "$mode" = "panes"
-        _fzf_tmux_kill_panes
-    else
-        _fzf_tmux_kill_sessions
+    switch $mode
+        case panes
+            _fzf_tmux_kill_panes
+        case windows
+            _fzf_tmux_kill_windows
+        case '*'
+            _fzf_tmux_kill_sessions
     end
 end
 
@@ -94,6 +94,78 @@ function _fzf_tmux_kill_others --description "Kill all other tmux sessions excep
     for session in $other_sessions
         echo "  Killed: $session"
         tmux kill-session -t "$session"
+    end
+
+    commandline -f repaint
+end
+
+function _fzf_tmux_kill_windows --description "Kill tmux windows"
+    if test -z "$TMUX"
+        echo "Not inside tmux"
+        return 1
+    end
+
+    set -l windows (tmux list-windows -F "#{window_index}" 2>/dev/null)
+    if test -z "$windows"
+        echo "No tmux windows found"
+        return 1
+    end
+
+    set -l current_window (tmux display-message -p '#{window_index}')
+
+    set -l result (tmux list-windows -F "#{window_index}: #{window_name} │ #{window_panes} panes │ #{?window_active,active,}" | \
+        _fzf_run "80%,60%" \
+            --multi \
+            --border-label=" 󰆴 Kill Windows " \
+            --preview 'tmux capture-pane -ep -t :(echo {} | cut -d: -f1) 2>/dev/null || echo "No preview available"' \
+            --preview-window "right:55%:border-rounded" \
+            --preview-label=" 󰨇 Pane " \
+            --header="  ⌨  tab multi-select │ enter kill │ ctrl-o kill others │ esc cancel" \
+            --expect=ctrl-o)
+
+    set -l key (echo $result[1])
+    set -l selected (echo $result[2..] | cut -d: -f1)
+
+    if test "$key" = "ctrl-o"
+        _fzf_tmux_kill_other_windows
+        return
+    end
+
+    if test -n "$selected"
+        for window in $selected
+            set window (string trim $window)
+            if test "$window" = "$current_window"
+                echo "Skipping current window: $window"
+                continue
+            end
+            echo "Killing window: $window"
+            tmux kill-window -t ":$window"
+        end
+        commandline -f repaint
+    end
+end
+
+function _fzf_tmux_kill_other_windows --description "Kill all other tmux windows except current"
+    if test -z "$TMUX"
+        echo "Not inside tmux"
+        return 1
+    end
+
+    set -l current_window (tmux display-message -p '#{window_index}')
+    set -l other_windows (tmux list-windows -F "#{window_index}" 2>/dev/null | grep -v "^$current_window\$")
+
+    if test -z "$other_windows"
+        echo "No other windows to kill"
+        return 0
+    end
+
+    set -l count (count $other_windows)
+    echo "Killing $count other window(s)..."
+
+    for window in $other_windows
+        set -l window_name (tmux display-message -p -t ":$window" '#{window_name}' 2>/dev/null)
+        echo "  Killed: $window ($window_name)"
+        tmux kill-window -t ":$window"
     end
 
     commandline -f repaint
