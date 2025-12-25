@@ -1,6 +1,6 @@
 # FZF Tmux Session/Pane Killer
 # Theme: Solarized Osaka | Tmux popup support
-# Usage: fzf_tmux_kill [--panes]
+# Usage: fzf_tmux_kill [--panes] [--others]
 # Helpers: _fzf_run (from conf.d/fzf_helpers.fish)
 
 function fzf_tmux_kill --description "Kill tmux sessions or panes with fzf"
@@ -10,11 +10,20 @@ function fzf_tmux_kill --description "Kill tmux sessions or panes with fzf"
     end
 
     set -l mode "sessions"
-    if test (count $argv) -gt 0; and test "$argv[1]" = "--panes"
-        set mode "panes"
+    set -l kill_others false
+
+    for arg in $argv
+        switch $arg
+            case --panes
+                set mode "panes"
+            case --others
+                set kill_others true
+        end
     end
 
-    if test "$mode" = "panes"
+    if test "$kill_others" = true
+        _fzf_tmux_kill_others
+    else if test "$mode" = "panes"
         _fzf_tmux_kill_panes
     else
         _fzf_tmux_kill_sessions
@@ -33,15 +42,23 @@ function _fzf_tmux_kill_sessions --description "Kill tmux sessions"
         set current_session (tmux display-message -p '#{session_name}')
     end
 
-    set -l selected (tmux list-sessions -F "#{session_name}: #{session_windows} windows │ #{session_attached} attached" | \
+    set -l result (tmux list-sessions -F "#{session_name}: #{session_windows} windows │ #{session_attached} attached" | \
         _fzf_run "80%,60%" \
             --multi \
             --border-label=" 󰆴 Kill Sessions " \
             --preview 'tmux capture-pane -ep -t (echo {} | cut -d: -f1) 2>/dev/null || echo "No preview available"' \
             --preview-window "right:55%:border-rounded" \
             --preview-label=" 󰨇 Pane " \
-            --header="  ⌨  tab multi-select │ enter kill │ esc cancel" | \
-        cut -d: -f1)
+            --header="  ⌨  tab multi-select │ enter kill │ ctrl-o kill others │ esc cancel" \
+            --expect=ctrl-o)
+
+    set -l key (echo $result[1])
+    set -l selected (echo $result[2..] | cut -d: -f1)
+
+    if test "$key" = "ctrl-o"
+        _fzf_tmux_kill_others
+        return
+    end
 
     if test -n "$selected"
         for session in $selected
@@ -55,6 +72,31 @@ function _fzf_tmux_kill_sessions --description "Kill tmux sessions"
         end
         commandline -f repaint
     end
+end
+
+function _fzf_tmux_kill_others --description "Kill all other tmux sessions except current"
+    if test -z "$TMUX"
+        echo "Not inside tmux"
+        return 1
+    end
+
+    set -l current_session (tmux display-message -p '#{session_name}')
+    set -l other_sessions (tmux list-sessions -F "#{session_name}" 2>/dev/null | grep -v "^$current_session\$")
+
+    if test -z "$other_sessions"
+        echo "No other sessions to kill"
+        return 0
+    end
+
+    set -l count (count $other_sessions)
+    echo "Killing $count other session(s)..."
+
+    for session in $other_sessions
+        echo "  Killed: $session"
+        tmux kill-session -t "$session"
+    end
+
+    commandline -f repaint
 end
 
 function _fzf_tmux_kill_panes --description "Kill tmux panes"
