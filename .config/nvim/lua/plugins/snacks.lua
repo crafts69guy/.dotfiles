@@ -309,7 +309,8 @@ return {
 				end,
 			},
 
-			input = { enabled = true },
+			-- Disable to working with mini.surround
+			input = { enabled = false },
 
 			statuscolumn = { enabled = true },
 

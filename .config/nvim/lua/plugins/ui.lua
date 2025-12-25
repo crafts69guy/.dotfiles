@@ -50,9 +50,10 @@ return {
 			})
 
 			-- Disable noice's input handling to allow Snacks.input to handle it
-			opts.cmdline = opts.cmdline or {}
-			opts.cmdline.format = opts.cmdline.format or {}
-			opts.cmdline.format.input = false
+			-- Temp disabled to use mini.surround with snack issue
+			-- opts.cmdline = opts.cmdline or {}
+			-- opts.cmdline.format = opts.cmdline.format or {}
+			-- opts.cmdline.format.input = false
 
 			opts.presets.lsp_doc_border = true
 			opts.presets.inc_rename = true
