@@ -213,9 +213,6 @@ return {
 					mappings = {
 						["n"] = {
 							["h"] = fb_actions.goto_parent_dir,
-							["/"] = function()
-								vim.cmd("startinsert")
-							end,
 							["<C-u>"] = function(prompt_bufnr)
 								for _ = 1, 10 do
 									actions.move_selection_previous(prompt_bufnr)
