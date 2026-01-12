@@ -48,6 +48,7 @@ return {
 	{
 		"nvim-telescope/telescope.nvim",
 		dependencies = {
+			"nvim-lua/plenary.nvim",
 			{
 				"nvim-telescope/telescope-fzf-native.nvim",
 				build = "make",
@@ -159,10 +160,41 @@ return {
 				layout_config = { prompt_position = "top" },
 				sorting_strategy = "ascending",
 				winblend = 0,
+				preview = {
+					filesize_limit = 0.5, -- MB - don't preview files larger than 500KB
+					mime_hook = function(filepath, bufnr, opts)
+						local is_image = function(fp)
+							local image_extensions = { "png", "jpg", "jpeg", "gif", "webp", "bmp", "ico" }
+							local split_path = vim.split(fp:lower(), ".", { plain = true })
+							local extension = split_path[#split_path]
+							return vim.tbl_contains(image_extensions, extension)
+						end
+						if is_image(filepath) then
+							local term = vim.api.nvim_open_term(bufnr, {})
+							local function send_output(_, data, _)
+								for _, d in ipairs(data) do
+									vim.api.nvim_chan_send(term, d .. "\r\n")
+								end
+							end
+							vim.fn.jobstart({ "catimg", filepath }, {
+								on_stdout = send_output,
+								stdout_buffered = true,
+								pty = true,
+							})
+						else
+							require("telescope.previewers.utils").set_preview_message(
+								bufnr,
+								opts.winid,
+								"Binary cannot be previewed"
+							)
+						end
+					end,
+				},
 				mappings = {
 					n = {},
 				},
 			})
+
 			opts.pickers = {
 				diagnostics = {
 					theme = "ivy",
@@ -172,62 +204,25 @@ return {
 					},
 				},
 			}
+
 			opts.extensions = {
 				file_browser = {
 					theme = "dropdown",
 					-- disables netrw and use telescope-file-browser in its place
 					hijack_netrw = true,
 					mappings = {
-						-- your custom insert mode mappings
 						["n"] = {
-							-- your custom normal mode mappings
-							["N"] = function(prompt_bufnr)
-								local action_state = require("telescope.actions.state")
-								local Path = require("plenary.path")
-								local current_picker = action_state.get_current_picker(prompt_bufnr)
-								local finder = current_picker.finder
-								local path = finder.path
-
-								vim.ui.input({ prompt = "Create file/directory: " }, function(input)
-									if not input or input == "" then
-										return
-									end
-
-									local file_path = Path:new(path, input):absolute()
-									local is_dir = input:sub(-1) == "/"
-
-									if is_dir then
-										vim.fn.mkdir(file_path, "p")
-									else
-										-- Create parent directories if needed
-										local parent = vim.fn.fnamemodify(file_path, ":h")
-										if vim.fn.isdirectory(parent) == 0 then
-											vim.fn.mkdir(parent, "p")
-										end
-										-- Create the file
-										vim.fn.writefile({}, file_path)
-									end
-
-									-- Close picker if still valid and open the file
-									if vim.api.nvim_buf_is_valid(prompt_bufnr) then
-										actions.close(prompt_bufnr)
-									end
-									if not is_dir then
-										vim.cmd.edit(vim.fn.fnameescape(file_path))
-									end
-								end)
-							end,
 							["h"] = fb_actions.goto_parent_dir,
 							["/"] = function()
 								vim.cmd("startinsert")
 							end,
 							["<C-u>"] = function(prompt_bufnr)
-								for i = 1, 10 do
+								for _ = 1, 10 do
 									actions.move_selection_previous(prompt_bufnr)
 								end
 							end,
 							["<C-d>"] = function(prompt_bufnr)
-								for i = 1, 10 do
+								for _ = 1, 10 do
 									actions.move_selection_next(prompt_bufnr)
 								end
 							end,
