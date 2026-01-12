@@ -181,7 +181,42 @@ return {
 						-- your custom insert mode mappings
 						["n"] = {
 							-- your custom normal mode mappings
-							["N"] = fb_actions.create,
+							["N"] = function(prompt_bufnr)
+								local action_state = require("telescope.actions.state")
+								local Path = require("plenary.path")
+								local current_picker = action_state.get_current_picker(prompt_bufnr)
+								local finder = current_picker.finder
+								local path = finder.path
+
+								vim.ui.input({ prompt = "Create file/directory: " }, function(input)
+									if not input or input == "" then
+										return
+									end
+
+									local file_path = Path:new(path, input):absolute()
+									local is_dir = input:sub(-1) == "/"
+
+									if is_dir then
+										vim.fn.mkdir(file_path, "p")
+									else
+										-- Create parent directories if needed
+										local parent = vim.fn.fnamemodify(file_path, ":h")
+										if vim.fn.isdirectory(parent) == 0 then
+											vim.fn.mkdir(parent, "p")
+										end
+										-- Create the file
+										vim.fn.writefile({}, file_path)
+									end
+
+									-- Close picker if still valid and open the file
+									if vim.api.nvim_buf_is_valid(prompt_bufnr) then
+										actions.close(prompt_bufnr)
+									end
+									if not is_dir then
+										vim.cmd.edit(vim.fn.fnameescape(file_path))
+									end
+								end)
+							end,
 							["h"] = fb_actions.goto_parent_dir,
 							["/"] = function()
 								vim.cmd("startinsert")
