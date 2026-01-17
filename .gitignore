@@ -122,3 +122,6 @@ Pods/
 # Track these configs
 !.claude/settings.json
 !.claude/plugins/config.json
+
+# Inkdrop
+.mcp.json
