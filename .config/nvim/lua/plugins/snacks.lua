@@ -274,7 +274,7 @@ return {
 			zen = {
 				enabled = true,
 				toggles = {
-					dim = true,
+					dim = false,
 					git_signs = true,
 				},
 				show = {
