@@ -110,6 +110,13 @@ return {
 				end,
 				desc = "Sidekick Toggle GitHub Copilot",
 			},
+			{
+				"<leader>aG",
+				function()
+					require("sidekick.cli").toggle({ name = "gemini", focus = true })
+				end,
+				desc = "Sidekick Toggle Gemini",
+			},
 		},
 	},
 }
