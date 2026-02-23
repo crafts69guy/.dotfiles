@@ -125,3 +125,6 @@ Pods/
 
 # Inkdrop
 .mcp.json
+
+# Filezilla
+.config/filezilla/
