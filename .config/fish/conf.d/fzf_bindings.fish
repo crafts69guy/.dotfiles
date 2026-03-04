@@ -21,6 +21,7 @@
 # │ Fn+s / Ctrl+Alt+s   │ fzf_ripgrep          │  Ripgrep      │
 # │ Fn+x / Ctrl+Alt+x   │ fzf_processes        │ 󰓛 Processes    │
 # │ Fn+o / Ctrl+Alt+o   │ fzf_ports            │ 󰒍 Ports        │
+# │ Fn+m / Ctrl+Alt+m   │ dev-session          │  Dev session  │
 # │ Ctrl+r              │ fzf_history          │ 󰋚 History      │
 # └─────────────────────────────────────────────────────────────┘
 #
@@ -44,6 +45,7 @@ if status is-interactive
     bind \e\cw 'fzf_tmux_windows; commandline -f repaint'
     bind \e\cq 'fzf_tmux_kill; commandline -f repaint'
     bind \e\cn 'fzf_tmux_new_session; commandline -f repaint'
+    bind \e\cm 'dev-session; commandline -f repaint'
 
     # ─── Search ────────────────────────────────────────────────
     bind \e\cs 'fzf_ripgrep; commandline -f repaint'
