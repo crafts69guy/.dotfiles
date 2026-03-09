@@ -96,3 +96,6 @@ fish_add_path /Users/caongoccuong/.opencode/bin
 
 # Added by Antigravity
 fish_add_path /Users/caongoccuong/.antigravity/antigravity/bin
+
+# OpenClaw Completion
+source "/Users/caongoccuong/.openclaw/completions/openclaw.fish"
