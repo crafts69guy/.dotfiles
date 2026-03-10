@@ -1,8 +1,9 @@
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
-		opts = {
-			ensure_installed = {
+		opts = function(_, opts)
+			opts.ensure_installed = opts.ensure_installed or {}
+			vim.list_extend(opts.ensure_installed, {
 				-- "astro",
 				"jsonc",
 				"regex",
@@ -23,7 +24,6 @@ return {
 				-- "cpp",
 				"fish",
 				"gitignore",
-				-- "go",
 				"tmux",
 				-- "graphql",
 				"http",
@@ -35,7 +35,8 @@ return {
 				"styled",
 				-- "sql",
 				-- "svelte",
-			},
-		},
+			})
+			return opts
+		end,
 	},
 }
