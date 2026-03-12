@@ -11,6 +11,12 @@ return {
 				ui = {
 					border = "rounded",
 				},
+				win = {
+					split = {
+						width = 0.4,
+						height = 0.6,
+					},
+				},
 			},
 			nes = { enabled = false },
 		},
