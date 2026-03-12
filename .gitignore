@@ -119,6 +119,7 @@ Pods/
 .claude/history.jsonl
 .claude/plugins/repos/
 .claude/*.local.json
+.claude/worktrees/
 
 # Track these configs
 !.claude/settings.json
