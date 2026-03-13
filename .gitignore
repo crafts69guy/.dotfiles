@@ -136,3 +136,9 @@ Pods/
 
 # cocoindex_code
 .cocoindex_code
+
+# .summarize
+.summarize/cache
+.summarize/logs
+.summarize/daemon.json
+.summarize/cache.**

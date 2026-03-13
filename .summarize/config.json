@@ -1,0 +1,19 @@
+{
+  "env": {},
+  "ui": {
+    "theme": {
+      "SUMMARIZE_TRUECOLOR": 1
+    }
+  },
+  "model": "auto",
+  "cli": {
+    "enabled": ["claude", "gemini", "codex", "agent"],
+    "autoFallback": {
+      "enabled": true,
+      "onlyWhenNoApiKeys": true,
+      "order": ["claude", "gemini", "codex", "agent"]
+    },
+    "codex": { "model": "gpt-5.2" },
+    "gemini": { "model": "gemini-3-flash", "extraArgs": ["--verbose"] }
+  }
+}
