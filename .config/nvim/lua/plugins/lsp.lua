@@ -8,6 +8,8 @@ return {
 				"luacheck",
 				"shellcheck",
 				"shfmt",
+				"rust-analyzer",
+				"rustfmt",
 			})
 			opts.ui = {
 				border = "rounded",
@@ -53,6 +55,26 @@ return {
 									-- For styled-components, emotion, etc.
 									{ "tw`([^`]*)", "([\"'`]([^\"'`]*).*?[\"'`])" },
 								},
+							},
+						},
+					},
+				},
+
+				-- Rust
+				rust_analyzer = {
+					settings = {
+						["rust-analyzer"] = {
+							cargo = {
+								buildScripts = {
+									enable = true,
+								},
+								allTargets = false,
+							},
+							procMacro = {
+								enable = true,
+							},
+							checkOnSave = {
+								command = "clippy",
 							},
 						},
 					},
