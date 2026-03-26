@@ -1,7 +1,10 @@
-if status is-interactive
-    # Run home brew
-    set -gx PATH /opt/homebrew/bin $PATH
+# fnm - Fast Node Manager (must init first)
+fnm env | source
 
+# pnpm
+set -gx PNPM_HOME /Users/caongoccuong/Library/pnpm
+
+if status is-interactive
     set -gx TERM tmux-256color
 
     # aliases
@@ -43,13 +46,10 @@ if status is-interactive
     end
 end
 
-# pnpm
-set -gx PNPM_HOME /Users/caongoccuong/Library/pnpm
-set -gx PATH (brew --prefix)/bin $PATH
+# pnpm end
 if not string match -q -- $PNPM_HOME $PATH
     set -gx PATH "$PNPM_HOME" $PATH
 end
-# pnpm end
 
 # opencode
 fish_add_path /Users/caongoccuong/.opencode/bin
