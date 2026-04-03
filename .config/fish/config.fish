@@ -1,3 +1,11 @@
+# React Native: force New Architecture for CocoaPods and Xcode builds
+set -gx RCT_NEW_ARCH_ENABLED 1
+
+# Android development
+set -gx JAVA_HOME (/usr/libexec/java_home)
+set -gx ANDROID_HOME $HOME/Library/Android/sdk
+set -gx PATH $ANDROID_HOME/emulator $ANDROID_HOME/platform-tools $PATH
+
 # fnm - Fast Node Manager (must init first)
 fnm env | source
 
