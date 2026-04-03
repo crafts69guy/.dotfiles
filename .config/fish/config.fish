@@ -1,5 +1,6 @@
 # React Native: force New Architecture for CocoaPods and Xcode builds
 set -gx RCT_NEW_ARCH_ENABLED 1
+set -gx REACT_TERMINAL Ghostty
 
 # Android development
 if /usr/libexec/java_home &>/dev/null
