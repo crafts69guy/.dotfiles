@@ -2,9 +2,13 @@
 set -gx RCT_NEW_ARCH_ENABLED 1
 
 # Android development
-set -gx JAVA_HOME (/usr/libexec/java_home)
-set -gx ANDROID_HOME $HOME/Library/Android/sdk
-set -gx PATH $ANDROID_HOME/emulator $ANDROID_HOME/platform-tools $PATH
+if /usr/libexec/java_home &>/dev/null
+    set -gx JAVA_HOME (/usr/libexec/java_home)
+end
+if test -d $HOME/Library/Android/sdk
+    set -gx ANDROID_HOME $HOME/Library/Android/sdk
+    fish_add_path $ANDROID_HOME/emulator $ANDROID_HOME/platform-tools
+end
 
 # Local secrets (not tracked by git)
 test -f (dirname (status --current-filename))/config-local.fish
