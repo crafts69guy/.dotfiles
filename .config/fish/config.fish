@@ -6,6 +6,10 @@ set -gx JAVA_HOME (/usr/libexec/java_home)
 set -gx ANDROID_HOME $HOME/Library/Android/sdk
 set -gx PATH $ANDROID_HOME/emulator $ANDROID_HOME/platform-tools $PATH
 
+# Local secrets (not tracked by git)
+test -f (dirname (status --current-filename))/config-local.fish
+and source (dirname (status --current-filename))/config-local.fish
+
 # fnm - Fast Node Manager (must init first)
 fnm env | source
 
