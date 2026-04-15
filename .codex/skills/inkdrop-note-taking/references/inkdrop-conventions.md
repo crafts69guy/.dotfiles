@@ -2,18 +2,15 @@
 
 ## Title and Body
 
-- Inkdrop title: stable lowercase slug, for example `auth-system-design`.
-- Body H1: readable title, for example `# Auth System Design`.
-- Keep exported Markdown portable by retaining a lightweight tag line near the top when useful:
-  `Tags: #auth #security #critical`
+- Inkdrop title: readable H1-style title, for example `Startup / Bootstrap Sequence` or `Auth System Design`.
+- Do not use lowercase slug titles for final Inkdrop notes, for example avoid `startup-bootstrap-sequence`.
+- Do not duplicate the Inkdrop title inside the body as a Markdown H1.
+- Do not include a `Tags: #...` line in the body. Use Inkdrop native tags through the MCP `tags` field.
+- New notes should use `active` status by default unless the user asks for another status or the note is explicitly archival/reference-only.
 
 ## Standard Note Template
 
 ```markdown
-# Readable Title
-
-Tags: #domain #type
-
 ## What is this?
 
 ## Why it matters

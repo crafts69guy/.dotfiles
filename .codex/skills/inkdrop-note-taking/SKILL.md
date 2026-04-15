@@ -19,6 +19,10 @@ Use Inkdrop as the persistent knowledge base and treat the user as a technical c
 
 - Use `list_notebooks`, `list_notes`, `search_notes`, `read_note`, and `list_tags` before creating or updating notes.
 - Never create a duplicate note without first searching by title or checking the target notebook.
+- Use a readable Inkdrop note title that matches the note's H1-style title pattern, for example `Startup / Bootstrap Sequence`, not a lowercase slug like `startup-bootstrap-sequence`.
+- Do not duplicate the note title inside the note body as a Markdown H1. The Inkdrop title is the note title.
+- Do not include a `Tags: #...` line in the note body. Use Inkdrop native tags through the MCP `tags` field instead.
+- Set new notes to `active` status by default unless the user asks for another status or the note is explicitly archival/reference-only.
 - Use `create_note` for new notes, `update_note` for whole-note replacements, and `patch_note` only after reading the note and identifying one exact replacement string.
 - Use `create_tag` only when an intended tag is missing; prefer existing lowercase tags.
 - Treat notebook creation, deletion, rename, reorder, and UI-only behavior as user-assisted manual actions unless the current MCP exposes a safe tool for them.
