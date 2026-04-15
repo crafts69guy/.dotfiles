@@ -1,0 +1,4 @@
+interface:
+  display_name: "Inkdrop Note Taking"
+  short_description: "Research and maintain technical notes in Inkdrop"
+  default_prompt: "Use $inkdrop-note-taking to research this topic and create concise, cross-linked Inkdrop notes."
