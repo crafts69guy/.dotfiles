@@ -7,17 +7,16 @@ working-directory = /Users/caongoccuong/Developments
 
 background-opacity = 0.9
 background-blur-radius = 20
+background = #031219
 
-selection-foreground = #002B36
-selection-background = #FDF6E3
+# selection-foreground = #002B36
+# selection-background = #FDF6E3
 
 window-padding-x = 10
 window-padding-y = 10
 
-font-family = "BlexMono Nerd Font Mono"
-font-size = 14
-font-thicken = true
-font-thicken-strength = 250
+font-family = "PlemolJP Console NF"
+font-size = 15
 
 macos-option-as-alt = left
 cursor-style = block
