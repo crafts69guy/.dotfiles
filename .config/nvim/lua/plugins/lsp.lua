@@ -9,7 +9,6 @@ return {
 				"shellcheck",
 				"shfmt",
 				"rust-analyzer",
-				"rustfmt",
 			})
 			opts.ui = {
 				border = "rounded",
