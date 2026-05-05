@@ -11,6 +11,7 @@
 - **Karabiner** – Custom key mappings with Fn (Hyper) key
 - **Fish Shell** – Enhanced terminal experience with Tide prompt
 - **FZF** – Fuzzy finder with fd, ripgrep, bat integration
+- **Agent Rules** – Shared rule packs for Claude, Codex, Inkdrop, and stack-specific workflows
 - **GNU Stow** – Simple dotfiles management
 
 ---
@@ -104,7 +105,23 @@ Check if configurations are correctly applied:
 ```sh
 echo $SHELL   # Should show fish or zsh
 nvim --version  # Ensure Neovim is installed
+test -f ~/agent-rules/README.md && echo "Agent rules linked"
 ```
+
+---
+
+## **🤖 Agent Rules**
+
+This repo includes shared rule packs under `agent-rules/` for multi-agent workflows. `CLAUDE.md`, `AGENTS.md`, and Codex skills should stay thin and route agents to these shared rules instead of duplicating long policies.
+
+Key entry points:
+
+- `agent-rules/README.md` – Cross-agent routing index
+- `agent-rules/shared/` – General Markdown and research/citation rules
+- `agent-rules/tools/inkdrop-v6/` – Inkdrop v6 note-taking, Mermaid, links, organization, and MCP token workflow
+- `agent-rules/stacks/` – Stack-specific rules for React Native, Medusa, and Web3
+
+After stowing this repo, agents can resolve the shared rules from `~/agent-rules/...`.
 
 ---
 
