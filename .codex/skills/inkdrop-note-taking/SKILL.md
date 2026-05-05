@@ -17,7 +17,9 @@ Use Inkdrop as the persistent knowledge base and treat the user as a technical c
 
 ## Inkdrop MCP Rules
 
-- Use `list_notebooks`, `list_notes`, `search_notes`, `read_note`, and `list_tags` before creating or updating notes.
+- Start with the narrowest MCP discovery that can answer the question. Use `search_notes` with qualifiers or `list_notes` with `bookId`/`limit` before reading full note bodies.
+- Use `list_notebooks` only when the target notebook is unknown, and use `list_tags` only when assigning or auditing native tags.
+- Treat `search_notes` and `list_notes` results as previews; they contain truncated bodies. Call `read_note` only for notes being edited, index notes being updated, or the top few related notes needed for context.
 - Never create a duplicate note without first searching by title or checking the target notebook.
 - Use a readable Inkdrop note title that matches the note's H1-style title pattern, for example `Startup / Bootstrap Sequence`, not a lowercase slug like `startup-bootstrap-sequence`.
 - Do not duplicate the note title inside the note body as a Markdown H1. The Inkdrop title is the note title.
@@ -65,10 +67,19 @@ Create a case study or incident learning note when a real project or production 
 
 ## Link Strategy
 
-- Prefer native Inkdrop links: `[Readable Title](inkdrop://note/<note-id>)`.
-- For batch imports, temporary `[[slug]]` links are acceptable during staging, but plan a second pass to rewrite them after note IDs exist.
+- Prefer native Inkdrop links: `[Readable Title](inkdrop://note/<note-id-without-prefix>)`.
+- Never invent note IDs. Search by exact title or scoped notebook first, then strip the returned `_id` prefix (`note:`) before building the URI.
+- For batch imports, temporary `[[slug]]` links are acceptable during staging, but always plan a second pass to rewrite them after note IDs exist.
 - Keep stable slug titles so search and link rewriting remain predictable.
+- Link only strongly related notes, index/navigation notes, prerequisite concepts, ADRs, and implementation recipes. Avoid dense wiki-style over-linking.
+
+## Inkdrop v6 Compatibility
+
+- For Mermaid diagrams intended for Inkdrop v6, apply the shared rule pack at `agent-rules/tools/inkdrop-v6/mermaid.md` in the dotfiles repo before creating or updating a note.
+- For internal note links, notebook/tag organization, statuses, and token-efficient MCP usage, apply `agent-rules/tools/inkdrop-v6/README.md` and only the referenced files needed for the task.
+- If a note contains both Mermaid and internal links, validate both before writing: diagrams must render cleanly, and links must point to real note IDs.
 
 ## References
 
 Read `references/inkdrop-conventions.md` when creating, importing, restructuring, or auditing notes. It contains title, template, tag, link, Markdown, and collaboration conventions.
+Read `agent-rules/tools/inkdrop-v6/README.md` from the dotfiles repo when creating or editing Inkdrop v6 notes, Mermaid diagrams, indexes, note links, organization, or MCP workflows.
