@@ -134,9 +134,6 @@ Pods/
 # cagent
 .config/cagent/
 
-# cocoindex_code
-.cocoindex_code
-
 # .summarize
 .summarize/cache
 .summarize/logs

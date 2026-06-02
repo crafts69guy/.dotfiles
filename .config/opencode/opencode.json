@@ -1,12 +1,4 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "plugin": ["superpowers@git+https://github.com/obra/superpowers.git"],
-  "mcp": {
-    "cocoindex-code": {
-      "type": "local",
-      "command": [
-        "cocoindex-code"
-      ]
-    }
-  }
+  "plugin": ["superpowers@git+https://github.com/obra/superpowers.git"]
 }
