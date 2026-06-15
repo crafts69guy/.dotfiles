@@ -1,64 +1,123 @@
 [core]
-	excludesfile = ~/.gitignore
+	excludesfile = ~/.gitignore_global
 	editor = nvim
 	ignorecase = false
-  
+	pager = delta
+
+[init]
+	defaultBranch = production
+
 [push]
-  default = simple
+	default = simple
+
+[pull]
+	rebase = true
 
 [color]
-  status = auto
-  diff = auto
-  branch = auto
-  interactive = auto
-  grep = auto
-  ui = auto
+	status = auto
+	diff = auto
+	branch = auto
+	interactive = auto
+	grep = auto
+	ui = auto
 
-[alias]
-  a = "!git status --short | peco | awk '{print $2}' | xargs git add"
-  d = diff
-  co = checkout
-  ci = commit
-  ca = commit -a
-  ps = "!git push origin $(git rev-parse --abbrev-ref HEAD)"
-  pl = "!git pull origin $(git rev-parse --abbrev-ref HEAD)"
-  st = status
-  br = branch
-  ba = branch -a
-  bm = branch --merged
-  bn = branch --no-merged
-  df = "!git hist | peco | awk '{print $2}' | xargs -I {} git diff {}^ {}"
-  hist = log --pretty=format:\"%Cgreen%h %Creset%cd %Cblue[%cn] %Creset%s%C(yellow)%d%C(reset)\" --graph --date=relative --decorate --all
-  llog = log --graph --name-status --pretty=format:\"%C(red)%h %C(reset)(%cd) %C(green)%an %Creset%s %C(yellow)%d%Creset\" --date=relative
-  open = "!hub browse"
-  type = cat-file -t
-  dump = cat-file -p
-  find = "!f() { git log --pretty=format:\"%h %cd [%cn] %s%d\" --date=relative -S'pretty' -S\"$@\" | peco | awk '{print $1}' | xargs -I {} git diff {}^ {}; }; f"
-  # edit conflicted file on merge
-  edit-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; vim `f`"
-  # add conflicted file on merge
-  add-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; git add `f`"
+[user]
+	name = crafts69.guy
+	email = crafts69.guy@gmail.com
 
-[hub]
-  protocol = https
+# Work identity is applied automatically for repos under ~/Developments/
+[includeIf "gitdir:~/Developments/"]
+	path = ~/.config/git/work.gitconfig
 
 [github]
 	user = crafts69
 
-[user]
-  name = crafts69.guy
-  email = crafts69.guy@gmail.com
+[hub]
+	protocol = https
+
+# ---------------------------------------------------------------------------
+# delta — diff pager themed to match Solarized Dark (ghostty / solarized-osaka)
+# ---------------------------------------------------------------------------
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	features = solarized-dark
+	dark = true
+	navigate = true
+	line-numbers = true
+	hyperlinks = true
+	tabs = 4
+	syntax-theme = Solarized (dark)
+
+[delta "solarized-dark"]
+	# file header banner (the styled file-path box)
+	file-style = "#268bd2" bold
+	file-decoration-style = "#073642" ul
+	file-added-label = [+]
+	file-modified-label = [M]
+	file-removed-label = [-]
+	file-renamed-label = [R]
+	# hunk header → shows file:line: context instead of raw @@
+	hunk-header-style = syntax bold
+	hunk-header-decoration-style = "#586e75" box
+	hunk-header-file-style = "#2aa198"
+	hunk-header-line-number-style = "#b58900"
+	# removed / added lines (subtle tints over the dark bg)
+	minus-style = syntax "#3a181b"
+	minus-emph-style = syntax "#5c2226"
+	minus-non-emph-style = syntax "#2a1214"
+	plus-style = syntax "#16301a"
+	plus-emph-style = syntax "#244d27"
+	plus-non-emph-style = syntax "#0f2410"
+	zero-style = syntax
+	# line numbers gutter
+	line-numbers-left-style = "#073642"
+	line-numbers-right-style = "#073642"
+	line-numbers-minus-style = "#dc322f"
+	line-numbers-plus-style = "#859900"
+	line-numbers-zero-style = "#586e75"
+	# misc
+	whitespace-error-style = "#cb4b16" reverse
+	blame-palette = "#002b36 #073642 #094352 #0a4a5a"
+	blame-code-style = syntax
 
 [diff]
-  tool = nvimdiff
+	colorMoved = default
+	tool = nvimdiff
 
 [difftool "nvimdiff"]
 	cmd = nvim -d \"$LOCAL\" \"$REMOTE\"
-	path = 
+
+[merge]
+	conflictStyle = zdiff3
 
 [mergetool "nvimdiff"]
 	cmd = nvim -d \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
+
+[commit]
+	gpgSign = false
+	template = ~/.stCommitMsg
+
+[gpg]
+	format = openpgp
+	program = gpg
+
+[gpg "ssh"]
+	program = ssh-keygen
+
+[tag]
+	forceSignAnnotated = false
+
+[credential]
+	helper = /usr/local/share/gcm-core/git-credential-manager
+
+[credential "https://github.com"]
+	username = crafts69.guy
+
+[credential "https://dev.azure.com"]
+	useHttpPath = true
 
 [filter "lfs"]
 	clean = git-lfs clean -- %f
@@ -67,4 +126,29 @@
 	process = git-lfs filter-process
 
 [ghq]
-  root = ~/.ghq
+	root = ~/Developments
+
+[alias]
+	a = "!git status --short | peco | awk '{print $2}' | xargs git add"
+	d = diff
+	co = checkout
+	ci = commit
+	ca = commit -a
+	ps = "!git push origin $(git rev-parse --abbrev-ref HEAD)"
+	pl = "!git pull origin $(git rev-parse --abbrev-ref HEAD)"
+	st = status
+	br = branch
+	ba = branch -a
+	bm = branch --merged
+	bn = branch --no-merged
+	df = "!git hist | peco | awk '{print $2}' | xargs -I {} git diff {}^ {}"
+	hist = log --pretty=format:\"%Cgreen%h %Creset%cd %Cblue[%cn] %Creset%s%C(yellow)%d%C(reset)\" --graph --date=relative --decorate --all
+	llog = log --graph --name-status --pretty=format:\"%C(red)%h %C(reset)(%cd) %C(green)%an %Creset%s %C(yellow)%d%Creset\" --date=relative
+	open = "!hub browse"
+	type = cat-file -t
+	dump = cat-file -p
+	find = "!f() { git log --pretty=format:\"%h %cd [%cn] %s%d\" --date=relative -S'pretty' -S\"$@\" | peco | awk '{print $1}' | xargs -I {} git diff {}^ {}; }; f"
+	# edit conflicted file on merge
+	edit-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; vim `f`"
+	# add conflicted file on merge
+	add-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; git add `f`"

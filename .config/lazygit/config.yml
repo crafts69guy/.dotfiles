@@ -7,3 +7,7 @@ customCommands:
     output: terminal
 gui:
   mouseEvents: false
+git:
+  paging:
+    colorArg: always
+    pager: delta --dark --paging=never
