@@ -1,3 +1,6 @@
+# XDG base dir — make tools (lazygit, etc.) read configs from ~/.config on macOS
+set -gx XDG_CONFIG_HOME $HOME/.config
+
 # React Native: force New Architecture for CocoaPods and Xcode builds
 set -gx RCT_NEW_ARCH_ENABLED 1
 set -gx REACT_TERMINAL Ghostty
