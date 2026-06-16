@@ -3,6 +3,52 @@
     "type": "command",
     "command": "input=$(cat); current_dir=$(echo \"$input\" | jq -r '.workspace.current_dir'); model=$(echo \"$input\" | jq -r '.model.display_name'); output_style=$(echo \"$input\" | jq -r '.output_style.name'); dir_name=$(basename \"$current_dir\"); if [ -d \"$current_dir/.git\" ]; then git_branch=$(cd \"$current_dir\" && git branch --show-current 2>/dev/null || echo 'detached'); git_status=$(cd \"$current_dir\" && git status --porcelain 2>/dev/null | wc -l | tr -d ' '); if [ \"$git_status\" -gt 0 ]; then git_indicator=\" ±$git_status\"; else git_indicator=\"\"; fi; git_info=\" ($git_branch$git_indicator)\"; else git_info=\"\"; fi; printf \"%s in %s%s | %s\" \"$model\" \"$dir_name\" \"$git_info\" \"$output_style\""
   },
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.config/tmux/plugins/tmux-claude-session-manager/scripts/state.sh working"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "permission_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.config/tmux/plugins/tmux-claude-session-manager/scripts/state.sh waiting"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "AskUserQuestion",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.config/tmux/plugins/tmux-claude-session-manager/scripts/state.sh waiting"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.config/tmux/plugins/tmux-claude-session-manager/scripts/state.sh idle"
+          }
+        ]
+      }
+    ]
+  },
   "enabledPlugins": {
     "typescript-lsp@claude-plugins-official": true,
     "lua-lsp@claude-plugins-official": true,
