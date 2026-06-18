@@ -5,8 +5,8 @@ theme = Solarized Dark Patched
 window-decoration = true
 working-directory = /Users/caongoccuong/Developments
 
-background-opacity = 0.85
-background-blur-radius = 20
+background-opacity = 0.9
+# background-blur-radius = 20
 background = #031219
 
 # selection-foreground = #002B36

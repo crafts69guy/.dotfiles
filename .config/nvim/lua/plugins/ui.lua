@@ -75,14 +75,56 @@ return {
 			{ "<Tab>", "<Cmd>BufferLineCycleNext<CR>", desc = "Next tab" },
 			{ "<S-Tab>", "<Cmd>BufferLineCyclePrev<CR>", desc = "Prev tab" },
 		},
-		opts = {
-			options = {
-				mode = "tabs",
-				-- separator_style = "slant",
-				show_buffer_close_icons = false,
-				show_close_icon = false,
-			},
-		},
+		opts = function()
+			local c = require("solarized-osaka.colors").setup()
+			local lighten = require("solarized-osaka.util").lighten
+
+			local fill = c.base04 -- darkest: the empty strip behind tabs
+			local inactive = c.base03 -- inactive tab body
+			local active = lighten(c.base02, 0.85) -- active tab body, slightly lifted over base02
+
+			return {
+				options = {
+					mode = "tabs",
+					separator_style = "slant",
+					indicator = { style = "none" },
+					show_buffer_close_icons = false,
+					show_close_icon = false,
+					color_icons = true,
+					modified_icon = "●",
+					always_show_bufferline = true,
+				},
+				highlights = {
+					fill = { bg = fill },
+
+					-- inactive tab
+					background = { fg = c.base01, bg = inactive },
+					buffer_visible = { fg = c.base0, bg = inactive },
+					-- active tab: bright yellow text (solarized-osaka accent)
+					buffer_selected = { fg = c.yellow300, bg = active, bold = true, italic = false },
+					numbers_selected = { fg = c.yellow300, bg = active, bold = true },
+
+					-- slant separators: fg = gap color, bg = tab body
+					separator = { fg = fill, bg = inactive },
+					separator_visible = { fg = fill, bg = inactive },
+					separator_selected = { fg = fill, bg = active },
+
+					-- active indicator (yellow, theme accent)
+					indicator_selected = { fg = c.yellow500, bg = active },
+					indicator_visible = { fg = inactive, bg = inactive },
+
+					-- modified dot (yellow on the active tab, dim elsewhere)
+					modified = { fg = c.orange500, bg = inactive },
+					modified_visible = { fg = c.orange500, bg = inactive },
+					modified_selected = { fg = c.yellow300, bg = active },
+
+					-- file-type icons keep their colors but match tab bg
+					duplicate = { fg = c.base00, bg = inactive, italic = true },
+					duplicate_visible = { fg = c.base00, bg = inactive, italic = true },
+					duplicate_selected = { fg = c.yellow300, bg = active, italic = true },
+				},
+			}
+		end,
 	},
 
 	-- statusline
