@@ -57,8 +57,8 @@ exec fish
 
 ## Inkdrop Note-Taking
 
-- For Inkdrop note creation, Mermaid editing, note linking, organization, or MCP workflows, read `agent-rules/tools/inkdrop-v6/README.md` from this dotfiles repo and then only the referenced rule files needed for the task.
-- For cross-agent conventions beyond Inkdrop, use `agent-rules/README.md` as the shared routing index instead of duplicating rules in this file.
+- For Inkdrop note creation, Mermaid editing, note linking, organization, or MCP workflows, read `~/agent-rules/tools/inkdrop-v6/README.md` and then only the referenced rule files needed for the task.
+- For cross-agent conventions beyond Inkdrop, use `~/agent-rules/README.md` as the shared routing index instead of duplicating rules in this file.
 
 ## Key Files to Monitor
 - `.config/nvim/` - Neovim configuration

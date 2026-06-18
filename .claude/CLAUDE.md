@@ -40,24 +40,27 @@ the task needs them.
 
 ## Rule Routing
 
-Use `agent-rules/README.md` as the shared routing index.
+These rules live at `~/agent-rules/` (symlinked to the dotfiles repo by stow), so
+use the absolute paths below — they resolve from any project, not just this repo.
 
-- Markdown output: `agent-rules/shared/markdown.md`
-- Research or citations: `agent-rules/shared/research-citation.md`
+Use `~/agent-rules/README.md` as the shared routing index.
+
+- Markdown output: `~/agent-rules/shared/markdown.md`
+- Research or citations: `~/agent-rules/shared/research-citation.md`
 - Inkdrop notes, Mermaid, note links, MCP workflow:
-  `agent-rules/tools/inkdrop-v6/README.md`
+  `~/agent-rules/tools/inkdrop-v6/README.md`
 - Web apps, TypeScript, React, Next.js, APIs:
-  `agent-rules/stacks/web-apps/README.md`
+  `~/agent-rules/stacks/web-apps/README.md`
 - React Native, navigation, mobile UI, Expo:
-  `agent-rules/stacks/react-native/README.md`
+  `~/agent-rules/stacks/react-native/README.md`
 - Medusa commerce backend or storefront:
-  `agent-rules/stacks/medusa/README.md`
+  `~/agent-rules/stacks/medusa/README.md`
 - Web3, DeFi, Solidity, BSC, trading bots:
-  `agent-rules/stacks/web3/README.md`
+  `~/agent-rules/stacks/web3/README.md`
 - Go, Rust, CLIs, workers, performance:
-  `agent-rules/stacks/systems/README.md`
+  `~/agent-rules/stacks/systems/README.md`
 - AI agents, MCP, RAG, tool use, LLM orchestration:
-  `agent-rules/stacks/ai-agents/README.md`
+  `~/agent-rules/stacks/ai-agents/README.md`
 
 ## Dotfiles Context
 

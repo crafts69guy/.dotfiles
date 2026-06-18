@@ -75,11 +75,11 @@ Create a case study or incident learning note when a real project or production 
 
 ## Inkdrop v6 Compatibility
 
-- For Mermaid diagrams intended for Inkdrop v6, apply the shared rule pack at `agent-rules/tools/inkdrop-v6/mermaid.md` in the dotfiles repo before creating or updating a note.
-- For internal note links, notebook/tag organization, statuses, and token-efficient MCP usage, apply `agent-rules/tools/inkdrop-v6/README.md` and only the referenced files needed for the task.
+- For Mermaid diagrams intended for Inkdrop v6, apply the shared rule pack at `~/agent-rules/tools/inkdrop-v6/mermaid.md` before creating or updating a note.
+- For internal note links, notebook/tag organization, statuses, and token-efficient MCP usage, apply `~/agent-rules/tools/inkdrop-v6/README.md` and only the referenced files needed for the task.
 - If a note contains both Mermaid and internal links, validate both before writing: diagrams must render cleanly, and links must point to real note IDs.
 
 ## References
 
 Read `references/inkdrop-conventions.md` when creating, importing, restructuring, or auditing notes. It contains title, template, tag, link, Markdown, and collaboration conventions.
-Read `agent-rules/tools/inkdrop-v6/README.md` from the dotfiles repo when creating or editing Inkdrop v6 notes, Mermaid diagrams, indexes, note links, organization, or MCP workflows.
+Read `~/agent-rules/tools/inkdrop-v6/README.md` when creating or editing Inkdrop v6 notes, Mermaid diagrams, indexes, note links, organization, or MCP workflows.
