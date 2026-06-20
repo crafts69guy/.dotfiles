@@ -6,7 +6,7 @@ window-decoration = true
 working-directory = /Users/caongoccuong/Developments
 
 background-opacity = 0.9
-# background-blur-radius = 20
+background-blur-radius = 10
 background = #031219
 
 # selection-foreground = #002B36
