@@ -6,9 +6,9 @@ set -gx RCT_NEW_ARCH_ENABLED 1
 set -gx REACT_TERMINAL Ghostty
 
 # Android development
-if /usr/libexec/java_home &>/dev/null
-    set -gx JAVA_HOME (/usr/libexec/java_home)
-end
+# Gradle 9 needs Java 17–21; macOS default is JDK 26 and Homebrew openjdk@17 is
+# keg-only (not registered with /usr/libexec/java_home), so pin it explicitly.
+set -gx JAVA_HOME /opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home
 if test -d $HOME/Library/Android/sdk
     set -gx ANDROID_HOME $HOME/Library/Android/sdk
     fish_add_path $ANDROID_HOME/emulator $ANDROID_HOME/platform-tools
