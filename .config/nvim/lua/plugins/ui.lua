@@ -79,8 +79,8 @@ return {
 			local c = require("solarized-osaka.colors").setup()
 			local lighten = require("solarized-osaka.util").lighten
 
-			local fill = c.base04 -- darkest: the empty strip behind tabs
-			local inactive = c.base03 -- inactive tab body
+			local fill = c.base03 -- empty strip: matches the editor's active line (CursorLine = base03)
+			local inactive = c.base02 -- inactive tab body, lifted one step above fill so chips stay distinct
 			local active = lighten(c.base02, 0.85) -- active tab body, slightly lifted over base02
 
 			return {
