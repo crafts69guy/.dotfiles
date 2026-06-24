@@ -115,6 +115,8 @@
 
 [credential "https://github.com"]
 	username = crafts69.guy
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
 
 [credential "https://dev.azure.com"]
 	useHttpPath = true
@@ -152,3 +154,6 @@
 	edit-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; vim `f`"
 	# add conflicted file on merge
 	add-unmerged = "!f() { git ls-files --unmerged | cut -f2 | sort -u ; }; git add `f`"
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
