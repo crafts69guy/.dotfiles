@@ -80,6 +80,9 @@ Pods/
 .config/nvim/lazy-lock.json
 .config/nvim/lazyvim.json
 
+# Android
+.config/.android/avd/
+
 # Tmux
 .config/tmux/plugins
 
@@ -139,3 +142,6 @@ Pods/
 .summarize/logs
 .summarize/daemon.json
 .summarize/cache.**
+
+# Superpowers runtime plans
+docs/superpowers/plans/
