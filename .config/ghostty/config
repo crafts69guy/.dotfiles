@@ -1,16 +1,12 @@
 # https://ghostty.org/docs/config
 # keep-sorted start
-theme = Solarized Dark Patched
+theme = hue-mua
 
 window-decoration = true
 working-directory = /Users/caongoccuong/Developments
 
 background-opacity = 0.9
 background-blur-radius = 10
-background = #031219
-
-# selection-foreground = #002B36
-# selection-background = #FDF6E3
 
 window-padding-x = 10
 window-padding-y = 10
