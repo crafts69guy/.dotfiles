@@ -63,6 +63,16 @@ The ultimate Fish prompt.
 fisher install IlanCosman/tide@v6
 ```
 
+The Tide prompt colors are loaded from the generated Hue theme checkout without
+copying generated files into this dotfiles repo. By default the Fish config looks
+for `~/Developments/github.com/crafts69guy/hue-theme`; on another machine, set:
+
+```fish
+set -Ux HUE_THEME_HOME /path/to/hue-theme
+```
+
+Then restart Fish with `exec fish`.
+
 ### **2. Clone This Repository**
 
 ```sh
