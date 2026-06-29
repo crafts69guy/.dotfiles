@@ -1,38 +1,38 @@
 local function apply_codediff_highlights()
-	local colors = require("solarized-osaka.colors").setup()
-	local darken = require("solarized-osaka.util").darken
-	local lighten = require("solarized-osaka.util").lighten
+	local hue = require("insideee-dev.hue_colors")
+	local c = hue.get()
+	local darken, lighten = hue.darken, hue.lighten
 
-	local insert_bg = darken(colors.green500, 0.18, colors.base04)
-	local delete_bg = darken(colors.red500, 0.18, colors.base04)
-	local move_bg = darken(colors.yellow500, 0.18, colors.base04)
-	local insert_char_bg = darken(colors.green500, 0.45, colors.base04)
-	local delete_char_bg = darken(colors.red500, 0.45, colors.base04)
-	local move_char_bg = darken(colors.yellow500, 0.45, colors.base04)
-	local selection_bg = colors.base02
+	local insert_bg = darken(c.success, 0.18, c.canvas)
+	local delete_bg = darken(c.error, 0.18, c.canvas)
+	local move_bg = darken(c.warning, 0.18, c.canvas)
+	local insert_char_bg = darken(c.success, 0.45, c.canvas)
+	local delete_char_bg = darken(c.error, 0.45, c.canvas)
+	local move_char_bg = darken(c.warning, 0.45, c.canvas)
+	local selection_bg = c.selected
 
 	vim.api.nvim_set_hl(0, "CodeDiffLineInsert", { bg = insert_bg })
 	vim.api.nvim_set_hl(0, "CodeDiffLineDelete", { bg = delete_bg })
-	vim.api.nvim_set_hl(0, "CodeDiffCharInsert", { bg = insert_char_bg, fg = lighten(colors.green500, 0.9) })
-	vim.api.nvim_set_hl(0, "CodeDiffCharDelete", { bg = delete_char_bg, fg = lighten(colors.red500, 0.9) })
-	vim.api.nvim_set_hl(0, "CodeDiffFiller", { fg = colors.base01 })
+	vim.api.nvim_set_hl(0, "CodeDiffCharInsert", { bg = insert_char_bg, fg = lighten(c.success, 0.9) })
+	vim.api.nvim_set_hl(0, "CodeDiffCharDelete", { bg = delete_char_bg, fg = lighten(c.error, 0.9) })
+	vim.api.nvim_set_hl(0, "CodeDiffFiller", { fg = c.border })
 	vim.api.nvim_set_hl(0, "CodeDiffLineMove", { bg = move_bg })
-	vim.api.nvim_set_hl(0, "CodeDiffCharMove", { bg = move_char_bg, fg = lighten(colors.yellow500, 0.9) })
-	vim.api.nvim_set_hl(0, "CodeDiffMoveFrom", { fg = colors.orange500 or colors.orange, bg = "NONE" })
-	vim.api.nvim_set_hl(0, "CodeDiffMoveTo", { fg = colors.yellow500 or colors.yellow, bg = "NONE" })
+	vim.api.nvim_set_hl(0, "CodeDiffCharMove", { bg = move_char_bg, fg = lighten(c.warning, 0.9) })
+	vim.api.nvim_set_hl(0, "CodeDiffMoveFrom", { fg = c.warning, bg = "NONE" })
+	vim.api.nvim_set_hl(0, "CodeDiffMoveTo", { fg = c.notice, bg = "NONE" })
 
-	vim.api.nvim_set_hl(0, "CodeDiffStatusAdded", { fg = colors.green500 or colors.green })
-	vim.api.nvim_set_hl(0, "CodeDiffStatusModified", { fg = colors.yellow500 or colors.yellow })
-	vim.api.nvim_set_hl(0, "CodeDiffStatusDeleted", { fg = colors.red500 or colors.red })
-	vim.api.nvim_set_hl(0, "CodeDiffStatusRenamed", { fg = colors.cyan500 or colors.cyan })
-	vim.api.nvim_set_hl(0, "CodeDiffStatusUntracked", { fg = colors.violet500 or colors.violet })
-	vim.api.nvim_set_hl(0, "CodeDiffStatusConflict", { fg = colors.orange500 or colors.orange, bold = true })
+	vim.api.nvim_set_hl(0, "CodeDiffStatusAdded", { fg = c.success })
+	vim.api.nvim_set_hl(0, "CodeDiffStatusModified", { fg = c.warning })
+	vim.api.nvim_set_hl(0, "CodeDiffStatusDeleted", { fg = c.error })
+	vim.api.nvim_set_hl(0, "CodeDiffStatusRenamed", { fg = c.info })
+	vim.api.nvim_set_hl(0, "CodeDiffStatusUntracked", { fg = c.secondary })
+	vim.api.nvim_set_hl(0, "CodeDiffStatusConflict", { fg = c.warning, bold = true })
 	vim.api.nvim_set_hl(0, "CodeDiffExplorerSelected", { bg = selection_bg, bold = true })
 
-	vim.api.nvim_set_hl(0, "CodeDiffHelpSection", { fg = colors.yellow500 or colors.yellow, bold = true })
-	vim.api.nvim_set_hl(0, "CodeDiffHelpKey", { fg = colors.cyan500 or colors.cyan, bold = true })
-	vim.api.nvim_set_hl(0, "CodeDiffHelpSep", { fg = colors.base01 })
-	vim.api.nvim_set_hl(0, "CodeDiffHelpDesc", { fg = colors.base0 })
+	vim.api.nvim_set_hl(0, "CodeDiffHelpSection", { fg = c.warning, bold = true })
+	vim.api.nvim_set_hl(0, "CodeDiffHelpKey", { fg = c.info, bold = true })
+	vim.api.nvim_set_hl(0, "CodeDiffHelpSep", { fg = c.border })
+	vim.api.nvim_set_hl(0, "CodeDiffHelpDesc", { fg = c.subtext })
 end
 
 return {
@@ -101,7 +101,7 @@ return {
 			require("codediff").setup(opts)
 
 			vim.api.nvim_create_autocmd("ColorScheme", {
-				group = vim.api.nvim_create_augroup("codediff_solarized_osaka", { clear = true }),
+				group = vim.api.nvim_create_augroup("codediff_hue", { clear = true }),
 				callback = apply_codediff_highlights,
 			})
 		end,

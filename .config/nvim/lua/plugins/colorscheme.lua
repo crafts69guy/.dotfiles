@@ -1,12 +1,9 @@
 return {
+	-- Hue Theme — Huế-inspired moods (hue-mua / hue-huong / hue-cung).
+	-- Active mood is set via the LazyVim `colorscheme` opt in config/lazy.lua.
 	{
-		"craftzdog/solarized-osaka.nvim",
-		lazy = true,
+		"crafts69guy/hue-nvim",
+		lazy = false,
 		priority = 1000,
-		opts = function()
-			return {
-				transparent = true,
-			}
-		end,
 	},
 }

@@ -76,12 +76,11 @@ return {
 			{ "<S-Tab>", "<Cmd>BufferLineCyclePrev<CR>", desc = "Prev tab" },
 		},
 		opts = function()
-			local c = require("solarized-osaka.colors").setup()
-			local lighten = require("solarized-osaka.util").lighten
+			local c = require("insideee-dev.hue_colors").get()
 
-			local fill = c.base03 -- empty strip: matches the editor's active line (CursorLine = base03)
-			local inactive = c.base02 -- inactive tab body, lifted one step above fill so chips stay distinct
-			local active = lighten(c.base02, 0.85) -- active tab body, slightly lifted over base02
+			local fill = c.canvas -- empty strip: matches the editor background
+			local inactive = c.raised -- inactive tab body, lifted one step above fill so chips stay distinct
+			local active = c.selected -- active tab body, clearly lifted over inactive
 
 			return {
 				options = {
@@ -98,30 +97,30 @@ return {
 					fill = { bg = fill },
 
 					-- inactive tab
-					background = { fg = c.base01, bg = inactive },
-					buffer_visible = { fg = c.base0, bg = inactive },
-					-- active tab: bright yellow text (solarized-osaka accent)
-					buffer_selected = { fg = c.yellow300, bg = active, bold = true, italic = false },
-					numbers_selected = { fg = c.yellow300, bg = active, bold = true },
+					background = { fg = c.subtext, bg = inactive },
+					buffer_visible = { fg = c.text, bg = inactive },
+					-- active tab: Hue primary accent (jade)
+					buffer_selected = { fg = c.primary, bg = active, bold = true, italic = false },
+					numbers_selected = { fg = c.primary, bg = active, bold = true },
 
 					-- slant separators: fg = gap color, bg = tab body
 					separator = { fg = fill, bg = inactive },
 					separator_visible = { fg = fill, bg = inactive },
 					separator_selected = { fg = fill, bg = active },
 
-					-- active indicator (yellow, theme accent)
-					indicator_selected = { fg = c.yellow500, bg = active },
+					-- active indicator (theme accent)
+					indicator_selected = { fg = c.primary, bg = active },
 					indicator_visible = { fg = inactive, bg = inactive },
 
-					-- modified dot (yellow on the active tab, dim elsewhere)
-					modified = { fg = c.orange500, bg = inactive },
-					modified_visible = { fg = c.orange500, bg = inactive },
-					modified_selected = { fg = c.yellow300, bg = active },
+					-- modified dot (warning hue on the active tab, dim elsewhere)
+					modified = { fg = c.warning, bg = inactive },
+					modified_visible = { fg = c.warning, bg = inactive },
+					modified_selected = { fg = c.warning, bg = active },
 
 					-- file-type icons keep their colors but match tab bg
-					duplicate = { fg = c.base00, bg = inactive, italic = true },
-					duplicate_visible = { fg = c.base00, bg = inactive, italic = true },
-					duplicate_selected = { fg = c.yellow300, bg = active, italic = true },
+					duplicate = { fg = c.subtext, bg = inactive, italic = true },
+					duplicate_visible = { fg = c.subtext, bg = inactive, italic = true },
+					duplicate_selected = { fg = c.primary, bg = active, italic = true },
 				},
 			}
 		end,
@@ -150,16 +149,15 @@ return {
 	-- filename
 	{
 		"b0o/incline.nvim",
-		dependencies = { "craftzdog/solarized-osaka.nvim" },
 		event = "BufReadPre",
 		priority = 1200,
 		config = function()
-			local colors = require("solarized-osaka.colors").setup()
+			local c = require("insideee-dev.hue_colors").get()
 			require("incline").setup({
 				highlight = {
 					groups = {
-						InclineNormal = { guibg = colors.magenta500, guifg = colors.base04 },
-						InclineNormalNC = { guifg = colors.violet500, guibg = colors.base03 },
+						InclineNormal = { guibg = c.secondary, guifg = c.canvas },
+						InclineNormalNC = { guifg = c.secondary, guibg = c.raised },
 					},
 				},
 				window = { margin = { vertical = 0, horizontal = 1 } },

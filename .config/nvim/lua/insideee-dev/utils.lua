@@ -114,7 +114,6 @@ function M.hsl_to_rgb(h, s, l)
 end
 
 function M.hex_to_HSL(hex)
-	local hsluv = require("solarized-osaka.hsluv")
 	local rgb = M.hex_to_rgb(hex)
 	local h, s, l = M.rgb_to_hsl(rgb[1], rgb[2], rgb[3])
 
