@@ -5,5 +5,9 @@ return {
 		"crafts69guy/hue-nvim",
 		lazy = false,
 		priority = 1000,
+		opts = { transparent = true },
+		config = function(_, opts)
+			require("hue").setup(opts)
+		end,
 	},
 }
