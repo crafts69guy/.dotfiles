@@ -1,6 +1,6 @@
 # https://ghostty.org/docs/config
 # keep-sorted start
-theme = hue-mua
+theme = hue-current
 
 window-decoration = true
 working-directory = /Users/caongoccuong/Developments

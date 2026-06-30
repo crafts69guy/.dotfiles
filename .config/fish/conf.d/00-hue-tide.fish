@@ -1,5 +1,17 @@
 # Apply generated Hue colors to Tide without writing theme values to fish_variables.
+set -l hue_state_home $HOME/.local/state
+if set -q XDG_STATE_HOME
+    set hue_state_home $XDG_STATE_HOME
+end
+
+set -l hue_state_file "$hue_state_home/hue-theme/current"
 set -g hue_flavour mua
+if test -f $hue_state_file
+    set -l hue_saved_flavour (string trim -- (cat $hue_state_file))
+    if contains -- $hue_saved_flavour mua huong cung
+        set -g hue_flavour $hue_saved_flavour
+    end
+end
 
 set -l hue_theme_candidates
 if set -q HUE_THEME_HOME

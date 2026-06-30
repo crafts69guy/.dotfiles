@@ -73,6 +73,21 @@ set -Ux HUE_THEME_HOME /path/to/hue-theme
 
 Then restart Fish with `exec fish`.
 
+#### Hue theme switcher
+
+Use the Fish command below to switch the Hue mood across Fish/Tide, tmux,
+Ghostty, and Neovim startup config:
+
+```fish
+hue-theme mua
+hue-theme huong
+hue-theme cung
+```
+
+The command stores the active mood in `~/.local/state/hue-theme/current`, so
+switching moods does not dirty this dotfiles repo. Dotfiles keep the switcher,
+host integration, and Ghostty theme files versioned.
+
 ### **2. Clone This Repository**
 
 ```sh

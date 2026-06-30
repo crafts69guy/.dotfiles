@@ -11,6 +11,21 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+local function hue_colorscheme()
+	local state_home = vim.env.XDG_STATE_HOME
+	if state_home == nil or state_home == "" then
+		state_home = vim.fn.expand("~/.local/state")
+	end
+
+	local ok, lines = pcall(vim.fn.readfile, state_home .. "/hue-theme/current")
+	local mood = ok and lines[1] or "mua"
+	if not ({ mua = true, huong = true, cung = true })[mood] then
+		mood = "mua"
+	end
+
+	return "hue-" .. mood
+end
+
 require("lazy").setup({
 	spec = {
 		-- add LazyVim and import its plugins
@@ -18,7 +33,7 @@ require("lazy").setup({
 			"LazyVim/LazyVim",
 			import = "lazyvim.plugins",
 			opts = {
-				colorscheme = "hue-mua",
+				colorscheme = hue_colorscheme(),
 				news = {
 					lazyvim = true,
 					neovim = true,

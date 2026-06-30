@@ -86,6 +86,9 @@ Pods/
 # Tmux
 .config/tmux/plugins
 
+# Hue theme runtime state
+.config/ghostty/themes/hue-current
+
 # Yarn
 .config/yarn
 
