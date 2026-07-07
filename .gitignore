@@ -96,6 +96,7 @@ Pods/
 .config/herdr/session.json
 .config/herdr/session-history.json
 .config/herdr/plugins.json
+.config/herdr/plugins/
 
 # Yarn
 .config/yarn
