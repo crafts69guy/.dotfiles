@@ -30,6 +30,22 @@ type = "shell"
 command = "open ."
 description = "Open current pane's directory in Finder"
 
+# Git tooling popups, ported from utility.conf's prefix+g/prefix+G. Those two
+# keys collide with herdr's own defaults (goto = prefix+g, new_worktree =
+# prefix+shift+g), so this uses a new prefix+alt+ group instead — no herdr
+# default binding uses the alt modifier.
+[[keys.command]]
+key = "prefix+alt+g"
+type = "pane"
+command = "lazygit"
+description = "Open lazygit"
+
+[[keys.command]]
+key = "prefix+alt+shift+g"
+type = "pane"
+command = "keifu"
+description = "Open git graph (keifu)"
+
 [ui]
 mouse_capture = true
 pane_borders = true
