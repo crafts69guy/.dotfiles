@@ -9,6 +9,7 @@ put agent-specific instructions in thin adapters such as `AGENTS.md`,
 - General Markdown output: read `shared/markdown.md`.
 - Research with citations or source claims: read `shared/research-citation.md`.
 - Inkdrop v6 note-taking, Mermaid, note links, organization, or MCP usage: read `tools/inkdrop-v6/README.md`.
+- Herdr multiplexer config, agent panes, or socket API scripting: read `tools/herdr/README.md`.
 - Web apps, TypeScript, React, Next.js, API work, or full-stack integration: read `stacks/web-apps/README.md`.
 - React Native architecture, UI, navigation, state, testing, or Expo work: read `stacks/react-native/README.md`.
 - Medusa commerce backend or storefront work: read `stacks/medusa/README.md`.

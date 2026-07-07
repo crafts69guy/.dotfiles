@@ -49,6 +49,8 @@ Use `~/agent-rules/README.md` as the shared routing index.
 - Research or citations: `~/agent-rules/shared/research-citation.md`
 - Inkdrop notes, Mermaid, note links, MCP workflow:
   `~/agent-rules/tools/inkdrop-v6/README.md`
+- Herdr multiplexer config, agent panes, socket API scripting:
+  `~/agent-rules/tools/herdr/README.md`
 - Web apps, TypeScript, React, Next.js, APIs:
   `~/agent-rules/stacks/web-apps/README.md`
 - React Native, navigation, mobile UI, Expo:

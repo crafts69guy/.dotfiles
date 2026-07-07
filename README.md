@@ -42,6 +42,16 @@ sudo apt update && sudo apt install stow git fish tmux neovim
 sudo pacman -S stow git fish tmux neovim
 ```
 
+#### **Install herdr (daily-driver multiplexer)**
+
+herdr (https://herdr.dev) replaces tmux as the daily-driver terminal
+multiplexer; tmux is kept as a minimal fallback for remote/SSH-only boxes.
+
+```sh
+curl -fsSL https://herdr.dev/install.sh | sh
+herdr integration install claude
+```
+
 #### Install **Fisher**
 
 A plugin manager for Fish  

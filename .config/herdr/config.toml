@@ -1,0 +1,50 @@
+onboarding = false
+# herdr configuration — replaces tmux as the daily-driver multiplexer.
+# See ~/.dotfiles/.claude/plans (or agent-rules/tools/herdr/) for the migration
+# rationale. Full option reference: `herdr --default-config`.
+
+[theme]
+# name = "catppuccin"
+# BEGIN hue-theme
+# END hue-theme
+
+name = "solarized"
+auto_switch = false
+[terminal]
+# fish is the primary shell; empty default_shell falls back to $SHELL.
+shell_mode = "login"
+new_cwd = "follow"
+
+[keys]
+# tmux used ctrl+t as prefix (ctrl+b was unbound) — keep the same muscle memory.
+prefix = "ctrl+t"
+
+# reload_config, split_vertical/split_horizontal, focus_pane_*, and resize_mode
+# all match herdr's defaults already and mirror tmux's vi-style h/j/k/l pane
+# navigation, so they are left commented/default (see `herdr --default-config`).
+
+# Best-effort analog of tmux's `bind F run-shell "open '#{pane_current_path}'"`.
+[[keys.command]]
+key = "prefix+f"
+type = "shell"
+command = "open ."
+description = "Open current pane's directory in Finder"
+
+[ui]
+mouse_capture = true
+pane_borders = true
+pane_gaps = true
+
+agent_panel_sort = "spaces"
+[session]
+resume_agents_on_restore = true
+
+[ui.sound]
+enabled = false
+
+[ui.toast]
+delivery = "off"
+
+[experimental]
+pane_history = true
+switch_ascii_input_source_in_prefix = true

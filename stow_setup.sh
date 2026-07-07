@@ -13,5 +13,10 @@ if ! "$HOME/.dotfiles/.scripts/sync-hue-ghostty.sh" --check; then
   echo "warning: Ghostty Hue theme is stale or unreachable — run .scripts/sync-hue-ghostty.sh to update." >&2
 fi
 
+# Same drift guard for the herdr Hue theme fragment.
+if ! "$HOME/.dotfiles/.scripts/sync-hue-herdr.sh" --check; then
+  echo "warning: herdr Hue theme is stale or unreachable — run .scripts/sync-hue-herdr.sh to update." >&2
+fi
+
 # Run Tide configuration
 fish ~/.dotfiles/.config/fish/scripts/tide_setup.fish
