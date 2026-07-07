@@ -50,6 +50,7 @@ multiplexer; tmux is kept as a minimal fallback for remote/SSH-only boxes.
 ```sh
 curl -fsSL https://herdr.dev/install.sh | sh
 herdr integration install claude
+herdr plugin install crafts69guy/hue-theme/packages/herdr-plugin
 ```
 
 #### Install **Fisher**

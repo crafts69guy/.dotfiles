@@ -95,32 +95,9 @@ end
 function __hue_theme_apply_herdr --argument-names mood
     command -q herdr; or return 0
 
-    set -l herdr_config "$HOME/.config/herdr/config.toml"
-    if set -q HERDR_CONFIG_PATH
-        set herdr_config $HERDR_CONFIG_PATH
-    end
-    test -f $herdr_config; or return 0
-
-    set -l config_home "$HOME/.config"
-    if set -q XDG_CONFIG_HOME
-        set config_home $XDG_CONFIG_HOME
-    end
-
-    set -l fragment "$config_home/herdr/generated/hue-$mood.toml"
-    if not test -f $fragment
-        echo "hue-theme: herdr fragment not found for $mood; run .scripts/sync-hue-herdr.sh --mood $mood" >&2
-        return 1
-    end
-
-    # config.toml has no include system, so splice the cached fragment between
-    # the "# BEGIN hue-theme" / "# END hue-theme" markers in [theme.custom].
-    set -l tmp (mktemp)
-    awk -v frag="$fragment" '
-        /# BEGIN hue-theme/ { print; while ((getline line < frag) > 0) print line; skip=1; next }
-        /# END hue-theme/ { skip=0 }
-        skip { next }
-        { print }
-    ' $herdr_config >$tmp
-    and mv $tmp $herdr_config
-    and herdr server reload-config >/dev/null 2>&1
+    # herdr has no scriptable theme API (no CLI/socket command to switch
+    # colors) — the "hue-theme" herdr plugin (packages/herdr-plugin in the
+    # hue-theme repo) owns the config.toml splice + reload-config; it reads
+    # the same $state_file this function just wrote, so this just triggers it.
+    herdr plugin action invoke apply-mood --plugin hue-theme >/dev/null 2>&1
 end

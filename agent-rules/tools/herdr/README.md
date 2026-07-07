@@ -23,10 +23,21 @@ integration for several AI coding agents, including Claude Code, and reports
   `~/.claude/settings.json` for Claude Code). Diff the target config after
   running an install/uninstall rather than assuming it merged cleanly.
 - Config is a single TOML file with no include/import system
-  (`~/.config/herdr/config.toml`, override via `HERDR_CONFIG_PATH`). Any
-  generated/templated content (e.g. the Hue Tide theme sync) must patch that
-  file's marked blocks directly, then call `herdr server reload-config` — it
-  cannot be split into a separately-sourced file the way fish/tmux configs are.
+  (`~/.config/herdr/config.toml`, override via `HERDR_CONFIG_PATH`), and herdr
+  has no scriptable theme API (no `herdr theme` subcommand, no socket method).
+  The Hue Tide theme is applied by a herdr plugin
+  (`crafts69guy/hue-theme` repo, `packages/herdr-plugin`) whose `apply-mood`
+  action splices a `[theme.custom]` fragment between `# BEGIN hue-theme` /
+  `# END hue-theme` markers in `config.toml` and calls
+  `herdr server reload-config`. `hue-theme.fish` triggers it via
+  `herdr plugin action invoke apply-mood --plugin hue-theme`; a
+  `workspace.created` event hook re-applies it on herdr startup. Don't
+  reintroduce a hand-rolled splice script in this repo — extend the plugin
+  instead.
+- Plugins in general cannot edit `config.toml`, register keybindings, or call
+  a "set theme" API themselves — they can only run argv commands
+  (bash/JS/Lua/etc.) via `[[keys.command]] type = "plugin_action"`, an event
+  hook, or `herdr plugin action invoke`.
 
 ## Verifying integration health
 
