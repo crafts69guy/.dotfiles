@@ -1,12 +1,14 @@
-![fish screenshot](./images/view_terminal.png)
-![nvim screenshot](./images/view_project_js.png)
+![herdr agent session screenshot](./images/herdr_agent_session.png)
+![herdr keybinds screenshot](./images/herdr_keybinds.png)
 
 **Warning**: Don’t blindly use my settings unless you know what that entails. Use at your own risk!
 
 ## **📌 Contents**
 
+- **Herdr** – Mouse-first multiplexer with native Claude Code/agent integration (daily-driver, replaces tmux)
+- **Tmux** – Kept as a minimal fallback for remote/SSH-only boxes without herdr
 - **Neovim** – Custom plugins, keybindings, and themes (LazyVim)
-- **Tmux** – Optimized terminal workflow
+- **Hue Theme** – Custom Huế-inspired theme system across Fish/Tide, herdr, Ghostty, tmux, and Neovim
 - **Git** – Configuration for efficient version control
 - **Karabiner** – Custom key mappings with Fn (Hyper) key
 - **Fish Shell** – Enhanced terminal experience with Tide prompt
@@ -86,8 +88,8 @@ Then restart Fish with `exec fish`.
 
 #### Hue theme switcher
 
-Use the Fish command below to switch the Hue mood across Fish/Tide, tmux,
-Ghostty, and Neovim startup config:
+Use the Fish command below to switch the Hue mood across Fish/Tide, herdr,
+tmux, Ghostty, and Neovim:
 
 ```fish
 hue-theme mua
@@ -97,12 +99,14 @@ hue-theme cung
 
 The command stores the active mood in `~/.local/state/hue-theme/current`, so
 switching moods does not dirty this dotfiles repo. Dotfiles keep the switcher,
-host integration, and Ghostty theme files versioned.
+host integration, and Ghostty theme files versioned. herdr has no scriptable
+theme API of its own, so its mood is applied by a separate herdr plugin (see
+[Herdr](#-herdr) below) that `hue-theme` triggers automatically.
 
 ### **2. Clone This Repository**
 
 ```sh
-git clone https://github.com/crafts-cnc/.dotfiles.git ~/.dotfiles
+git clone https://github.com/crafts69guy/.dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 ```
 
@@ -155,9 +159,32 @@ Key entry points:
 - `agent-rules/README.md` – Cross-agent routing index
 - `agent-rules/shared/` – General Markdown and research/citation rules
 - `agent-rules/tools/inkdrop-v6/` – Inkdrop v6 note-taking, Mermaid, links, organization, and MCP token workflow
+- `agent-rules/tools/herdr/` – Herdr multiplexer config, agent panes, socket API scripting
 - `agent-rules/stacks/` – Stack-specific rules for React Native, Medusa, and Web3
 
 After stowing this repo, agents can resolve the shared rules from `~/agent-rules/...`.
+
+---
+
+## **🐚 Herdr**
+
+[Herdr](https://herdr.dev) is a mouse-first terminal multiplexer with native
+lifecycle-hook integration for AI coding agents (Claude Code, opencode, and
+others) — it reports `idle`/`working`/`blocked` pane state directly instead of
+polling, and shows it in its sidebar (screenshots at the top of this README).
+
+- Config: `.config/herdr/config.toml` — prefix `ctrl+t` (same muscle memory as
+  the tmux fallback below), lazygit/git-graph popups on `prefix+alt+g` /
+  `prefix+alt+shift+g`, mouse-first pane splitting.
+- Agent integration: `herdr integration install claude` (and `opencode`) wires
+  up native session-state hooks — see `agent-rules/tools/herdr/README.md` for
+  the socket API/plugin caveats.
+- Theming: herdr has no scriptable theme API, so the Hue Tide theme is applied
+  by a small herdr plugin (`crafts69guy/hue-theme`, `packages/herdr-plugin`)
+  that `hue-theme.fish` triggers — see the Hue theme switcher above.
+- tmux (`.config/tmux/tmux.conf`) is kept as a trimmed-down fallback for
+  remote/SSH-only boxes without herdr installed; its `tpm`/`tmux-summarize`
+  plugins still apply there.
 
 ---
 
@@ -187,10 +214,10 @@ brew install --cask karabiner-elements
 - `Fn + b` → Git branches
 - `Fn + ;` → Git log
 - `Fn + p` → Projects switcher
-- `Fn + t` → Tmux sessions
-- `Fn + w` → Tmux windows
-- `Fn + n` → New tmux session
-- `Fn + q` → Kill tmux session
+- `Fn + t` → Tmux sessions _(tmux fallback only — see [Herdr](#-herdr))_
+- `Fn + w` → Tmux windows _(tmux fallback only)_
+- `Fn + n` → New tmux session _(tmux fallback only)_
+- `Fn + q` → Kill tmux session _(tmux fallback only)_
 - `Fn + s` → Ripgrep search
 - `Fn + x` → Kill processes
 - `Fn + o` → Kill by port
@@ -226,6 +253,11 @@ brew install fzf fd ripgrep bat eza ghq
 
 ### **Key Bindings**
 
+`Fn+t/w/n/q` are tmux-specific (session/window pickers) — they only do
+something inside a tmux session, i.e. the remote/SSH fallback described in
+[Herdr](#-herdr) above. herdr doesn't have fzf-driven pickers for its
+workspaces/tabs yet.
+
 | Key      | Function      | Description                              |
 | -------- | ------------- | ---------------------------------------- |
 | `Fn+f`   | Files         | Search files with fd + bat preview       |
@@ -234,10 +266,10 @@ brew install fzf fd ripgrep bat eza ghq
 | `Fn+b`   | Git branches  | Switch git branches                      |
 | `Fn+;`   | Git log       | Browse git commit history                |
 | `Fn+p`   | Projects      | Switch between projects (ghq)            |
-| `Fn+t`   | Tmux sessions | Switch tmux sessions                     |
-| `Fn+w`   | Tmux windows  | Switch tmux windows                      |
-| `Fn+n`   | New session   | Create and switch to new tmux session    |
-| `Fn+q`   | Tmux kill     | Kill tmux sessions/panes                 |
+| `Fn+t`   | Tmux sessions | Switch tmux sessions (tmux fallback only) |
+| `Fn+w`   | Tmux windows  | Switch tmux windows (tmux fallback only)  |
+| `Fn+n`   | New session   | Create and switch to new tmux session (tmux fallback only) |
+| `Fn+q`   | Tmux kill     | Kill tmux sessions/panes (tmux fallback only) |
 | `Fn+s`   | Ripgrep       | Interactive text search with live reload |
 | `Fn+x`   | Processes     | Kill processes with confirmation         |
 | `Fn+o`   | Ports         | Kill processes by port number            |
@@ -289,15 +321,23 @@ fzf_rg "search term"
   - **Live grep**: [ripgrep](https://github.com/BurntSushi/ripgrep)
   - **Find files**: [fd](https://github.com/sharkdp/fd)
 - Supported Terminals:
+  - [Ghostty](https://ghostty.org) (primary; config at `.config/ghostty/`)
   - [Kitty](https://github.com/kovidgoyal/kitty)
   - [WezTerm](https://github.com/wez/wezterm)
   - [Alacritty](https://github.com/alacritty/alacritty)
   - [iTerm2](https://iterm2.com/)
-- [Solarized Osaka](https://github.com/craftzdog/solarized-osaka.nvim)
+- Colorscheme: [hue-nvim](https://github.com/crafts69guy/hue-theme) — the same
+  Hue Tide mood system used across Fish/Tide, herdr, Ghostty, and tmux (see
+  the Hue theme switcher above)
 
 ---
 
 ## **🎨 Enable `undercurl` in iTerm2**
+
+Ghostty (the primary terminal here) and tmux already have undercurl configured
+out of the box (`.config/ghostty/config`, the `terminal-overrides` lines in
+`.config/tmux/tmux.conf`) — no manual terminfo work needed. This section only
+applies if you're using iTerm2 as a fallback terminal instead.
 
 ### **1. Export TERM in your shell config**
 
