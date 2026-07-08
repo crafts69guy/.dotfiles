@@ -95,6 +95,7 @@ Pods/
 .config/herdr/*.sock
 .config/herdr/session.json
 .config/herdr/session-history.json
+.config/herdr/release-notes.json
 .config/herdr/plugins.json
 .config/herdr/plugins/
 
