@@ -175,7 +175,13 @@ polling, and shows it in its sidebar (screenshots at the top of this README).
 
 - Config: `.config/herdr/config.toml` — prefix `ctrl+t` (same muscle memory as
   the tmux fallback below), lazygit/git-graph popups on `prefix+alt+g` /
-  `prefix+alt+shift+g`, mouse-first pane splitting.
+  `prefix+alt+shift+g`, mouse-first pane splitting, nested-session protection,
+  and pane history enabled.
+- Fish aliases: `hr` launches/attaches Herdr; `hrl` applies the saved IDE pane
+  layout from `.scripts/ide-herdr`.
+- Navigation: workspace navigation mode uses `j`/`k` for down/up, workspace
+  switching uses `prefix+ctrl+j/k`, agent switching uses `prefix+alt+j/k`, and
+  `prefix+alt+1..9` jumps directly to agent panes.
 - Agent integration: `herdr integration install claude` (and `opencode`) wires
   up native session-state hooks — see `agent-rules/tools/herdr/README.md` for
   the socket API/plugin caveats.
@@ -328,6 +334,8 @@ fzf_rg "search term"
 - Colorscheme: [hue-nvim](https://github.com/crafts69guy/hue-theme) — the same
   Hue Tide mood system used across Fish/Tide, herdr, Ghostty, and tmux (see
   the Hue theme switcher above)
+- Plugin versions are pinned in `.config/nvim/lazy-lock.json` and should be
+  committed whenever Lazy updates the lockfile.
 
 ---
 
