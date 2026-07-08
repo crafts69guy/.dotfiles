@@ -36,7 +36,8 @@ if status is-interactive
     alias c claude
     alias claude-yolo "claude --dangerously-skip-permissions"
     alias oc opencode
-    alias hr "~/.scripts/ide-herdr"
+    alias hr herdr
+    alias hrl "~/.scripts/ide-herdr"
     command -qv nvim && alias vim nvim
 
     set -gx EDITOR nvim
