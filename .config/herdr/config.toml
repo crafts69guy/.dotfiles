@@ -45,6 +45,11 @@ prefix = "ctrl+t"
 navigate_workspace_up = "k"
 navigate_workspace_down = "j"
 
+# Agent navigation mirrors the vi-style direction keys and tab number jumps.
+previous_agent = "prefix+alt+k"
+next_agent = "prefix+alt+j"
+focus_agent = "prefix+alt+1..9"
+
 # Best-effort analog of tmux's `bind F run-shell "open '#{pane_current_path}'"`.
 [[keys.command]]
 key = "prefix+f"
