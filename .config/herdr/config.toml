@@ -41,6 +41,10 @@ prefix = "ctrl+t"
 # all match herdr's defaults already and mirror tmux's vi-style h/j/k/l pane
 # navigation, so they are left commented/default (see `herdr --default-config`).
 
+# Workspace navigation mode: use vi-style vertical movement instead of arrows.
+navigate_workspace_up = "k"
+navigate_workspace_down = "j"
+
 # Best-effort analog of tmux's `bind F run-shell "open '#{pane_current_path}'"`.
 [[keys.command]]
 key = "prefix+f"
@@ -80,5 +84,6 @@ enabled = false
 delivery = "off"
 
 [experimental]
+allow_nested = false
 pane_history = true
 switch_ascii_input_source_in_prefix = true
