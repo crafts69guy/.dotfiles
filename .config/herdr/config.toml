@@ -45,10 +45,17 @@ prefix = "ctrl+t"
 navigate_workspace_up = "k"
 navigate_workspace_down = "j"
 
+# Workspace switching follows left/right vi movement.
+previous_workspace = "prefix+ctrl+k"
+next_workspace = "prefix+ctrl+j"
+
 # Agent navigation mirrors the vi-style direction keys and tab number jumps.
 previous_agent = "prefix+alt+k"
 next_agent = "prefix+alt+j"
 focus_agent = "prefix+alt+1..9"
+
+# Jump back to the previously focused pane without changing tab/workspace order.
+last_pane = "prefix+backtick"
 
 # Best-effort analog of tmux's `bind F run-shell "open '#{pane_current_path}'"`.
 [[keys.command]]
