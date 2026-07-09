@@ -1,4 +1,9 @@
-# Work identity — auto-included for repos under ~/Developments/ (see ~/.gitconfig)
+# Work identity and GitHub SSH alias for repos under ~/Developments/bitbucket.org/
 [user]
 	name = NgocCuong
 	email = cuongcn@antsomi.com
+
+[url "git@gh-work:"]
+	insteadOf = git@github.com:
+	insteadOf = ssh://git@github.com/
+	insteadOf = https://github.com/

@@ -25,9 +25,13 @@
 	name = crafts69.guy
 	email = crafts69.guy@gmail.com
 
-# Work identity is applied automatically for repos under ~/Developments/
-[includeIf "gitdir:~/Developments/"]
+# Work identity and GitHub SSH alias for work repos.
+[includeIf "gitdir:~/Developments/bitbucket.org/"]
 	path = ~/.config/git/work.gitconfig
+
+# Personal identity and GitHub SSH alias for personal repos.
+[includeIf "gitdir:~/Developments/github.com/"]
+	path = ~/.config/git/personal.gitconfig
 
 [github]
 	user = crafts69
