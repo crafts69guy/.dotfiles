@@ -1,4 +1,4 @@
-function hue-theme -d "Switch the Hue theme across shell, tmux, Ghostty, and Neovim"
+function hue-theme -d "Switch the Hue theme across shell, tmux, Ghostty, Neovim, herdr, and bat"
     set -l mood $argv[1]
 
     set -l state_home $HOME/.local/state
@@ -34,6 +34,7 @@ function hue-theme -d "Switch the Hue theme across shell, tmux, Ghostty, and Neo
     __hue_theme_apply_ghostty $mood
     __hue_theme_apply_nvim $mood
     __hue_theme_apply_herdr $mood
+    __hue_theme_apply_bat $mood
 
     echo "hue-theme: switched to $mood"
 end
@@ -100,4 +101,18 @@ function __hue_theme_apply_herdr --argument-names mood
     # hue-theme repo) owns the config.toml splice + reload-config; it reads
     # the same $state_file this function just wrote, so this just triggers it.
     herdr plugin action invoke apply-mood --plugin hue-theme >/dev/null 2>&1
+end
+
+function __hue_theme_apply_bat --argument-names mood
+    command -q bat; or return 0
+
+    # bat reads its theme per invocation, so an exported universal variable is
+    # enough — every fish shell picks it up instantly, no reload needed. The
+    # hue-<mood> themes must be in `bat cache --build` already (see
+    # .scripts/sync-hue-bat.sh); fall back silently if this one is not.
+    if bat --list-themes 2>/dev/null | string match -q "hue-$mood"
+        set -Ux BAT_THEME "hue-$mood"
+    else
+        echo "hue-theme: bat theme hue-$mood not cached; run sync-hue-bat.sh" >&2
+    end
 end

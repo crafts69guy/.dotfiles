@@ -1,0 +1,4 @@
+# bat configuration — themes come from the hue-theme repo (see
+# .scripts/sync-hue-bat.sh). BAT_THEME, set by the hue-theme fish function,
+# overrides this fallback when a mood is active.
+--theme="hue-mua"
