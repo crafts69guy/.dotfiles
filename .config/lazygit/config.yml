@@ -6,7 +6,7 @@ customCommands:
     loadingText: 'opening commitizen commit tool'
     output: terminal
 gui:
-  mouseEvents: false
+  mouseEvents: true
 git:
   pagers:
     - colorArg: always
