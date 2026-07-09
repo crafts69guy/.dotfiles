@@ -151,6 +151,9 @@ Pods/
 # cagent
 .config/cagent/
 
+# Windsurf.nvim local auth
+.config/windsurf.nvim/config.json
+
 # .summarize
 .summarize/cache
 .summarize/logs
