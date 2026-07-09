@@ -223,7 +223,85 @@
       <key>settings</key>
       <dict>
         <key>foreground</key>
+        <string>#A9A0C8</string>
+        <key>fontStyle</key>
+        <string>bold</string>
+      </dict>
+    </dict>
+    <dict>
+      <key>name</key>
+      <string>Heading 1</string>
+      <key>scope</key>
+      <string>markup.heading.1, markup.heading.1 entity.name.section</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
         <string>#6FD0A8</string>
+        <key>fontStyle</key>
+        <string>bold</string>
+      </dict>
+    </dict>
+    <dict>
+      <key>name</key>
+      <string>Heading 2</string>
+      <key>scope</key>
+      <string>markup.heading.2, markup.heading.2 entity.name.section</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#7FBAC8</string>
+        <key>fontStyle</key>
+        <string>bold</string>
+      </dict>
+    </dict>
+    <dict>
+      <key>name</key>
+      <string>Heading 3</string>
+      <key>scope</key>
+      <string>markup.heading.3, markup.heading.3 entity.name.section</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#A9A0C8</string>
+        <key>fontStyle</key>
+        <string>bold</string>
+      </dict>
+    </dict>
+    <dict>
+      <key>name</key>
+      <string>Heading 4</string>
+      <key>scope</key>
+      <string>markup.heading.4, markup.heading.4 entity.name.section</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#DCBB80</string>
+        <key>fontStyle</key>
+        <string>bold</string>
+      </dict>
+    </dict>
+    <dict>
+      <key>name</key>
+      <string>Heading 5</string>
+      <key>scope</key>
+      <string>markup.heading.5, markup.heading.5 entity.name.section</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#D38478</string>
+        <key>fontStyle</key>
+        <string>bold</string>
+      </dict>
+    </dict>
+    <dict>
+      <key>name</key>
+      <string>Heading 6</string>
+      <key>scope</key>
+      <string>markup.heading.6, markup.heading.6 entity.name.section</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#98A59C</string>
         <key>fontStyle</key>
         <string>bold</string>
       </dict>
@@ -236,7 +314,7 @@
       <key>settings</key>
       <dict>
         <key>foreground</key>
-        <string>#6FD0A8</string>
+        <string>#6C7E76</string>
         <key>fontStyle</key>
         <string>bold</string>
       </dict>
@@ -265,9 +343,9 @@
     </dict>
     <dict>
       <key>name</key>
-      <string>Raw</string>
+      <string>Raw inline</string>
       <key>scope</key>
-      <string>markup.raw</string>
+      <string>markup.raw.inline</string>
       <key>settings</key>
       <dict>
         <key>foreground</key>
