@@ -34,6 +34,20 @@ integration for several AI coding agents, including Claude Code, and reports
   `workspace.created` event hook re-applies it on herdr startup. Don't
   reintroduce a hand-rolled splice script in this repo — extend the plugin
   instead.
+- `[theme.custom]` accepts only herdr's catppuccin-shaped `CustomThemeColors`
+  slots — `accent`, `panel_bg`, `surface0/1`, `surface_dim`, `overlay0/1`,
+  `text`, `subtext0`, `mauve`, `green`, `yellow`, `red`, `blue`, `teal`,
+  `peach` — and silently ignores unknown keys (no reload diagnostics).
+  Terminal-style keys (`background`, `foreground`, `cursor`, `selection_*`,
+  ANSI names) are no-ops despite appearing in older configs; per-slot UI roles
+  are documented in hue-theme's `packages/tokens/src/adapters/herdr.ts`. A
+  `theme.custom.accent` value overrides `[ui].accent`. Verified against herdr
+  0.7.3 (2026-07).
+- Never start a second "isolated" herdr server to test config: even with
+  `HERDR_CONFIG_PATH`/`HERDR_SOCKET_PATH` overridden it still shares
+  `~/.config/herdr/session.json` and will restore AND re-save the live
+  session. Probe the live server with a temporary config edit +
+  `herdr server reload-config`, then restore.
 - Plugins in general cannot edit `config.toml`, register keybindings, or call
   a "set theme" API themselves — they can only run argv commands
   (bash/JS/Lua/etc.) via `[[keys.command]] type = "plugin_action"`, an event
