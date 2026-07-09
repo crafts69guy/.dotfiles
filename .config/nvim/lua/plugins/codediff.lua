@@ -40,7 +40,7 @@ return {
 		"esmuellert/codediff.nvim",
 		cmd = "CodeDiff",
 		keys = {
-			{ "<leader>gdd", "<cmd>CodeDiff<cr>", desc = "CodeDiff Status" },
+			{ "<leader>gdd", "<cmd>CodeDiff --side-by-side<cr>", desc = "CodeDiff Worktree" },
 			{ "<leader>gdf", "<cmd>CodeDiff file HEAD<cr>", desc = "CodeDiff File" },
 			{ "<leader>gdh", "<cmd>CodeDiff history<cr>", desc = "CodeDiff History" },
 			{ "<leader>gdm", "<cmd>CodeDiff main...<cr>", desc = "CodeDiff Main" },
@@ -76,8 +76,8 @@ return {
 				width = 40,
 				auto_refresh = true,
 				indent_markers = true,
-				view_mode = "list",
-				flatten_dirs = true,
+				view_mode = "tree",
+				flatten_dirs = false,
 				initial_focus = "explorer",
 				file_filter = {
 					ignore = { ".git/**", ".jj/**", "node_modules/**", "dist/**", "build/**" },
