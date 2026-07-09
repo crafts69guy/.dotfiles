@@ -84,7 +84,8 @@ return {
 			signature = {
 				enabled = true,
 				window = {
-					winblend = vim.o.pumblend,
+					border = "rounded",
+					winblend = 0,
 				},
 			},
 
@@ -102,15 +103,20 @@ return {
 					},
 				},
 				menu = {
+					border = "rounded",
 					draw = {
 						treesitter = { "lsp" },
 						columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind" } },
 					},
-					winblend = vim.o.pumblend,
+					winblend = 0,
 				},
 				documentation = {
 					auto_show = true,
 					auto_show_delay_ms = 200,
+					window = {
+						border = "rounded",
+						winblend = 0,
+					},
 				},
 				ghost_text = {
 					enabled = vim.g.ai_cmp,

@@ -49,6 +49,7 @@ return {
 				transform_items = function(_, items)
 					for _, item in ipairs(items) do
 						item.kind_icon = windsurf_icon
+						item.kind_hl = "BlinkCmpKindWindsurf"
 						item.kind_name = "Windsurf"
 					end
 					return items
