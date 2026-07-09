@@ -59,6 +59,13 @@ focus_agent = "prefix+alt+1..9"
 # Jump back to the previously focused pane without changing tab/workspace order.
 last_pane = "prefix+backtick"
 
+# Worktrees, mirroring `git worktree add/remove` — plain letters, no shift.
+# a = add (default was prefix+shift+g), double-tap t = open an existing one,
+# d = delete (opens confirmation; shift+d stays close_workspace).
+new_worktree = "prefix+a"
+open_worktree = "prefix+t"
+remove_worktree = "prefix+d"
+
 # Best-effort analog of tmux's `bind F run-shell "open '#{pane_current_path}'"`.
 [[keys.command]]
 key = "prefix+f"
