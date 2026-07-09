@@ -10,4 +10,6 @@ gui:
 git:
   pagers:
     - colorArg: always
-      pager: delta --dark --paging=never
+      # no --dark: delta infers light/dark from the BAT_THEME hue mood, so
+      # diffs follow hue-cung's light appearance too.
+      pager: delta --paging=never

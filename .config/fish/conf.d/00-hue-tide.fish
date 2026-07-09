@@ -36,3 +36,10 @@ end
 if test $hue_tide_loaded != true
     echo "hue-tide: missing theme entrypoint; set HUE_THEME_HOME to your hue-theme checkout" >&2
 end
+
+# lazygit has no config include; LG_CONFIG_FILE merges base config + the Hue
+# fragment behind the hue-current.yml symlink (switched by hue-theme.fish).
+set -l hue_lazygit_theme "$HOME/.config/lazygit/themes/hue-current.yml"
+if test -f $hue_lazygit_theme
+    set -gx LG_CONFIG_FILE "$HOME/.config/lazygit/config.yml,$hue_lazygit_theme"
+end

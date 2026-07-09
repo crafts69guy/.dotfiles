@@ -35,6 +35,7 @@ function hue-theme -d "Switch the Hue theme across shell, tmux, Ghostty, Neovim,
     __hue_theme_apply_nvim $mood
     __hue_theme_apply_herdr $mood
     __hue_theme_apply_bat $mood
+    __hue_theme_apply_lazygit $mood
 
     echo "hue-theme: switched to $mood"
 end
@@ -115,4 +116,15 @@ function __hue_theme_apply_bat --argument-names mood
     else
         echo "hue-theme: bat theme hue-$mood not cached; run sync-hue-bat.sh" >&2
     end
+end
+
+function __hue_theme_apply_lazygit --argument-names mood
+    set -l theme_dir "$HOME/.config/lazygit/themes"
+    test -f "$theme_dir/hue-$mood.yml"; or return 0
+
+    # lazygit reads config at launch; the hue-current.yml symlink is merged in
+    # via LG_CONFIG_FILE (exported by conf.d/00-hue-tide.fish), so re-pointing
+    # it themes every subsequent launch. Running instances keep the old mood.
+    ln -sf "hue-$mood.yml" "$theme_dir/hue-current.yml"
+    set -gx LG_CONFIG_FILE "$HOME/.config/lazygit/config.yml,$theme_dir/hue-current.yml"
 end

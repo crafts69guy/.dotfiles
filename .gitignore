@@ -88,6 +88,7 @@ Pods/
 
 # Hue theme runtime state
 .config/ghostty/themes/hue-current
+.config/lazygit/themes/hue-current.yml
 
 # Herdr - runtime data only (herdr-*.log already caught by the *.log glob
 # above; ~/.config is symlinked straight into this repo, so herdr's sockets

@@ -24,6 +24,17 @@ if command -v bat >/dev/null 2>&1; then
   fi
 fi
 
+# Guard: warn (non-fatal) if the lazygit Hue themes have drifted, and make
+# sure the mood symlink exists so LG_CONFIG_FILE resolves.
+if command -v lazygit >/dev/null 2>&1; then
+  if ! "$HOME/.dotfiles/.scripts/sync-hue-lazygit.sh" --check; then
+    echo "warning: lazygit Hue themes are stale or unreachable — run .scripts/sync-hue-lazygit.sh to update." >&2
+  fi
+  if [[ ! -e "$HOME/.config/lazygit/themes/hue-current.yml" ]]; then
+    ln -sf "hue-mua.yml" "$HOME/.config/lazygit/themes/hue-current.yml"
+  fi
+fi
+
 # Guard: warn (non-fatal) if the herdr Hue theme plugin isn't installed. Unlike
 # Ghostty/tmux, herdr has no scriptable theme API — the "hue-theme" plugin
 # (packages/herdr-plugin in the hue-theme repo) owns applying it, so it needs
