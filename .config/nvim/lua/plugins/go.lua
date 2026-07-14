@@ -1,3 +1,7 @@
+if not require("config.profile").is("go") then
+	return {}
+end
+
 return {
 	-- Enhanced Go development (test runner, code generation, struct tags, etc.)
 	{

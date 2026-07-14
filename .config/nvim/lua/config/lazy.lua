@@ -1,4 +1,6 @@
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local profile = require("config.profile")
+local paths = profile.paths()
+local lazypath = paths.lazy .. "/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
 		"git",
@@ -26,8 +28,8 @@ local function hue_colorscheme()
 	return "hue-" .. mood
 end
 
-require("lazy").setup({
-	spec = {
+
+local spec = {
 		-- add LazyVim and import its plugins
 		{
 			"LazyVim/LazyVim",
@@ -40,17 +42,9 @@ require("lazy").setup({
 				},
 			},
 		},
-		-- import any extras modules here
-		-- Language support
-		{ import = "lazyvim.plugins.extras.lang.typescript" },
+		-- Core language support
 		{ import = "lazyvim.plugins.extras.lang.json" },
-		{ import = "lazyvim.plugins.extras.lang.tailwind" },
-		-- { import = "lazyvim.plugins.extras.lang.markdown" },
-		-- { import = "lazyvim.plugins.extras.lang.rust" },
-
-		-- Linting and Formatting
-		{ import = "lazyvim.plugins.extras.linting.eslint" },
-		{ import = "lazyvim.plugins.extras.formatting.prettier" },
+		{ import = "lazyvim.plugins.extras.lang.markdown" },
 
 		-- Optional extras (uncomment if needed)
 		-- { import = "lazyvim.plugins.extras.coding.copilot" },
@@ -62,8 +56,25 @@ require("lazy").setup({
 		-- { import = "lazyvim.plugins.extras.editor.mini-files" },
 		-- { import = "lazyvim.plugins.extras.util.project" },
 
-		{ import = "plugins" },
-	},
+}
+
+if profile.is("web") then
+	vim.list_extend(spec, {
+		{ import = "lazyvim.plugins.extras.lang.typescript" },
+		{ import = "lazyvim.plugins.extras.lang.tailwind" },
+		{ import = "lazyvim.plugins.extras.lang.docker" },
+		{ import = "lazyvim.plugins.extras.lang.prisma" },
+		{ import = "lazyvim.plugins.extras.linting.eslint" },
+		{ import = "lazyvim.plugins.extras.formatting.prettier" },
+	})
+end
+
+table.insert(spec, { import = "plugins" })
+
+require("lazy").setup({
+	spec = spec,
+	root = paths.lazy,
+	lockfile = paths.lockfile,
 	defaults = {
 		-- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
 		-- If you know what you're doing, you can set this to `true` to have all your custom plugins lazy-loaded by default.

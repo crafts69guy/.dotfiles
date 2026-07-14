@@ -3,13 +3,16 @@ return {
 	{
 		"mason-org/mason.nvim",
 		opts = function(_, opts)
+			opts.install_root_dir = require("config.profile").paths().mason
 			vim.list_extend(opts.ensure_installed, {
 				"stylua",
 				"luacheck",
 				"shellcheck",
 				"shfmt",
-				"rust-analyzer",
 			})
+			if require("config.profile").is("rust") then
+				table.insert(opts.ensure_installed, "rust-analyzer")
+			end
 			opts.ui = {
 				border = "rounded",
 				icons = {
@@ -25,56 +28,20 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = { "saghen/blink.cmp" },
-		opts = {
+		opts = function(_, opts)
+			opts = opts or {}
+			opts.inlay_hints = { enabled = false }
+			opts.servers = opts.servers or {}
+			local servers = opts.servers
+
 			-- Disable inlay hints globally
-			inlay_hints = { enabled = false },
-
 			-- Server configurations
-			servers = {
-				-- HTML & CSS (not covered by extras)
-				html = {},
-				cssls = {},
-
+			vim.tbl_deep_extend("force", servers, {
 				-- YAML (not covered by extras)
 				yamlls = {
 					settings = {
 						yaml = {
 							keyOrdering = false,
-						},
-					},
-				},
-
-				-- Tailwind CSS
-				tailwindcss = {
-					settings = {
-						tailwindCSS = {
-							classFunctions = { "cva", "cx", "clsx", "classnames" },
-							experimental = {
-								classRegex = {
-									-- For styled-components, emotion, etc.
-									{ "tw`([^`]*)", "([\"'`]([^\"'`]*).*?[\"'`])" },
-								},
-							},
-						},
-					},
-				},
-
-				-- Rust
-				rust_analyzer = {
-					settings = {
-						["rust-analyzer"] = {
-							cargo = {
-								buildScripts = {
-									enable = true,
-								},
-								allTargets = false,
-							},
-							procMacro = {
-								enable = true,
-							},
-							checkOnSave = {
-								command = "clippy",
-							},
 						},
 					},
 				},
@@ -151,7 +118,34 @@ return {
 						},
 					},
 				},
-			},
-		},
+			})
+
+			if require("config.profile").is("web") then
+				servers.html = {}
+				servers.cssls = {}
+				servers.tailwindcss = {
+					settings = {
+						tailwindCSS = {
+							classFunctions = { "cva", "cx", "clsx", "classnames" },
+							experimental = { classRegex = { { "tw`([^`]*)", "([\"'`]([^\"'`]*).*?[\"'`])" } } },
+						},
+					},
+				}
+			end
+
+			if require("config.profile").is("rust") then
+				servers.rust_analyzer = {
+					settings = {
+						["rust-analyzer"] = {
+							cargo = { buildScripts = { enable = true }, allTargets = false },
+							procMacro = { enable = true },
+							checkOnSave = { command = "clippy" },
+						},
+					},
+				}
+			end
+
+			return opts
+		end,
 	},
 }

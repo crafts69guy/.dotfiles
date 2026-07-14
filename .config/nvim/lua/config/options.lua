@@ -40,6 +40,11 @@ vim.g.lazyvim_prettier_needs_config = true
 vim.g.deprecation_warnings = true
 vim.g.lazyvim_picker = "telescope"
 
+-- Keep parsers isolated so a language profile only installs its own parsers.
+local profile_paths = require("config.profile").paths()
+vim.fn.mkdir(profile_paths.treesitter, "p")
+vim.opt.runtimepath:append(profile_paths.treesitter)
+
 -- Undercurl
 vim.cmd([[let &t_Cs = "\e[4:3m"]])
 vim.cmd([[let &t_Ce = "\e[4:0m"]])
