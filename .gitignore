@@ -98,7 +98,11 @@ Pods/
 .config/herdr/session-history.json
 .config/herdr/release-notes.json
 .config/herdr/plugins.json
-.config/herdr/plugins/
+# Plugin clones/state are runtime, but plugins/config/ holds hand-written
+# per-plugin config (e.g. git-hub's menu.conf) worth tracking. gitignore
+# cannot re-include children of a wholesale-ignored directory, hence /*.
+.config/herdr/plugins/*
+!.config/herdr/plugins/config/
 
 # Yarn
 .config/yarn

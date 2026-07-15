@@ -52,6 +52,33 @@ integration for several AI coding agents, including Claude Code, and reports
   a "set theme" API themselves — they can only run argv commands
   (bash/JS/Lua/etc.) via `[[keys.command]] type = "plugin_action"`, an event
   hook, or `herdr plugin action invoke`.
+- Keybindings accept only the prefix plus ONE (optionally modified) key:
+  chord forms like `prefix+g+d` and `"prefix+g d"` are both rejected as
+  `invalid keybinding` on reload. Grouping many commands behind one key needs
+  a picker pane instead — that is what the git-hub plugin's `menu` action is
+  for (see below).
+- `herdr plugin pane open --target-pane` is only valid with
+  `--placement split`; overlay/tab/zoomed placements reject it with
+  `invalid_params` ("overlay plugin panes target the active pane").
+- Plugin pane commands inherit the herdr server's environment, so user shell
+  defaults leak in: `FZF_DEFAULT_OPTS` (e.g. `--height=40%`) shrank a plugin's
+  fzf popup and hid entries behind a scrollbar. TUI scripts in plugin panes
+  should reset such env vars and use `stty size` (not `tput lines`, which is
+  unreliable in the popup PTY).
+
+## git-hub plugin
+
+The git workflow lives in the `git-hub` plugin (`crafts69guy/herdr-git-hub`,
+linked locally from `~/Developments/github.com/crafts69guy/herdr-git-hub`):
+`prefix+g` → `git-hub.menu` opens an fzf picker (lazygit auto-detected, five
+codediff.nvim review actions, extras from
+`~/.config/herdr/plugins/config/git-hub/menu.conf`, format
+`key|icon|label|shell command`). Review actions open codediff.nvim in an
+isolated `NVIM_APPNAME=herdr-git-hub` runtime themed from `[theme.custom]`
+with a hue-nvim layer when a Hue mood is active. Extend the plugin (menu.conf
+for personal tools, the repo for behavior) rather than adding standalone git
+menu scripts to the dotfiles. herdr's default `goto` binding was moved to
+`prefix+alt+g` to free `prefix+g`.
 
 ## Verifying integration health
 
