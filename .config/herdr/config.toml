@@ -66,6 +66,9 @@ new_worktree = "prefix+a"
 open_worktree = "prefix+t"
 remove_worktree = "prefix+d"
 
+# goto moves off its prefix+g default to free that key for the git menu below.
+goto = "prefix+alt+g"
+
 # Best-effort analog of tmux's `bind F run-shell "open '#{pane_current_path}'"`.
 [[keys.command]]
 key = "prefix+f"
@@ -73,21 +76,16 @@ type = "shell"
 command = "open ."
 description = "Open current pane's directory in Finder"
 
-# Git tooling popups, ported from utility.conf's prefix+g/prefix+G. Those two
-# keys collide with herdr's own defaults (goto = prefix+g, new_worktree =
-# prefix+shift+g), so this uses a new prefix+alt+ group instead — no herdr
-# default binding uses the alt modifier.
+# Git tooling menu (git-hub plugin, crafts69guy/herdr-git-hub): herdr
+# keybindings take only one key after the prefix (chords like "prefix+g+d"
+# are rejected), so prefix+g opens the plugin's fzf menu — lazygit + review
+# actions built in, keifu added via the plugin's menu.conf. goto vacated
+# prefix+g for this (see [keys] above).
 [[keys.command]]
-key = "prefix+alt+g"
-type = "pane"
-command = "lazygit"
-description = "Open lazygit"
-
-[[keys.command]]
-key = "prefix+alt+shift+g"
-type = "pane"
-command = "keifu"
-description = "Open git graph (keifu)"
+key = "prefix+g"
+type = "plugin_action"
+command = "git-hub.menu"
+description = "Git menu (lazygit / review / keifu)"
 
 [ui]
 mouse_capture = true
