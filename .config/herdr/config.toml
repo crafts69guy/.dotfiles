@@ -87,6 +87,16 @@ type = "plugin_action"
 command = "git-hub.menu"
 description = "Git menu (lazygit / review / keifu)"
 
+# Project switcher (ghq plugin, crafts69guy/herdr-ghq): prefix+space opens the
+# Rust TUI switcher over agents + workspaces + `ghq list`; the accept key chooses
+# where a repo lands — enter default target, ^t tab, ^s split, ^o cd current pane
+# — plus clone/update/remove and a ^g handoff to the git menu above.
+[[keys.command]]
+key = "prefix+space"
+type = "plugin_action"
+command = "ghq.menu"
+description = "Project switcher (ghq)"
+
 [ui]
 mouse_capture = true
 pane_borders = true
