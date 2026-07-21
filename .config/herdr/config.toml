@@ -76,16 +76,16 @@ type = "shell"
 command = "open ."
 description = "Open current pane's directory in Finder"
 
-# Git tooling menu (git-hub plugin, crafts69guy/herdr-git-hub): herdr
-# keybindings take only one key after the prefix (chords like "prefix+g+d"
-# are rejected), so prefix+g opens the plugin's fzf menu — lazygit + review
-# actions built in, keifu added via the plugin's menu.conf. goto vacated
+# Git menu (ghq plugin, crafts69guy/herdr-ghq): the git workflow is built into
+# the switcher now — prefix+g opens the ghq.git overlay for the current repo
+# (hunk review of worktree/branch/history, resolve conflicts, lazygit staging,
+# and menu.conf customs). Replaces the retired git-hub plugin. goto vacated
 # prefix+g for this (see [keys] above).
 [[keys.command]]
 key = "prefix+g"
 type = "plugin_action"
-command = "git-hub.menu"
-description = "Git menu (lazygit / review / keifu)"
+command = "ghq.git"
+description = "Git menu (ghq)"
 
 # Project switcher (ghq plugin, crafts69guy/herdr-ghq): prefix+space opens the
 # Rust TUI switcher over agents + workspaces + `ghq list`; the accept key chooses
