@@ -90,6 +90,10 @@ Pods/
 .config/ghostty/themes/hue-current
 .config/lazygit/themes/hue-current.yml
 
+# Hunk (review diff viewer): config.toml is regenerated per mood by the
+# hue-theme plugin's apply-mood, and state.json is runtime — both derivable.
+.config/hunk/
+
 # Herdr - runtime data only (herdr-*.log already caught by the *.log glob
 # above; ~/.config is symlinked straight into this repo, so herdr's sockets
 # and session state land here too)
