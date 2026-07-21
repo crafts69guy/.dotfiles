@@ -1,0 +1,3 @@
+split_direction = "right"
+default_target = "workspace"
+sort = "recent"
