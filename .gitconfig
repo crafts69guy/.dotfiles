@@ -113,18 +113,10 @@
 
 [tag]
 	forceSignAnnotated = false
-
-[credential]
-	helper = /usr/local/share/gcm-core/git-credential-manager
-
 [credential "https://github.com"]
 	username = crafts69.guy
 	helper = 
 	helper = !/opt/homebrew/bin/gh auth git-credential
-
-[credential "https://dev.azure.com"]
-	useHttpPath = true
-
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
@@ -161,3 +153,8 @@
 [credential "https://gist.github.com"]
 	helper = 
 	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential]
+	helper = 
+	helper = /usr/local/share/gcm-core/git-credential-manager
+[credential "https://dev.azure.com"]
+	useHttpPath = true
