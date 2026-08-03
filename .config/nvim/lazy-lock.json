@@ -10,7 +10,6 @@
   "bufferline.nvim": { "branch": "main", "commit": "655133c3b4c3e5e05ec549b9f8cc2894ac6f51b3" },
   "catppuccin": { "branch": "main", "commit": "c7c692a0ad3080710893abbae100171819a3e4be" },
   "close-buffers.nvim": { "branch": "master", "commit": "3acbcad1211572342632a6c0151f839e7dead27f" },
-  "codediff.nvim": { "branch": "main", "commit": "6bece3fa7af987bf6d265d8e948cea2ae29ceb1c" },
   "colorful-menu.nvim": { "branch": "master", "commit": "196ddf16d5f8fec09ba7f20e6b153aa5188e907b" },
   "conform.nvim": { "branch": "master", "commit": "619363c30309d29ffa631e67c8183f2a72caa373" },
   "debugprint.nvim": { "branch": "main", "commit": "e310a282e924c092b1fd95119a2432747d9e8416" },
