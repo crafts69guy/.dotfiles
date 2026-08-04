@@ -175,3 +175,9 @@ Pods/
 
 # Superpowers runtime plans
 docs/superpowers/plans/
+
+# Homebrew - trusted taps/casks list is auto-managed runtime state
+.config/homebrew/
+
+# Herdr plugin migration stamp - written by herdr itself, not hand-authored
+.config/herdr/plugins/config/switchboard/.migrated-from-ghq

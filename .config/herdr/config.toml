@@ -76,26 +76,91 @@ type = "shell"
 command = "open ."
 description = "Open current pane's directory in Finder"
 
-# Git menu (ghq plugin, crafts69guy/herdr-ghq): the git workflow is built into
-# the switcher now — prefix+g opens the ghq.git overlay for the current repo
-# (hunk review of worktree/branch/history, resolve conflicts, lazygit staging,
-# and menu.conf customs). Replaces the retired git-hub plugin. goto vacated
-# prefix+g for this (see [keys] above).
+# Switchboard central menu. Direct actions below keep every picker and utility
+# reachable without nesting panes; alt reserves a collision-free plugin layer.
+[[keys.command]]
+key = "prefix+m"
+type = "plugin_action"
+command = "switchboard.menu"
+description = "Switchboard menu"
+
+# Git menu (Switchboard, crafts69guy/herdr-switchboard): opens a herdr
+# pane of its own for the repo the current pane sits in — d worktree, b branch,
+# h commits, a all files, p pull request, r saved reviews, l lazygit, plus
+# menu.conf customs. Reviews run in tuicr and take over that pane; quitting
+# returns you here. This is the ONLY way in — the switcher's ⌥g is gone.
+# Replaces the retired git-hub plugin. goto vacated prefix+g for this
+# (see [keys] above).
 [[keys.command]]
 key = "prefix+g"
 type = "plugin_action"
-command = "ghq.git"
-description = "Git menu (ghq)"
+command = "switchboard.git"
+description = "Git menu (Switchboard)"
 
-# Project switcher (ghq plugin, crafts69guy/herdr-ghq): prefix+space opens the
+# Projects picker (Switchboard): prefix+space opens the
 # Rust TUI switcher over agents + workspaces + `ghq list`; the accept key chooses
 # where a repo lands — enter default target, ^t tab, ^s split, ^o cd current pane
-# — plus clone/update/remove and a ^g handoff to the git menu above.
+# — plus clone/update/remove. It no longer reaches the git menu: that is
+# prefix+g above, and it is a separate pane.
 [[keys.command]]
 key = "prefix+space"
 type = "plugin_action"
-command = "ghq.menu"
-description = "Project switcher (ghq)"
+command = "switchboard.projects"
+description = "Projects picker (Switchboard)"
+
+[[keys.command]]
+key = "prefix+alt+c"
+type = "plugin_action"
+command = "switchboard.commands"
+description = "Commands picker (Switchboard)"
+
+[[keys.command]]
+key = "prefix+alt+p"
+type = "plugin_action"
+command = "switchboard.ports"
+description = "Ports picker (Switchboard)"
+
+[[keys.command]]
+key = "prefix+alt+e"
+type = "plugin_action"
+command = "switchboard.settings"
+description = "Switchboard settings"
+
+[[keys.command]]
+key = "prefix+alt+n"
+type = "plugin_action"
+command = "switchboard.clone"
+description = "Clone repository (Switchboard)"
+
+[[keys.command]]
+key = "prefix+alt+u"
+type = "plugin_action"
+command = "switchboard.update"
+description = "Update Switchboard"
+
+[[keys.command]]
+key = "prefix+alt+h"
+type = "plugin_action"
+command = "switchboard.changelog"
+description = "Switchboard changelog"
+
+[[keys.command]]
+key = "prefix+alt+w"
+type = "plugin_action"
+command = "switchboard.open-workspace"
+description = "Open repository in workspace (Switchboard)"
+
+[[keys.command]]
+key = "prefix+alt+t"
+type = "plugin_action"
+command = "switchboard.open-tab"
+description = "Open repository in tab (Switchboard)"
+
+[[keys.command]]
+key = "prefix+alt+s"
+type = "plugin_action"
+command = "switchboard.open-split"
+description = "Open repository in split (Switchboard)"
 
 [ui]
 mouse_capture = true
@@ -112,7 +177,7 @@ resume_agents_on_restore = true
 enabled = false
 
 [ui.toast]
-delivery = "herdr"
+delivery = "system"
 
 [experimental]
 allow_nested = false

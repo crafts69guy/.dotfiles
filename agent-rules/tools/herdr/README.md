@@ -109,47 +109,34 @@ for personal tools, the repo for behavior) rather than adding standalone git
 menu scripts to the dotfiles. herdr's default `goto` binding was moved to
 `prefix+alt+g` to free `prefix+g`.
 
-## ghq plugin
+## Switchboard plugin
 
-Project navigation lives in the `ghq` plugin (`crafts69guy/herdr-ghq`, linked
-locally from `~/Developments/github.com/crafts69guy/herdr-ghq`): `prefix+space` →
-`ghq.menu` opens a themed **unified switcher** — a Rust TUI (`src/`, built on
-first run to `target/release/herdr-ghq-switcher` by `bin/picker.sh`) blending
-running agents, open workspaces, and `ghq list` repos. Accept is kind-aware: `enter` on an agent = `herdr agent
-focus`, on a workspace = `herdr workspace focus`, on a repo = open in the
-configurable `default_target` (workspace). `ctrl-w/t/s/o` = workspace/tab/split/
-cd-current-pane (repo path, or an agent's cwd), `ctrl-g` opens a tab + hands off
-to the git-hub menu, `ctrl-u` `ghq get -u`, `ctrl-x` remove (typed confirm),
-`alt-enter` clone. Layout: Search box top, Switcher list + Preview
-(`preview_position` right/down/up/left) with a full-width coloured-pill command
-bar pinned to the bottom (fzf couldn't do that under a side preview, hence the
-Rust rewrite). The TUI reads herdr/ghq JSON with serde, fuzzy-filters with
-nucleo, and reuses `bin/preview.sh` for preview content. Needs `cargo` (brew
-install rust) to build the binary.
+Terminal navigation and operations live in the `switchboard` plugin
+(`crafts69guy/herdr-switchboard`, linked locally from
+`~/Developments/github.com/crafts69guy/herdr-switchboard`). `prefix+space` invokes
+`switchboard.projects`; `prefix+g` invokes `switchboard.git`. The central
+`switchboard.menu` popup routes to every picker and utility, while direct actions
+`switchboard.projects`, `switchboard.commands`, and `switchboard.ports` can each
+be bound independently.
 
-One binary, several modes, each with a thin `bin/` wrapper that execs
-`bin/picker.sh <flag>` so the on-demand build is never duplicated: no flag = the
-switcher, `--settings` = the settings form, `--changelog` = the changelog viewer,
-`--update-check` = a headless fetch. **The plugin needs no fzf** (as of v0.6.0);
-only `bin/get.sh` (clone) is still bash, and it prompts with `read`.
+The Rust TUI builds to `target/release/herdr-switchboard` through `bin/picker.sh`.
+Projects blends running agents, open workspaces, `ghq list` repositories, and
+linked worktrees. Commands searches exact shell history and presets. Ports
+inspects live TCP listeners and performs identity-checked process actions. The
+package uses namespaced configuration tables under the `switchboard` plugin
+config directory and stores runtime state under
+`$XDG_STATE_HOME/herdr-switchboard`.
 
-Actions: `ghq.menu`, `ghq.get`, `ghq.settings` (popup), `ghq.changelog` (popup),
-`ghq.update-plugin`, and `open-workspace/tab/split` which force Enter's target
-(repo-only). Flat `config.toml` in the plugin config dir (`default_target`,
-`include_agents`, `include_workspaces`, `title_color`, `preview_position`,
-`preview_size`, `split_*`, `update_check`, …), edited via the settings action.
+Actions also include `switchboard.settings`, `switchboard.git`,
+`switchboard.clone`, `switchboard.changelog`, `switchboard.update`, and the
+repo-targeted `switchboard.open-workspace/tab/split`. The update action refuses
+to reinstall a locally linked checkout. After changing the plugin manifest,
+unlink and relink the checkout because `herdr server reload-config` only reloads
+Herdr's main config.
 
-`update_check` (default true) spawns a **detached** `--update-check` child once a
-day that runs `git ls-remote` and caches the newest tag in
-`$XDG_STATE_HOME/herdr-ghq/update.tsv`; the picker only reads that file and shows
-`↑ vX.Y.Z` in the command bar. The TUI itself never makes a network request — the
-fetch takes seconds and the picker usually exits in under one, so a thread inside
-it would be killed before writing. `ghq.update-plugin` installs a newer version but
-**refuses when `source.kind` is not `github`**, which is the case for this linked
-checkout: pull it by hand, rebuild, and relink.
-
-Supersedes `fzf_projects.fish` inside herdr (the fish function stays as a
-non-herdr fallback). Extend the plugin rather than adding standalone ghq scripts.
+Switchboard supersedes `fzf_projects.fish` inside Herdr; keep `ghq` references
+that describe the repository manager itself, but use the `switchboard` namespace
+for every Herdr plugin action.
 
 ## Verifying integration health
 

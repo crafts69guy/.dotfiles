@@ -1,5 +1,9 @@
+[common]
+keymode = "normal"
+
+[projects]
 split_direction = "right"
 default_target = "workspace"
 sort = "recent"
 default_tab = "workspaces"
-keymode = "normal"
+
