@@ -59,10 +59,9 @@ focus_agent = "prefix+alt+1..9"
 # Jump back to the previously focused pane without changing tab/workspace order.
 last_pane = "prefix+backtick"
 
-# Worktrees, mirroring `git worktree add/remove` — plain letters, no shift.
-# a = add (default was prefix+shift+g), double-tap t = open an existing one,
-# d = delete (opens confirmation; shift+d stays close_workspace).
-new_worktree = "prefix+a"
+# Worktrees: add uses Herdr's default prefix+shift+g; double-tap t opens an
+# existing one, and d deletes (shift+d stays close_workspace). prefix+a is
+# reserved for the Switchboard AI Agents picker below.
 open_worktree = "prefix+t"
 remove_worktree = "prefix+d"
 
@@ -107,6 +106,12 @@ key = "prefix+space"
 type = "plugin_action"
 command = "switchboard.projects"
 description = "Projects picker (Switchboard)"
+
+[[keys.command]]
+key = "prefix+a"
+type = "plugin_action"
+command = "switchboard.agents"
+description = "Start an AI agent (Switchboard)"
 
 [[keys.command]]
 key = "prefix+alt+c"
