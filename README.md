@@ -257,59 +257,45 @@ brew install fzf fd ripgrep bat eza ghq
 - **Solarized Dark** theme matching Ghostty terminal
 - **ghq** – Project management
 
-### **Key Bindings**
-
-`Fn+t/w/n/q` are tmux-specific (session/window pickers) — they only do
-something inside a tmux session, i.e. the remote/SSH fallback described in
-[Herdr](#-herdr) above. herdr doesn't have fzf-driven pickers for its
-workspaces/tabs yet.
-
-| Key      | Function      | Description                              |
-| -------- | ------------- | ---------------------------------------- |
-| `Fn+f`   | Files         | Search files with fd + bat preview       |
-| `Fn+d`   | Directories   | Navigate directories with eza tree       |
-| `Fn+g`   | Git files     | Browse git modified files                |
-| `Fn+b`   | Git branches  | Switch git branches                      |
-| `Fn+;`   | Git log       | Browse git commit history                |
-| `Fn+p`   | Projects      | Switch between projects (ghq)            |
-| `Fn+t`   | Tmux sessions | Switch tmux sessions (tmux fallback only) |
-| `Fn+w`   | Tmux windows  | Switch tmux windows (tmux fallback only)  |
-| `Fn+n`   | New session   | Create and switch to new tmux session (tmux fallback only) |
-| `Fn+q`   | Tmux kill     | Kill tmux sessions/panes (tmux fallback only) |
-| `Fn+s`   | Ripgrep       | Interactive text search with live reload |
-| `Fn+x`   | Processes     | Kill processes with confirmation         |
-| `Fn+o`   | Ports         | Kill processes by port number            |
-| `Ctrl+r` | History       | Search command history                   |
-
 ### **Functions**
 
+No fzf function is bound to a key — call these by name.
+
 ```fish
-# Interactive ripgrep search
-fzf_ripgrep [pattern]
+# File / directory search
+fzf_files
+fzf_directories
+fzf_history      # command history, sorted by frequency
 
-# Quick process killer
-fzf_kill        # SIGTERM
-fzf_kill -9     # SIGKILL
+# Git
+fzf_git_files       # Browse git modified files
+fzf_git_branches    # Switch git branches
+fzf_git_log         # Browse git commit history
 
-# Kill tmux sessions or panes
-fzf_tmux_kill          # Kill sessions (multi-select)
-fzf_tmux_kill --panes  # Kill panes
+# Projects / sessions
+fzf_projects            # Switch between projects (ghq)
+fzf_tmux_sessions       # Switch tmux sessions
+fzf_tmux_windows        # Switch tmux windows
+fzf_tmux_kill           # Kill sessions (multi-select)
+fzf_tmux_kill --panes   # Kill panes
+fzf_tmux_new_session    # Prompt for name, create and switch
+dev-session              # Dev session launcher
 
-# Create new tmux session
-fzf_tmux_new_session   # Prompt for name, create and switch
+# Search
+fzf_ripgrep [pattern]   # Interactive ripgrep search with live reload
+fzf_rg "search term"    # Two-phase ripgrep search
 
-# Two-phase ripgrep search
-fzf_rg "search term"
-
-# And more: fzf_files, fzf_directories, fzf_git_branches, fzf_git_log, etc.
+# Process / port management
+fzf_processes    # Kill processes with confirmation
+fzf_kill         # SIGTERM
+fzf_kill -9      # SIGKILL
+fzf_ports        # Kill processes by port number
 ```
 
 ### **Configuration Files**
 
 - `.config/fish/conf.d/fzf.fish` – FZF environment variables
-- `.config/fish/conf.d/fzf_bindings.fish` – Key bindings
 - `.config/fish/functions/fzf_*.fish` – Individual workflow functions
-- `.config/karabiner/karabiner.json` – Fn key mappings
 
 ---
 
