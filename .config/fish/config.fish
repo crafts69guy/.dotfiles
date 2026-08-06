@@ -78,3 +78,6 @@ fish_add_path /Users/caongoccuong/.opencode/bin
 
 # Added by Antigravity
 fish_add_path /Users/caongoccuong/.antigravity/antigravity/bin
+
+# Pi
+fish_add_path "/Users/caongoccuong/.local/share/fnm/node-versions/v24.18.0/installation/bin"
