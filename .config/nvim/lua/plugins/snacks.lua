@@ -411,15 +411,27 @@ return {
 				prompt = " ",
 				focus = "input",
 
-				-- Layout options: "default", "vertical", "horizontal", "ivy", "dropdown"
+				-- Roomier default layout with separation between results and preview
 				layout = {
 					preset = "default",
-					width = 0.8,
-					height = 0.8,
-					border = "rounded",
-					preview = {
-						width = 0.5,
-					},
+					config = function(resolved)
+						local root = resolved.layout
+
+						if root.box ~= "horizontal" or not root[2] or root[2].win ~= "preview" then
+							return resolved
+						end
+
+						root.width = 0.92
+						root.height = 0.9
+						root[2].width = 0.55
+
+						table.insert(root, 2, {
+							box = "vertical",
+							width = 2,
+						})
+
+						return resolved
+					end,
 				},
 
 				-- Matching and sorting
