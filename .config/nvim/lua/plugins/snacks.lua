@@ -489,13 +489,19 @@ return {
 					files = {
 						follow = true,
 						hidden = true,
-						ignored = false,
+						ignored = true,
+					},
+					explorer = {
+						follow = true,
+						hidden = true,
+						ignored = true,
 					},
 					buffers = {
 						sort_mru = true,
 					},
 					grep = {
 						hidden = true,
+						ignored = true,
 						follow = true,
 					},
 				},
