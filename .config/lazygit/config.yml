@@ -8,8 +8,8 @@ customCommands:
 gui:
   mouseEvents: true
 git:
-  pagers:
+  diffRenderers:
     - colorArg: always
       # no --dark: delta infers light/dark from the BAT_THEME hue mood, so
       # diffs follow hue-cung's light appearance too.
-      pager: delta --paging=never
+      command: delta --paging=never
