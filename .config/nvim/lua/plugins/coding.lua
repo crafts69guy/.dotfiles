@@ -187,7 +187,6 @@ return {
 		"andrewferrier/debugprint.nvim",
 		dependencies = {
 			"nvim-mini/mini.hipatterns",
-			"nvim-telescope/telescope.nvim",
 			"folke/snacks.nvim",
 		},
 		lazy = false, -- Required to make line highlighting work before debugprint is first used
@@ -200,6 +199,7 @@ return {
 				right_var = ")",
 			}
 			return {
+				picker = "snacks.picker",
 				filetypes = {
 					javascript = js_like,
 					javascriptreact = js_like,

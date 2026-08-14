@@ -309,7 +309,7 @@ fzf_ports        # Kill processes by port number
 - A [Nerd Font](https://www.nerdfonts.com/) (v3.0+ for icons)
 - [lazygit](https://github.com/jesseduffield/lazygit) (optional)
 - A **C** compiler for `nvim-treesitter`
-- [Telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) dependencies:
+- [Snacks.nvim picker](https://github.com/folke/snacks.nvim) dependencies:
   - **Live grep**: [ripgrep](https://github.com/BurntSushi/ripgrep)
   - **Find files**: [fd](https://github.com/sharkdp/fd)
 - Supported Terminals:

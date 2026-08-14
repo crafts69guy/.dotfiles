@@ -19,20 +19,93 @@ return {
 				desc = "Explorer (Snacks)",
 			},
 
+			-- Migrated picker aliases
+			{
+				"<leader>fP",
+				function()
+					Snacks.picker.files({ cwd = require("lazy.core.config").options.root })
+				end,
+				desc = "Find Plugin File",
+			},
+			{
+				";f",
+				function()
+					Snacks.picker.files({
+						cwd = vim.uv.cwd(),
+						hidden = true,
+						ignored = false,
+					})
+				end,
+				desc = "Find Files (cwd)",
+			},
+			{
+				";r",
+				function()
+					Snacks.picker.grep({
+						cwd = vim.uv.cwd(),
+						hidden = true,
+						ignored = false,
+					})
+				end,
+				desc = "Grep (cwd)",
+			},
+			{
+				"\\\\",
+				function()
+					Snacks.picker.buffers()
+				end,
+				desc = "Buffers",
+			},
+			{
+				";t",
+				function()
+					Snacks.picker.help()
+				end,
+				desc = "Help Pages",
+			},
+			{
+				";;",
+				function()
+					Snacks.picker.resume()
+				end,
+				desc = "Resume Picker",
+			},
+			{
+				";e",
+				function()
+					Snacks.picker.diagnostics()
+				end,
+				desc = "Diagnostics",
+			},
+			{
+				";s",
+				function()
+					Snacks.picker.treesitter()
+				end,
+				desc = "Treesitter Symbols",
+			},
+			{
+				"sf",
+				function()
+					Snacks.explorer({ cwd = vim.fn.expand("%:p:h") })
+				end,
+				desc = "Explorer (Buffer Directory)",
+			},
+
 			-- Snacks Picker keymaps
 			{
 				"<leader><space>",
 				function()
-					Snacks.picker.files()
+					LazyVim.pick("files")()
 				end,
-				desc = "Find Files",
+				desc = "Find Files (Root Dir)",
 			},
 			{
 				"<leader>ff",
 				function()
-					Snacks.picker.files()
+					LazyVim.pick("files")()
 				end,
-				desc = "Find Files",
+				desc = "Find Files (Root Dir)",
 			},
 			{
 				"<leader>fb",
@@ -51,9 +124,9 @@ return {
 			{
 				"<leader>fg",
 				function()
-					Snacks.picker.grep()
+					Snacks.picker.git_files()
 				end,
-				desc = "Grep",
+				desc = "Find Files (git-files)",
 			},
 			{
 				"<leader>fw",
@@ -111,7 +184,7 @@ return {
 			{
 				"gd",
 				function()
-					Snacks.picker.lsp_definitions()
+					Snacks.picker.lsp_definitions({ jump = { reuse_win = false } })
 				end,
 				desc = "LSP Definitions",
 			},
@@ -383,9 +456,9 @@ return {
 							["<Esc>"] = "close",
 							["<C-c>"] = "close",
 							["<CR>"] = "confirm",
-							["<C-s>"] = "confirm_split",
-							["<C-v>"] = "confirm_vsplit",
-							["<C-t>"] = "confirm_tab",
+							["<C-s>"] = "edit_split",
+							["<C-v>"] = "edit_vsplit",
+							["<C-t>"] = "tab",
 							["<Tab>"] = "select_next",
 							["<S-Tab>"] = "select_prev",
 							["<C-j>"] = "list_down",
@@ -404,7 +477,7 @@ return {
 					files = {
 						follow = true,
 						hidden = true,
-						respect_gitignore = true,
+						ignored = false,
 					},
 					buffers = {
 						sort_mru = true,

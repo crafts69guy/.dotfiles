@@ -38,7 +38,7 @@ vim.opt.mouse = "a"
 
 vim.g.lazyvim_prettier_needs_config = true
 vim.g.deprecation_warnings = true
-vim.g.lazyvim_picker = "telescope"
+vim.g.lazyvim_picker = "snacks"
 
 -- Keep parsers isolated so a language profile only installs its own parsers.
 local profile_paths = require("config.profile").paths()
