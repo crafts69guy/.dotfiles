@@ -7,3 +7,17 @@ default_target = "workspace"
 sort = "recent"
 default_tab = "workspaces"
 
+[zen]
+# Leave the gutters unpainted so the terminal's background image shows through
+# them, the same as it does through the zen'd pane. The scrim is composited
+# opaque by herdr, so painting it at any colour or alpha would cut a flat
+# rectangle out of the wallpaper.
+scrim = false
+# Hide herdr's own chrome while a pane is zen'd: pane borders, gaps and the
+# scrollbar column, plus the tab row (when the zen tab is alone in its
+# workspace) and the sidebar rail. Switchboard rewrites the matching [ui] keys
+# in ~/.config/herdr/config.toml for the length of the session and restores
+# them on exit; the original is backed up to
+# ~/.local/state/herdr-switchboard/herdr-config.backup.toml.
+chrome = "full"
+

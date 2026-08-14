@@ -131,6 +131,13 @@ type = "plugin_action"
 command = "switchboard.settings"
 description = "Switchboard settings"
 
+# prefix+z is herdr's own zoom, so zen takes prefix+alt+z.
+[[keys.command]]
+key = "prefix+alt+z"
+type = "plugin_action"
+command = "switchboard.zen-toggle"
+description = "Toggle zen on this pane (Switchboard)"
+
 [[keys.command]]
 key = "prefix+alt+n"
 type = "plugin_action"
