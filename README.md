@@ -1,3 +1,5 @@
+![dotfiles Neovim desktop](./images/dotfiles_neovim_desktop.png)
+
 ![herdr agent session screenshot](./images/herdr_agent_session.png)
 ![herdr keybinds screenshot](./images/herdr_keybinds.png)
 
