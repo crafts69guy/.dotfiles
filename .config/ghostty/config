@@ -5,8 +5,8 @@ theme = hue-current
 window-decoration = true
 working-directory = /Users/caongoccuong/Developments
 
-background-opacity = 0.9
-background-blur-radius = 10
+background-opacity = 0.72
+background-blur-radius = 50
 
 window-padding-x = 10
 window-padding-y = 10
