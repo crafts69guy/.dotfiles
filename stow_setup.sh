@@ -35,6 +35,18 @@ if command -v lazygit >/dev/null 2>&1; then
   fi
 fi
 
+# Guard: warn (non-fatal) if the delta Hue themes have drifted, and make sure
+# the mood symlink exists — .gitconfig includes it, and git ignores a dangling
+# include silently, which looks exactly like a theme that never landed.
+if command -v delta >/dev/null 2>&1; then
+  if ! "$HOME/.dotfiles/.scripts/sync-hue-delta.sh" --check; then
+    echo "warning: delta Hue themes are stale or unreachable — run .scripts/sync-hue-delta.sh to update." >&2
+  fi
+  if [[ ! -e "$HOME/.config/git/hue-themes/hue-current.gitconfig" ]]; then
+    ln -sf "hue-mua.gitconfig" "$HOME/.config/git/hue-themes/hue-current.gitconfig"
+  fi
+fi
+
 # Guard: warn (non-fatal) if the herdr Hue theme plugin isn't installed. Unlike
 # Ghostty/tmux, herdr has no scriptable theme API — the "hue-theme" plugin
 # (packages/herdr-plugin in the hue-theme repo) owns applying it, so it needs

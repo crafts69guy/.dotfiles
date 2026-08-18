@@ -89,6 +89,7 @@ Pods/
 # Hue theme runtime state
 .config/ghostty/themes/hue-current
 .config/lazygit/themes/hue-current.yml
+.config/git/hue-themes/hue-current.gitconfig
 
 # Hunk (review diff viewer): config.toml is regenerated per mood by the
 # hue-theme plugin's apply-mood, and state.json is runtime — both derivable.

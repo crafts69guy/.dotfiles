@@ -40,51 +40,30 @@
 	protocol = https
 
 # ---------------------------------------------------------------------------
-# delta — diff pager themed to match Solarized Dark (ghostty / solarized-osaka)
+# delta — diff pager themed from the Hue token contract
+#
+# The colours live in the generated fragment included below, not here: it is
+# written by .scripts/sync-hue-delta.sh from
+# crafts69guy/hue-theme (packages/terminal-themes/delta), and hue-current is a
+# symlink re-pointed by `hue-theme <mood>`. Every mood declares the same
+# feature name, `hue`, so nothing in this file changes when the mood does.
+#
+# Keep only behaviour here. Do NOT set syntax-theme or dark/light — the
+# fragment declares its own, which is how Cung comes up light instead of being
+# forced dark.
 # ---------------------------------------------------------------------------
+[include]
+	path = ~/.config/git/hue-themes/hue-current.gitconfig
+
 [interactive]
 	diffFilter = delta --color-only
 
 [delta]
-	features = solarized-dark
-	dark = true
+	features = hue
 	navigate = true
 	line-numbers = true
 	hyperlinks = true
 	tabs = 4
-	syntax-theme = Solarized (dark)
-
-[delta "solarized-dark"]
-	# file header banner (the styled file-path box)
-	file-style = "#268bd2" bold
-	file-decoration-style = "#073642" ul
-	file-added-label = [+]
-	file-modified-label = [M]
-	file-removed-label = [-]
-	file-renamed-label = [R]
-	# hunk header → shows file:line: context instead of raw @@
-	hunk-header-style = syntax bold
-	hunk-header-decoration-style = "#586e75" box
-	hunk-header-file-style = "#2aa198"
-	hunk-header-line-number-style = "#b58900"
-	# removed / added lines (subtle tints over the dark bg)
-	minus-style = syntax "#3a181b"
-	minus-emph-style = syntax "#5c2226"
-	minus-non-emph-style = syntax "#2a1214"
-	plus-style = syntax "#16301a"
-	plus-emph-style = syntax "#244d27"
-	plus-non-emph-style = syntax "#0f2410"
-	zero-style = syntax
-	# line numbers gutter
-	line-numbers-left-style = "#073642"
-	line-numbers-right-style = "#073642"
-	line-numbers-minus-style = "#dc322f"
-	line-numbers-plus-style = "#859900"
-	line-numbers-zero-style = "#586e75"
-	# misc
-	whitespace-error-style = "#cb4b16" reverse
-	blame-palette = "#002b36 #073642 #094352 #0a4a5a"
-	blame-code-style = syntax
 
 [diff]
 	colorMoved = default

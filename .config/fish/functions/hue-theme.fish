@@ -1,4 +1,4 @@
-function hue-theme -d "Switch the Hue theme across shell, tmux, Ghostty, Neovim, herdr, bat, lazygit, and fzf"
+function hue-theme -d "Switch the Hue theme across shell, tmux, Ghostty, Neovim, herdr, bat, lazygit, delta, and fzf"
     set -l mood $argv[1]
 
     set -l state_home $HOME/.local/state
@@ -36,6 +36,7 @@ function hue-theme -d "Switch the Hue theme across shell, tmux, Ghostty, Neovim,
     __hue_theme_apply_herdr $mood
     __hue_theme_apply_bat $mood
     __hue_theme_apply_lazygit $mood
+    __hue_theme_apply_delta $mood
     __hue_theme_apply_fzf $mood
 
     echo "hue-theme: switched to $mood"
@@ -128,6 +129,17 @@ function __hue_theme_apply_lazygit --argument-names mood
     # it themes every subsequent launch. Running instances keep the old mood.
     ln -sf "hue-$mood.yml" "$theme_dir/hue-current.yml"
     set -gx LG_CONFIG_FILE "$HOME/.config/lazygit/config.yml,$theme_dir/hue-current.yml"
+end
+
+function __hue_theme_apply_delta --argument-names mood
+    set -l theme_dir "$HOME/.config/git/hue-themes"
+    test -f "$theme_dir/hue-$mood.gitconfig"; or return 0
+
+    # delta reads its options from git config, so there is nothing to export or
+    # reload: ~/.gitconfig includes hue-current.gitconfig and every mood
+    # declares the same `hue` feature, so re-pointing the symlink themes the
+    # next diff — in the shell and in lazygit's Patch panel alike.
+    ln -sf "hue-$mood.gitconfig" "$theme_dir/hue-current.gitconfig"
 end
 
 function __hue_theme_apply_fzf --argument-names mood
