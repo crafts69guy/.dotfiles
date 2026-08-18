@@ -198,7 +198,7 @@ polling, and shows it in its sidebar (screenshots at the top of this README).
 
 ## **🚀 Karabiner Element Application**
 
-I use Karabiner to customize keyboard mappings for Vim efficiency and FZF workflows.
+I use Karabiner to customize keyboard mappings for Vim efficiency.
 
 ### **Installation**
 
@@ -214,22 +214,6 @@ brew install --cask karabiner-elements
 - `Ctrl + [` → `Escape`
 - `Fn + h/j/k/l` → Arrow keys
 
-**FZF Workflows (Fn as Hyper Key):**
-
-- `Fn + f` → Fuzzy find files
-- `Fn + d` → Fuzzy find directories
-- `Fn + g` → Git modified files
-- `Fn + b` → Git branches
-- `Fn + ;` → Git log
-- `Fn + p` → Projects switcher
-- `Fn + t` → Tmux sessions _(tmux fallback only — see [Herdr](#-herdr))_
-- `Fn + w` → Tmux windows _(tmux fallback only)_
-- `Fn + n` → New tmux session _(tmux fallback only)_
-- `Fn + q` → Kill tmux session _(tmux fallback only)_
-- `Fn + s` → Ripgrep search
-- `Fn + x` → Kill processes
-- `Fn + o` → Kill by port
-
 Search in the registry:
 
 - [Vim style escape key mapping](https://ke-complex-modifications.pqrs.org/?q=escape%20to%20ctrl%20%2B%20%5B)
@@ -237,8 +221,6 @@ Search in the registry:
 
 ![karabiner screenshot simple](./images/karabiner_simp.png)
 ![karabiner screenshot complex](./images/karabiner_complex.png)
-
-## ![karabiner screenshot sample](./images/sample-01.png)
 
 ## **🔍 FZF Setup**
 
@@ -258,41 +240,6 @@ brew install fzf fd ripgrep bat eza ghq
 - **eza** – Modern ls with tree view for directories
 - **Solarized Dark** theme matching Ghostty terminal
 - **ghq** – Project management
-
-### **Functions**
-
-No fzf function is bound to a key — call these by name.
-
-```fish
-# File / directory search
-fzf_files
-fzf_directories
-fzf_history      # command history, sorted by frequency
-
-# Git
-fzf_git_files       # Browse git modified files
-fzf_git_branches    # Switch git branches
-fzf_git_log         # Browse git commit history
-
-# Projects / sessions
-fzf_projects            # Switch between projects (ghq)
-fzf_tmux_sessions       # Switch tmux sessions
-fzf_tmux_windows        # Switch tmux windows
-fzf_tmux_kill           # Kill sessions (multi-select)
-fzf_tmux_kill --panes   # Kill panes
-fzf_tmux_new_session    # Prompt for name, create and switch
-dev-session              # Dev session launcher
-
-# Search
-fzf_ripgrep [pattern]   # Interactive ripgrep search with live reload
-fzf_rg "search term"    # Two-phase ripgrep search
-
-# Process / port management
-fzf_processes    # Kill processes with confirmation
-fzf_kill         # SIGTERM
-fzf_kill -9      # SIGKILL
-fzf_ports        # Kill processes by port number
-```
 
 ### **Configuration Files**
 
