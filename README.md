@@ -250,6 +250,8 @@ brew install fzf fd ripgrep bat eza ghq
 
 ## **🛠 Neovim Setup**
 
+![Lazy.nvim plugin manager with the Hue Neovim theme](./images/neovim_lazy_plugins.png)
+
 ### **Requirements**
 
 - Neovim >= **0.9.0** (with **LuaJIT**)
