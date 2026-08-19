@@ -189,6 +189,9 @@ return {
 			"nvim-mini/mini.hipatterns",
 			"folke/snacks.nvim",
 		},
+		keys = {
+			{ "<leader>dS", "<cmd>Debugprint search<cr>", desc = "Search debug prints" },
+		},
 		lazy = false, -- Required to make line highlighting work before debugprint is first used
 		version = "*", -- Remove if you DON'T want to use the stable version
 		opts = function()
