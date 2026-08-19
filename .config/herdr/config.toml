@@ -114,6 +114,12 @@ command = "switchboard.agents"
 description = "Start an AI agent (Switchboard)"
 
 [[keys.command]]
+key = "prefix+u"
+type = "plugin_action"
+command = "switchboard.usage"
+description = "AI subscription usage (Switchboard)"
+
+[[keys.command]]
 key = "prefix+alt+c"
 type = "plugin_action"
 command = "switchboard.commands"

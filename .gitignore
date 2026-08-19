@@ -104,6 +104,7 @@ Pods/
 .config/herdr/release-notes.json
 .config/herdr/plugins.json
 .config/herdr/.plugins.lock
+.config/herdr/config.toml.bak-*
 # Plugin clones/state are runtime, but plugins/config/ holds hand-written
 # per-plugin config (e.g. git-hub's menu.conf) worth tracking. gitignore
 # cannot re-include children of a wholesale-ignored directory, hence /*.
@@ -136,6 +137,9 @@ Pods/
 .config/zed/.tmp*
 .config/zed/embeddings
 .config/zed/prompts
+
+# Cursor local CLI state
+.config/cursor/
 
 # Raycast
 .config/raycast/*
