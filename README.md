@@ -1,7 +1,7 @@
 ![dotfiles Neovim desktop](./images/dotfiles_neovim_desktop.png)
 
 ![herdr agent session screenshot](./images/herdr_agent_session.png)
-![herdr keybinds screenshot](./images/herdr_keybinds.png)
+![herdr switchboard screenshot](./images/herdr_keybinds.png)
 
 **Warning**: Don’t blindly use my settings unless you know what that entails. Use at your own risk!
 
