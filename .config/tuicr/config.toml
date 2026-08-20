@@ -1,2 +1,21 @@
 theme = "hue-mua"
 diff_view = "side-by-side"
+
+username = "crafts69.guy"
+comment_vim = true
+
+# Keep colors unset so these standard IDs inherit the active Hue theme's
+# comment_issue, comment_suggestion, comment_note, and comment_praise roles.
+comment_types = [
+  { id = "issue", label = "BLOCK", definition = "Must be fixed before completion. Address first and verify with tests." },
+  { id = "suggestion", label = "SUGGEST", definition = "Non-blocking improvement. Implement it or explain the trade-off." },
+  { id = "note", label = "QUESTION", definition = "Answer or acknowledge. Do not change code unless explicitly requested." },
+  { id = "praise", label = "PRAISE", definition = "Positive feedback. No action required." },
+]
+
+[forge]
+comment_type_prefix = true
+
+[export]
+legend = true
+pr_metadata = true
