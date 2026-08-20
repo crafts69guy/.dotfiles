@@ -188,6 +188,7 @@ pane_gaps = true
 agent_panel_sort = "priority"
 accent = "#00CF6A"
 show_agent_labels_on_pane_borders = false
+status_indicators = "dots"
 [session]
 resume_agents_on_restore = true
 
