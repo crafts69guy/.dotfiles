@@ -1,5 +1,6 @@
 theme = "hue-mua"
 diff_view = "side-by-side"
+single_file_view = true
 
 username = "crafts69.guy"
 comment_vim = true
