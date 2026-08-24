@@ -21,8 +21,10 @@ and source (dirname (status --current-filename))/config-local.fish
 # fnm - Fast Node Manager (must init first)
 # Let fnm own the Node/Corepack PATH so a stale multishell cannot run a newer
 # Corepack with an older Node runtime.
-fnm env --use-on-cd --corepack-enabled --shell fish | source
-fnm use --silent-if-unchanged default
+if status is-interactive
+    fnm env --use-on-cd --corepack-enabled --shell fish | source
+    fnm use --silent-if-unchanged default
+end
 
 # pnpm
 set -gx PNPM_HOME /Users/caongoccuong/Library/pnpm
