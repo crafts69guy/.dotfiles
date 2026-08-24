@@ -19,7 +19,10 @@ test -f (dirname (status --current-filename))/config-local.fish
 and source (dirname (status --current-filename))/config-local.fish
 
 # fnm - Fast Node Manager (must init first)
-fnm env | source
+# Let fnm own the Node/Corepack PATH so a stale multishell cannot run a newer
+# Corepack with an older Node runtime.
+fnm env --use-on-cd --corepack-enabled --shell fish | source
+fnm use --silent-if-unchanged default
 
 # pnpm
 set -gx PNPM_HOME /Users/caongoccuong/Library/pnpm
@@ -78,6 +81,3 @@ fish_add_path /Users/caongoccuong/.opencode/bin
 
 # Added by Antigravity
 fish_add_path /Users/caongoccuong/.antigravity/antigravity/bin
-
-# Pi
-fish_add_path "/Users/caongoccuong/.local/share/fnm/node-versions/v24.18.0/installation/bin"
