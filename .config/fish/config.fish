@@ -21,9 +21,19 @@ and source (dirname (status --current-filename))/config-local.fish
 # fnm - Fast Node Manager (must init first)
 # Let fnm own the Node/Corepack PATH so a stale multishell cannot run a newer
 # Corepack with an older Node runtime.
-if status is-interactive
-    fnm env --use-on-cd --corepack-enabled --shell fish | source
-    fnm use --silent-if-unchanged default
+if status is-interactive && command -q fnm
+    # fnm's initial PWD hook runs while this script is sourced. Keep that
+    # bootstrap quiet, then restore the user's log level for interactive use.
+    set -l fnm_log_level $FNM_LOGLEVEL
+    fnm env --log-level quiet --use-on-cd --corepack-enabled --shell fish | source
+    if set -q fnm_log_level[1]
+        set -gx FNM_LOGLEVEL $fnm_log_level
+    else
+        set -e FNM_LOGLEVEL
+    end
+    if not fnm use --silent-if-unchanged >/dev/null 2>&1
+        fnm use --silent-if-unchanged default >/dev/null
+    end
 end
 
 # pnpm
