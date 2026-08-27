@@ -1,4 +1,7 @@
 return {
+	-- LazyVim registers TokyoNight as a lazy-loaded fallback theme by default.
+	{ "folke/tokyonight.nvim", enabled = false },
+
 	-- Hue Theme — Huế-inspired moods (hue-mua / hue-huong / hue-cung).
 	-- Active mood is set via the LazyVim `colorscheme` opt in config/lazy.lua.
 	{
