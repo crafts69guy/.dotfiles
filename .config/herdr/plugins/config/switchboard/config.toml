@@ -5,7 +5,10 @@ keymode = "normal"
 split_direction = "right"
 default_target = "workspace"
 sort = "recent"
-default_tab = "workspaces"
+default_tab = "repos"
+
+[fnm]
+enabled = true
 
 [zen]
 # Leave the gutters unpainted so the terminal's background image shows through
@@ -20,4 +23,3 @@ scrim = false
 # them on exit; the original is backed up to
 # ~/.local/state/herdr-switchboard/herdr-config.backup.toml.
 chrome = "full"
-
