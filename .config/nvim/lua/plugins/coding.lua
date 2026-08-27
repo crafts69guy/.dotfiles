@@ -190,6 +190,7 @@ return {
 			"folke/snacks.nvim",
 		},
 		keys = {
+			{ "<leader>dD", "<cmd>Debugprint delete<cr>", desc = "Delete debug prints" },
 			{ "<leader>dS", "<cmd>Debugprint search<cr>", desc = "Search debug prints" },
 		},
 		lazy = false, -- Required to make line highlighting work before debugprint is first used
