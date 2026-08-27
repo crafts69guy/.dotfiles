@@ -186,3 +186,5 @@ docs/superpowers/plans/
 
 # Herdr plugin migration stamp - written by herdr itself, not hand-authored
 .config/herdr/plugins/config/switchboard/.migrated-from-ghq
+# CocoIndex Code (ccc)
+/.cocoindex_code/
