@@ -11,12 +11,19 @@ os:
   editPreset: nvim
 gui:
   mouseEvents: true
+  # Give the side-by-side diff more room without making the navigation panels
+  # too narrow for repository paths and branch names.
+  sidePanelWidth: 0.2
 git:
   diffRenderers:
     - colorArg: always
       # no --dark: delta infers light/dark from the BAT_THEME hue mood, so
       # diffs follow hue-cung's light appearance too.
-      command: delta --paging=never
+      # Wrap long lines without Delta's right-aligned ellipsis continuation.
+      command: >-
+        delta --paging=never --side-by-side
+        --wrap-max-lines=unlimited --wrap-right-percent=0.01
+        --wrap-left-symbol=' '
 keybinding:
   universal:
     # Prefer the editor for source files; keep macOS's default-app action on O.
