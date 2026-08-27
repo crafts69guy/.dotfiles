@@ -5,6 +5,10 @@ customCommands:
     context: 'files'
     loadingText: 'opening commitizen commit tool'
     output: terminal
+os:
+  # LazyGit runs inside a Herdr pane, so edit files with LazyVim in that same
+  # terminal and return to LazyGit when Neovim exits.
+  editPreset: nvim
 gui:
   mouseEvents: true
 git:
@@ -13,3 +17,8 @@ git:
       # no --dark: delta infers light/dark from the BAT_THEME hue mood, so
       # diffs follow hue-cung's light appearance too.
       command: delta --paging=never
+keybinding:
+  universal:
+    # Prefer the editor for source files; keep macOS's default-app action on O.
+    edit: o
+    openFile: O
