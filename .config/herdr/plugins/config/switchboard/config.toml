@@ -5,7 +5,7 @@ keymode = "normal"
 split_direction = "right"
 default_target = "workspace"
 sort = "recent"
-default_tab = "repos"
+default_tab = "starred"
 
 [fnm]
 enabled = true

@@ -19,9 +19,13 @@ git:
     - colorArg: always
       # no --dark: delta infers light/dark from the BAT_THEME hue mood, so
       # diffs follow hue-cung's light appearance too.
+      # Apply Hue after side-by-side so its mood-aware border styles win over
+      # delta's built-in ANSI blue line-number dividers.
       # Wrap long lines without Delta's right-aligned ellipsis continuation.
       command: >-
-        delta --paging=never --side-by-side
+        delta --paging=never --features='side-by-side hue'
+        --line-numbers-left-format='{nm:^4}│'
+        --line-numbers-right-format='{np:^4}│'
         --wrap-max-lines=unlimited --wrap-right-percent=0.01
         --wrap-left-symbol=' '
 keybinding:

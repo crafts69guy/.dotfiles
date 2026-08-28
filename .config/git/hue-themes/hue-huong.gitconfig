@@ -36,8 +36,8 @@
 	hunk-header-decoration-style = "#2C3F39" box
 	hunk-header-file-style = "#7FBAC8"
 	hunk-header-line-number-style = "#DCBB80"
-	line-numbers-left-style = "#2C3F39"
-	line-numbers-right-style = "#2C3F39"
+	line-numbers-left-style = "#587168"
+	line-numbers-right-style = "#587168"
 	line-numbers-minus-style = "#D38478"
 	line-numbers-plus-style = "#6FD0A8"
 	line-numbers-zero-style = "#98A59C"
