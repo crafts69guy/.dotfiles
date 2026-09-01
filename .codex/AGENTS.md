@@ -10,6 +10,9 @@ through `agent-rules/`.
   before reporting done.
 - Prefer CLI workflows and Vim-friendly output. User-facing commands should be
   fish-compatible unless a tool or script specifically requires bash or zsh.
+- On macOS, every `exec_command` call must pass the bare shell name `fish`
+  explicitly. Never omit `shell`, and never pass an absolute `/bin/...` shell
+  path; the unified executor can normalize it into an invalid relative path.
 - Explain trade-offs when decisions affect architecture, performance, security,
   cost, or fund safety.
 - When the user asks for implementation, make the change instead of stopping at a
