@@ -169,6 +169,9 @@ Pods/
 # cagent
 .config/cagent/
 
+# Caddy runtime state (may include root-owned TLS material)
+.config/caddy/
+
 # Windsurf.nvim local auth
 .config/windsurf.nvim/config.json
 
