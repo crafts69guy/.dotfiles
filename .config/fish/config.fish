@@ -5,6 +5,9 @@ set -gx XDG_CONFIG_HOME $HOME/.config
 set -gx RCT_NEW_ARCH_ENABLED 1
 set -gx REACT_TERMINAL Ghostty
 
+# User-installed CLIs must also be available to non-interactive runners such as Codex.
+fish_add_path $HOME/.local/bin
+
 # Android development
 # Gradle 9 needs Java 17–21; macOS default is JDK 26 and Homebrew openjdk@17 is
 # keg-only (not registered with /usr/libexec/java_home), so pin it explicitly.
@@ -59,8 +62,6 @@ if status is-interactive
 
     set -gx PATH bin $PATH
     set -gx PATH ~/bin $PATH
-    set -gx PATH ~/.local/bin $PATH
-
     # Commands to run in interactive sessions can go here
     set -g fish_prompt_pwd_dir_length 1
     set -g theme_display_user yes
