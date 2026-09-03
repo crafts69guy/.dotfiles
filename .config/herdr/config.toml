@@ -39,6 +39,9 @@ new_cwd = "follow"
 # tmux used ctrl+t as prefix (ctrl+b was unbound) — keep the same muscle memory.
 prefix = "ctrl+t"
 
+# Replaced below with a workspace-only command that starts in ~/.dotfiles.
+new_workspace = ""
+
 # reload_config, split_vertical/split_horizontal, focus_pane_*, and resize_mode
 # all match herdr's defaults already and mirror tmux's vi-style h/j/k/l pane
 # navigation, so they are left commented/default (see `herdr --default-config`).
@@ -67,6 +70,14 @@ remove_worktree = "prefix+d"
 
 # goto moves off its prefix+g default to free that key for the git menu below.
 goto = "prefix+alt+g"
+
+# Create only new workspaces in the dotfiles repo; tabs and splits still follow
+# their source pane through terminal.new_cwd above.
+[[keys.command]]
+key = "prefix+shift+n"
+type = "shell"
+command = "\"$HERDR_BIN_PATH\" workspace create --cwd ~/.dotfiles --focus"
+description = "Create workspace in ~/.dotfiles"
 
 # Best-effort analog of tmux's `bind F run-shell "open '#{pane_current_path}'"`.
 [[keys.command]]
