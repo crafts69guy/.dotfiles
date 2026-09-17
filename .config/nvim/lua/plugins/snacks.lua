@@ -482,6 +482,11 @@ return {
 							["<a-f>"] = "toggle_follow",
 						},
 					},
+					preview = {
+						wo = {
+							spell = false,
+						},
+					},
 				},
 
 				-- Source-specific configurations
