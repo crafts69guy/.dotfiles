@@ -193,7 +193,8 @@ description = "Open repository in split (Switchboard)"
 
 [ui]
 mouse_capture = true
-pane_borders = true
+pane_borders = "auto"
+pane_outer_borders = false
 pane_gaps = true
 
 agent_panel_sort = "priority"
