@@ -99,20 +99,33 @@ return {
 		opts = function()
 			local c = require("insideee-dev.hue_colors").get()
 
-			local fill = c.canvas -- empty strip: matches the editor background
+			-- hue-nvim runs with `transparent = true`: the real editor bg is
+			-- "NONE" (terminal shows through), not c.canvas's hex. Slant
+			-- separators need an opaque backdrop to fake their fill color, so
+			-- under transparency use "thin" bars on a NONE gap instead —
+			-- anything using c.canvas as a stand-in bg paints a mismatched
+			-- solid rectangle over the transparent terminal.
+			local fill = "NONE"
 			local inactive = c.raised -- inactive tab body, lifted one step above fill so chips stay distinct
 			local active = c.selected -- active tab body, clearly lifted over inactive
 
 			return {
 				options = {
 					mode = "tabs",
-					separator_style = "slant",
-					indicator = { style = "none" },
+					separator_style = "thin",
+					indicator = { style = "icon", icon = "▎" },
 					show_buffer_close_icons = false,
 					show_close_icon = false,
+					show_duplicate_prefix = true,
 					color_icons = true,
 					modified_icon = "●",
 					always_show_bufferline = true,
+					tab_size = 18,
+					diagnostics = "nvim_lsp",
+					diagnostics_indicator = function(count, level)
+						local icon = level:match("error") and " " or " "
+						return icon .. count
+					end,
 				},
 				highlights = {
 					fill = { bg = fill },
@@ -124,10 +137,10 @@ return {
 					buffer_selected = { fg = c.primary, bg = active, bold = true, italic = false },
 					numbers_selected = { fg = c.primary, bg = active, bold = true },
 
-					-- slant separators: fg = gap color, bg = tab body
-					separator = { fg = fill, bg = inactive },
-					separator_visible = { fg = fill, bg = inactive },
-					separator_selected = { fg = fill, bg = active },
+					-- thin separators: subtle divider on the transparent gap
+					separator = { fg = c.border, bg = fill },
+					separator_visible = { fg = c.border, bg = fill },
+					separator_selected = { fg = c.primary, bg = fill },
 
 					-- active indicator (theme accent)
 					indicator_selected = { fg = c.primary, bg = active },
@@ -174,25 +187,48 @@ return {
 		priority = 1200,
 		config = function()
 			local c = require("insideee-dev.hue_colors").get()
+			-- hue-nvim is `transparent = true`, so the real backdrop is "NONE"
+			-- (terminal/wallpaper), not c.canvas's hex — the caps must sit on
+			-- NONE too, or they paint a mismatched solid rectangle behind the
+			-- pill instead of blending into the transparent editor bg.
+			local cap_left, cap_right = "", ""
+
 			require("incline").setup({
 				highlight = {
 					groups = {
-						InclineNormal = { guibg = c.secondary, guifg = c.canvas },
-						InclineNormalNC = { guifg = c.secondary, guibg = c.raised },
+						InclineNormal = { guibg = "NONE" },
+						InclineNormalNC = { guibg = "NONE" },
 					},
 				},
-				window = { margin = { vertical = 0, horizontal = 1 } },
+				window = {
+					margin = { vertical = 0, horizontal = 1 },
+					padding = 0,
+					winhighlight = {
+						active = { EndOfBuffer = { guibg = "NONE" } },
+						inactive = { EndOfBuffer = { guibg = "NONE" } },
+					},
+				},
 				hide = {
 					cursorline = true,
 				},
 				render = function(props)
+					local pill = props.focused and c.secondary or c.raised
+					local fg = props.focused and c.canvas or c.subtext
+
 					local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
 					if vim.bo[props.buf].modified then
 						filename = "[+] " .. filename
 					end
 
-					local icon, color = require("nvim-web-devicons").get_icon_color(filename)
-					return { { icon, guifg = color }, { " " }, { filename } }
+					local icon, icon_color = require("nvim-web-devicons").get_icon_color(filename)
+
+					return {
+						{ cap_left, guifg = pill, guibg = "NONE" },
+						{ (icon and icon .. " " or ""), guifg = icon_color, guibg = pill },
+						{ filename, guifg = fg, guibg = pill },
+						{ " ", guibg = pill },
+						{ cap_right, guifg = pill, guibg = "NONE" },
+					}
 				end,
 			})
 		end,
