@@ -41,6 +41,11 @@ return {
 			}
 
 			opts.views = opts.views or {}
+			opts.views.mini = opts.views.mini or {}
+			opts.views.mini.border = {
+				style = "rounded",
+				padding = { 0, 1 },
+			}
 			opts.views.lsp_progress = {
 				view = "mini",
 				position = {
