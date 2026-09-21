@@ -1,7 +1,7 @@
 local profile = require("config.profile")
 local paths = profile.paths()
 local lazypath = paths.lazy .. "/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
 	vim.fn.system({
 		"git",
 		"clone",
@@ -28,34 +28,22 @@ local function hue_colorscheme()
 	return "hue-" .. mood
 end
 
-
 local spec = {
-		-- add LazyVim and import its plugins
-		{
-			"LazyVim/LazyVim",
-			import = "lazyvim.plugins",
-			opts = {
-				colorscheme = hue_colorscheme(),
-				news = {
-					lazyvim = true,
-					neovim = true,
-				},
+	-- add LazyVim and import its plugins
+	{
+		"LazyVim/LazyVim",
+		import = "lazyvim.plugins",
+		opts = {
+			colorscheme = hue_colorscheme(),
+			news = {
+				lazyvim = true,
+				neovim = true,
 			},
 		},
-		-- Core language support
-		{ import = "lazyvim.plugins.extras.lang.json" },
-		{ import = "lazyvim.plugins.extras.lang.markdown" },
-
-		-- Optional extras (uncomment if needed)
-		-- { import = "lazyvim.plugins.extras.coding.copilot" },
-		-- { import = "lazyvim.plugins.extras.dap.core" },
-		-- { import = "lazyvim.plugins.extras.vscode" },
-		-- { import = "lazyvim.plugins.extras.util.mini-hipatterns" },
-		-- { import = "lazyvim.plugins.extras.test.core" },
-		-- { import = "lazyvim.plugins.extras.coding.yanky" },
-		-- { import = "lazyvim.plugins.extras.editor.mini-files" },
-		-- { import = "lazyvim.plugins.extras.util.project" },
-
+	},
+	-- Core language support
+	{ import = "lazyvim.plugins.extras.lang.json" },
+	{ import = "lazyvim.plugins.extras.lang.markdown" },
 }
 
 if profile.is("web") then

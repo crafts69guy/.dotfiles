@@ -57,10 +57,7 @@ function M.active()
 
 	local requested, unknown = parse(vim.env.NVIM_PROFILE)
 	if #unknown > 0 then
-		vim.notify(
-			("Unknown NVIM_PROFILE language(s): %s"):format(table.concat(unknown, ", ")),
-			vim.log.levels.WARN
-		)
+		vim.notify(("Unknown NVIM_PROFILE language(s): %s"):format(table.concat(unknown, ", ")), vim.log.levels.WARN)
 	end
 	M._active = requested or read_saved() or {}
 	return M._active
@@ -134,8 +131,7 @@ local function pick(on_done)
 		items = items,
 		layout = { preset = "select", layout = { max_width = 60 } },
 		format = function(item)
-			local mark = (item.text == "core" and #current == 0 or vim.list_contains(current, item.text)) and "● "
-				or "  "
+			local mark = (item.text == "core" and #current == 0 or vim.list_contains(current, item.text)) and "● " or "  "
 			return { { mark, "Special" }, { item.label } }
 		end,
 		confirm = function(picker)
