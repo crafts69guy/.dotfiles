@@ -15,7 +15,6 @@ return {
 				"luadoc",
 				"fish",
 				"gitignore",
-				"tmux",
 				"http",
 			})
 			if require("config.profile").is("web") then
@@ -31,7 +30,9 @@ return {
 			elseif require("config.profile").is("rust") then
 				table.insert(opts.ensure_installed, "rust")
 			end
-			opts.parser_install_dir = require("config.profile").paths().treesitter
+			-- nvim-treesitter `main` reads `install_dir` (and prepends it to rtp);
+			-- `parser_install_dir` was the old `master` option and is ignored.
+			opts.install_dir = require("config.profile").paths().treesitter
 			return opts
 		end,
 	},

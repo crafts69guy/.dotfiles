@@ -6,7 +6,6 @@ return {
 			opts.install_root_dir = require("config.profile").paths().mason
 			vim.list_extend(opts.ensure_installed, {
 				"stylua",
-				"luacheck",
 				"shellcheck",
 				"shfmt",
 			})
@@ -31,12 +30,8 @@ return {
 		opts = function(_, opts)
 			opts = opts or {}
 			opts.inlay_hints = { enabled = false }
-			opts.servers = opts.servers or {}
-			local servers = opts.servers
-
-			-- Disable inlay hints globally
-			-- Server configurations
-			vim.tbl_deep_extend("force", servers, {
+			-- tbl_deep_extend returns a new table; assign it or the overrides are dropped.
+			opts.servers = vim.tbl_deep_extend("force", opts.servers or {}, {
 				-- YAML (not covered by extras)
 				yamlls = {
 					settings = {
@@ -104,21 +99,8 @@ return {
 						},
 					},
 				},
-
-				-- Global settings for all servers
-				["*"] = {
-					keys = {
-						{
-							"gd",
-							function()
-								Snacks.picker.lsp_definitions({ jump = { reuse_win = false } })
-							end,
-							desc = "Goto Definition",
-							has = "definition",
-						},
-					},
-				},
 			})
+			local servers = opts.servers
 
 			if require("config.profile").is("web") then
 				servers.html = {}
