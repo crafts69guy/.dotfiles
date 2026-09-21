@@ -78,6 +78,33 @@ function M.needs_selection()
 	return parse(vim.env.NVIM_PROFILE) == nil and read_saved() == nil
 end
 
+--- Lazy specs for one language.
+---
+--- `plugins`: plugins only this language uses. Always declared, gated with
+--- `cond`, so lazy keeps them installed and in lazy-lock.json in every profile
+--- (`:Lazy sync`/`clean`/`update` are safe from any profile). They load only
+--- when the language is active. If a language extra brings its own plugins,
+--- list them here as `{ "owner/repo" }` too, since an inactive import is skipped.
+---
+--- `config`: everything else (extras imports, opts fragments for shared plugins
+--- like lspconfig/mason/conform). Applied only when the language is active;
+--- never put `cond` on these, it would disable the shared plugin.
+---@param name string
+---@param spec { plugins?: LazyPluginSpec[], config?: LazySpec[] }
+---@return LazySpec[]
+function M.lang(name, spec)
+	local active = M.is(name)
+	local out = {}
+	for _, plugin in ipairs(spec.plugins or {}) do
+		plugin.cond = active
+		out[#out + 1] = plugin
+	end
+	if active then
+		vim.list_extend(out, spec.config or {})
+	end
+	return out
+end
+
 function M.paths()
 	return {
 		-- Plugins, Mason tools and treesitter parsers are shared by every profile

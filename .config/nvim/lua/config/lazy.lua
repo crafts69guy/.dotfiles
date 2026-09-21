@@ -46,20 +46,27 @@ local spec = {
 	{ import = "lazyvim.plugins.extras.lang.markdown" },
 }
 
-if profile.is("web") then
-	vim.list_extend(spec, {
-		{ import = "lazyvim.plugins.extras.lang.typescript" },
-		{ import = "lazyvim.plugins.extras.lang.typescript.tsc" },
-		{ import = "lazyvim.plugins.extras.lang.typescript.biome" },
-		{ import = "lazyvim.plugins.extras.lang.typescript.oxc" },
-		{ import = "lazyvim.plugins.extras.lang.astro" },
-		{ import = "lazyvim.plugins.extras.lang.tailwind" },
-		{ import = "lazyvim.plugins.extras.lang.docker" },
-		{ import = "lazyvim.plugins.extras.lang.prisma" },
-		{ import = "lazyvim.plugins.extras.linting.eslint" },
-		{ import = "lazyvim.plugins.extras.formatting.prettier" },
+-- Language extras live here, not in lazyvim.json (:LazyExtras is global to all
+-- profiles), and before `plugins` (LazyVim requires extras to be imported first).
+-- These extras bring no plugins of their own today; if one does, list them in
+-- `plugins` so lazy keeps them installed and locked in other profiles.
+vim.list_extend(
+	spec,
+	profile.lang("web", {
+		config = {
+			{ import = "lazyvim.plugins.extras.lang.typescript" },
+			{ import = "lazyvim.plugins.extras.lang.typescript.tsc" },
+			{ import = "lazyvim.plugins.extras.lang.typescript.biome" },
+			{ import = "lazyvim.plugins.extras.lang.typescript.oxc" },
+			{ import = "lazyvim.plugins.extras.lang.astro" },
+			{ import = "lazyvim.plugins.extras.lang.tailwind" },
+			{ import = "lazyvim.plugins.extras.lang.docker" },
+			{ import = "lazyvim.plugins.extras.lang.prisma" },
+			{ import = "lazyvim.plugins.extras.linting.eslint" },
+			{ import = "lazyvim.plugins.extras.formatting.prettier" },
+		},
 	})
-end
+)
 
 table.insert(spec, { import = "plugins" })
 
