@@ -1,7 +1,11 @@
+-- Language profiles: a combinable set of languages layered on top of the
+-- always-on core (Lua, shell, Markdown, JSON, YAML).
+--
+-- Select with `:Profile`, or per shell with NVIM_PROFILE=web,go (`,` `+` or
+-- spaces separate names; `core` alone means no extra languages).
 local M = {}
 
-local profiles = {
-	core = { label = "Core (Lua, shell, Markdown)" },
+local languages = {
 	web = { label = "Web (TypeScript, Tailwind, ESLint)" },
 	go = { label = "Go" },
 	rust = { label = "Rust" },
@@ -9,54 +13,88 @@ local profiles = {
 
 local state_file = vim.fn.stdpath("state") .. "/language-profile"
 
-local function valid(name)
-	return type(name) == "string" and profiles[name] ~= nil
+---@param str string?
+---@return string[]? names sorted language names, nil when nothing valid was given
+---@return string[] unknown names that are neither a language nor `core`
+local function parse(str)
+	if str == nil or vim.trim(str) == "" then
+		return nil, {}
+	end
+	local set, unknown, valid = {}, {}, false
+	for name in str:gmatch("[^,+%s]+") do
+		if languages[name] then
+			set[name], valid = true, true
+		elseif name == "core" then
+			valid = true
+		else
+			unknown[#unknown + 1] = name
+		end
+	end
+	if not valid then
+		return nil, unknown
+	end
+	local names = vim.tbl_keys(set)
+	table.sort(names)
+	return names, unknown
 end
 
 local function read_saved()
 	local ok, lines = pcall(vim.fn.readfile, state_file)
-	local name = ok and lines[1] or nil
-	return valid(name) and name or nil
+	return (parse(ok and lines[1] or nil))
 end
 
-function M.current()
-	if M._current then
-		return M._current
+---@param names string[]
+local function format(names)
+	return #names == 0 and "core" or table.concat(names, ",")
+end
+
+--- Active languages, sorted. Empty means core only.
+---@return string[]
+function M.active()
+	if M._active then
+		return M._active
 	end
 
-	local requested = vim.env.NVIM_PROFILE
-	if requested and requested ~= "" and not valid(requested) then
-		vim.notify("Unknown NVIM_PROFILE '" .. requested .. "'; using core", vim.log.levels.WARN)
+	local requested, unknown = parse(vim.env.NVIM_PROFILE)
+	if #unknown > 0 then
+		vim.notify(
+			("Unknown NVIM_PROFILE language(s): %s"):format(table.concat(unknown, ", ")),
+			vim.log.levels.WARN
+		)
 	end
-	M._current = valid(requested) and requested or read_saved() or "core"
-	return M._current
+	M._active = requested or read_saved() or {}
+	return M._active
+end
+
+--- Display name, e.g. "core" or "go,web".
+function M.name()
+	return format(M.active())
+end
+
+--- Whether a language is active. `core` is always active.
+---@param name string
+function M.is(name)
+	return name == "core" or vim.list_contains(M.active(), name)
 end
 
 function M.needs_selection()
-	local requested = vim.env.NVIM_PROFILE
-	return not valid(requested) and read_saved() == nil
-end
-
-function M.is(name)
-	return M.current() == name
+	return parse(vim.env.NVIM_PROFILE) == nil and read_saved() == nil
 end
 
 function M.paths()
-	local profile = M.current()
-	local data = vim.fn.stdpath("data")
 	return {
-		-- Plugins are shared. Profile-specific language tools are isolated below.
-		lazy = data .. "/lazy",
-		mason = data .. "/mason-" .. profile,
-		treesitter = data .. "/treesitter-" .. profile,
+		-- Plugins, Mason tools and treesitter parsers are shared by every profile
+		-- (default locations); each profile only installs what it needs.
+		lazy = vim.fn.stdpath("data") .. "/lazy",
 		lockfile = vim.fn.stdpath("config") .. "/lazy-lock.json",
 	}
 end
 
-local function save(profile)
+---@param names string[]
+local function save(names)
 	vim.fn.mkdir(vim.fn.fnamemodify(state_file, ":h"), "p")
-	vim.fn.writefile({ profile }, state_file)
-	M._current = profile
+	vim.fn.writefile({ format(names) }, state_file)
+	M._active = names
 end
 
 function M.restart()
@@ -68,41 +106,72 @@ function M.restart()
 	vim.cmd("restart")
 end
 
-function M.select(on_choice)
-	local choices = vim.tbl_keys(profiles)
-	table.sort(choices)
-	vim.ui.select(choices, {
-		prompt = "LazyVim language profile",
-		format_item = function(profile)
-			return profiles[profile].label
+---@param on_done fun(names: string[])
+local function pick(on_done)
+	local current = M.active()
+	local items = { { text = "core", label = "Core only (Lua, shell, Markdown)" } }
+	local names = vim.tbl_keys(languages)
+	table.sort(names)
+	for _, name in ipairs(names) do
+		items[#items + 1] = { text = name, label = languages[name].label }
+	end
+
+	if not (_G.Snacks and Snacks.picker) then
+		vim.ui.input({
+			prompt = "Languages (comma-separated: " .. table.concat(names, ", ") .. "): ",
+			default = format(current),
+		}, function(input)
+			local parsed = parse(input)
+			if parsed then
+				on_done(parsed)
+			end
+		end)
+		return
+	end
+
+	Snacks.picker.pick({
+		title = "Language profile (<Tab> to combine) — current: " .. format(current),
+		items = items,
+		layout = { preset = "select", layout = { max_width = 60 } },
+		format = function(item)
+			local mark = (item.text == "core" and #current == 0 or vim.list_contains(current, item.text)) and "● "
+				or "  "
+			return { { mark, "Special" }, { item.label } }
 		end,
-	}, function(profile)
-		if not profile then
-			return
-		end
-		local previous = M.current()
-		save(profile)
+		confirm = function(picker)
+			local selected = picker:selected({ fallback = true })
+			picker:close()
+			local chosen = {}
+			for _, item in ipairs(selected) do
+				if languages[item.text] then
+					chosen[#chosen + 1] = item.text
+				end
+			end
+			table.sort(chosen)
+			on_done(chosen)
+		end,
+	})
+end
+
+---@param on_choice fun(names: string[])?
+function M.select(on_choice)
+	local previous = M.name()
+	pick(function(names)
+		save(names)
 		if on_choice then
-			on_choice(profile)
-		elseif profile ~= previous then
+			on_choice(names)
+		elseif format(names) ~= previous then
 			M.restart()
 		else
-			vim.notify("Already using the " .. profile .. " profile")
+			vim.notify("Already using the " .. previous .. " profile")
 		end
 	end)
 end
 
 function M.setup_command()
 	vim.api.nvim_create_user_command("Profile", function()
-		local previous = M.current()
-		M.select(function(profile)
-			if profile == previous then
-				vim.notify("Already using the " .. profile .. " profile")
-			else
-				M.restart()
-			end
-		end)
-	end, { desc = "Select and restart a LazyVim language profile" })
+		M.select()
+	end, { desc = "Select (and combine) LazyVim language profiles, then restart" })
 end
 
 return M

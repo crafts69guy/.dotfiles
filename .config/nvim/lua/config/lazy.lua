@@ -75,6 +75,26 @@ end
 
 table.insert(spec, { import = "plugins" })
 
+-- Must stay last so it sees servers from every extra and plugin spec above.
+-- Mason tools are shared across profiles, and mason-lspconfig auto-enables every
+-- installed server; disable the ones the active profile didn't configure so e.g.
+-- gopls doesn't attach in a web-only session.
+table.insert(spec, {
+	"neovim/nvim-lspconfig",
+	opts = function(_, opts)
+		local ok, mappings = pcall(require, "mason-lspconfig.mappings")
+		if not ok then
+			return
+		end
+		opts.servers = opts.servers or {}
+		for server in pairs(mappings.get_mason_map().lspconfig_to_package) do
+			if opts.servers[server] == nil then
+				opts.servers[server] = { enabled = false }
+			end
+		end
+	end,
+})
+
 require("lazy").setup({
 	spec = spec,
 	root = paths.lazy,

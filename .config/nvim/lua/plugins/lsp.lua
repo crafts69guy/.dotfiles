@@ -3,7 +3,6 @@ return {
 	{
 		"mason-org/mason.nvim",
 		opts = function(_, opts)
-			opts.install_root_dir = require("config.profile").paths().mason
 			vim.list_extend(opts.ensure_installed, {
 				"stylua",
 				"shellcheck",
