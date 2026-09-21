@@ -4,7 +4,8 @@ vim.opt.encoding = "utf-8"
 vim.opt.fileencoding = "utf-8"
 vim.opt.modeline = false
 
-vim.opt.spell = true
+-- Global `spell = true` loads the dictionary synchronously (~15ms at startup).
+-- LazyVim's wrap_spell autocmd already enables it for text, markdown, gitcommit.
 vim.opt.spelllang = { "en_us" }
 
 vim.opt.number = true
