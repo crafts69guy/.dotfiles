@@ -2,10 +2,10 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
--- local discipline = require("insideee-dev/discripline")
+-- local discipline = require("crafts69guy.discipline")
 -- discipline.cowboy()
 
-local utils = require("insideee-dev.utils")
+local utils = require("crafts69guy.utils")
 
 local keymap = vim.keymap
 local opts = { noremap = true, silent = true }
@@ -105,7 +105,7 @@ end, utils.shallow_merge(opts, { desc = "Replace hex code with HSL" }))
 
 -- Inlay hints
 keymap.set("n", "<leader>i", function()
-	require("insideee-dev.lsp").toggleInlayHints()
+	require("crafts69guy.lsp").toggleInlayHints()
 end, utils.shallow_merge(opts, { desc = "Toggle inlay hints" }))
 
 -- Open

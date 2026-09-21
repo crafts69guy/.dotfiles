@@ -97,7 +97,7 @@ return {
 			{ "<S-Tab>", "<Cmd>BufferLineCyclePrev<CR>", desc = "Prev tab" },
 		},
 		opts = function()
-			local c = require("insideee-dev.hue_colors").get()
+			local c = require("crafts69guy.hue_colors").get()
 
 			-- hue-nvim runs with `transparent = true`: the real editor bg is
 			-- "NONE" (terminal shows through), not c.canvas's hex. Slant
@@ -186,7 +186,7 @@ return {
 		event = "BufReadPre",
 		priority = 1200,
 		config = function()
-			local c = require("insideee-dev.hue_colors").get()
+			local c = require("crafts69guy.hue_colors").get()
 			-- hue-nvim is `transparent = true`, so the real backdrop is "NONE"
 			-- (terminal/wallpaper), not c.canvas's hex — the caps must sit on
 			-- NONE too, or they paint a mismatched solid rectangle behind the
