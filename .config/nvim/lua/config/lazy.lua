@@ -61,6 +61,10 @@ local spec = {
 if profile.is("web") then
 	vim.list_extend(spec, {
 		{ import = "lazyvim.plugins.extras.lang.typescript" },
+		{ import = "lazyvim.plugins.extras.lang.typescript.tsc" },
+		{ import = "lazyvim.plugins.extras.lang.typescript.biome" },
+		{ import = "lazyvim.plugins.extras.lang.typescript.oxc" },
+		{ import = "lazyvim.plugins.extras.lang.astro" },
 		{ import = "lazyvim.plugins.extras.lang.tailwind" },
 		{ import = "lazyvim.plugins.extras.lang.docker" },
 		{ import = "lazyvim.plugins.extras.lang.prisma" },
