@@ -81,13 +81,6 @@ return {
 		end,
 	},
 
-	{
-		"rcarriga/nvim-notify",
-		opts = {
-			timeout = 5000,
-		},
-	},
-
 	-- buffer line
 	{
 		"akinsho/bufferline.nvim",

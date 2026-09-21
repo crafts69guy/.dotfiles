@@ -46,22 +46,10 @@ return {
 	},
 
 	{
-		"hedyhli/outline.nvim",
-		keys = { { "<leader>cs", "<cmd>Outline<cr>", desc = "Symbols Outline" } },
-		cmd = "Outline",
-		opts = {
-			outline_window = {
-				position = "right",
-			},
-		},
-	},
-
-	{
 		"saghen/blink.cmp",
 		dependencies = {
 			{
 				"mgalliou/blink-cmp-tmux",
-				"saghen/blink.compat",
 				"rafamadriz/friendly-snippets",
 			},
 		},
@@ -160,14 +148,6 @@ return {
 	{
 		"xzbdmw/colorful-menu.nvim",
 		config = function() end,
-	},
-
-	{
-		"saghen/blink.compat",
-		optional = true, -- make optional so it's only enabled if any extras need it
-		lazy = true,
-		opts = {},
-		version = not vim.g.lazyvim_blink_main and "*",
 	},
 
 	{

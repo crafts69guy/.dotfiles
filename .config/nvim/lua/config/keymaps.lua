@@ -104,9 +104,8 @@ keymap.set("n", "<leader>r", function()
 end, utils.shallow_merge(opts, { desc = "Replace hex code with HSL" }))
 
 -- Inlay hints
-keymap.set("n", "<leader>i", function()
-	require("crafts69guy.lsp").toggleInlayHints()
-end, utils.shallow_merge(opts, { desc = "Toggle inlay hints" }))
+-- Same toggle as LazyVim's <leader>uh, kept on a shorter key.
+Snacks.toggle.inlay_hints():map("<leader>i")
 
 -- Open
 keymap.set("n", "<leader>o", "", { desc = "Open" })

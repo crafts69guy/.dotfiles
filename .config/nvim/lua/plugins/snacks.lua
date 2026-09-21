@@ -342,6 +342,8 @@ return {
 		opts = {
 			scroll = { enabled = false },
 
+			notifier = { timeout = 5000 },
+
 			dim = {},
 
 			zen = {

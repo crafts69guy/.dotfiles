@@ -9,7 +9,7 @@ return {
 		dir = (function()
 			local home = vim.env.HUE_THEME_HOME or vim.fn.expand("~/Developments/github.com/crafts69guy/hue-theme")
 			local plugin = home .. "/packages/nvim-plugin"
-			return vim.loop.fs_stat(plugin) and plugin or nil
+			return vim.uv.fs_stat(plugin) and plugin or nil
 		end)(),
 		lazy = false,
 		priority = 1000,
