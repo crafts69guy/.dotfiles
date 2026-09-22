@@ -70,3 +70,10 @@ Use `~/agent-rules/README.md` as the shared routing index.
 - Main branch: `production`.
 - Key areas: `.config/nvim/`, `.config/fish/`, `.config/tmux/`, `.scripts/`,
   `.claude/`, `.codex/`, and `agent-rules/`.
+
+## Codebase Search and Indexing
+
+Use `ccc` for semantic codebase search, repository exploration, and index
+refreshes. Read `~/agent-rules/tools/ccc/README.md` for the shared workflow.
+Prefer the `cocoindex-code` MCP server when available and fall back to the
+installed `ccc` CLI when it is not.

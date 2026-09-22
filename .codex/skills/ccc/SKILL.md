@@ -7,6 +7,8 @@ description: "This skill should be used when code search is needed (whether expl
 
 `ccc` is the CLI for CocoIndex Code, providing semantic search over the current codebase and index management.
 
+Read `~/agent-rules/tools/ccc/README.md` for the workflow shared with Claude Code.
+
 ## Ownership
 
 The agent owns the `ccc` lifecycle for the current project — initialization, indexing, and searching. Do not ask the user to perform these steps; handle them automatically.
