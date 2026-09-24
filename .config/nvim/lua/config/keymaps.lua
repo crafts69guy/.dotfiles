@@ -10,6 +10,9 @@ local utils = require("crafts69guy.utils")
 local keymap = vim.keymap
 local opts = { noremap = true, silent = true }
 
+-- Language profile
+keymap.set("n", "<leader>P", "<cmd>Profile<cr>", { desc = "Manage language profile" })
+
 keymap.set("n", "x", '"_x')
 
 -- Increment/decrement
