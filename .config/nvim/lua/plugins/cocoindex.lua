@@ -53,6 +53,14 @@ return {
 		opts = {
 			spec = {
 				{ "<leader>k", group = "cocoindex", icon = { icon = "󰊕 ", color = "purple" } },
+				{ ";c", icon = { icon = "󰧑 ", color = "purple" }, mode = { "n", "x" } },
+				{ ";C", icon = { icon = "󰅩 ", color = "cyan" } },
+				{ "<leader>ks", icon = { icon = "󰍉 ", color = "purple" } },
+				{ "<leader>ki", icon = { icon = "󰑓 ", color = "green" } },
+				{ "<leader>kS", icon = { icon = "󰋽 ", color = "blue" } },
+				{ "<leader>kd", icon = { icon = "󰓙 ", color = "orange" } },
+				{ "<leader>kI", icon = { icon = "󰉗 ", color = "yellow" } },
+				{ "<leader>kh", icon = { icon = "󰗶 ", color = "red" } },
 			},
 		},
 	},
