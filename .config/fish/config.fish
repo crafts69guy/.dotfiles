@@ -28,6 +28,9 @@ if status is-interactive && command -q fnm
     # fnm's initial PWD hook runs while this script is sourced. Keep that
     # bootstrap quiet, then restore the user's log level for interactive use.
     set -l fnm_log_level $FNM_LOGLEVEL
+    # Nested shells (tmux, herdr, claude) inherit the parent's multishell; drop it
+    # so only this shell's multishell stays on PATH.
+    set -gx PATH (string match -v -- '*/fnm_multishells/*' $PATH)
     fnm env --log-level quiet --use-on-cd --corepack-enabled --shell fish | source
     if set -q fnm_log_level[1]
         set -gx FNM_LOGLEVEL $fnm_log_level
@@ -60,8 +63,9 @@ if status is-interactive
 
     set -gx EDITOR nvim
 
-    set -gx PATH bin $PATH
-    set -gx PATH ~/bin $PATH
+    # Never put a relative `bin` on PATH: any repo's ./bin would shadow real commands.
+    # fish_add_path skips missing dirs and never duplicates in nested shells.
+    fish_add_path ~/bin
     # Commands to run in interactive sessions can go here
     set -g fish_prompt_pwd_dir_length 1
     set -g theme_display_user yes
