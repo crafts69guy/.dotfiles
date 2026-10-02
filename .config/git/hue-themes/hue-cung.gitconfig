@@ -47,13 +47,13 @@
 	# keep blamed code syntax-highlighted over the alternating palette
 	blame-code-style = syntax
 	# alternating backgrounds for `delta --blame`, walking the surface ramp
-	blame-palette = "#EDF3FE #F6F9FF #FFFFFF #B0DDFF"
+	blame-palette = "#EDF3FE #F6F9FF #FFFFFF #8CCBFF"
 	grep-file-style = "#00753C"
 	grep-header-file-style = "#00753C" bold
 	grep-header-decoration-style = "#C9DCF2" ul
 	grep-line-number-style = "#384B63"
 	grep-match-line-style = syntax
-	grep-match-word-style = "#001F3E" "#B0DDFF"
+	grep-match-word-style = "#001F3E" "#8CCBFF"
 	grep-context-line-style = "#384B63"
 	merge-conflict-ours-diff-header-style = "#A15A00" bold
 	merge-conflict-ours-diff-header-decoration-style = "#C9DCF2" box
