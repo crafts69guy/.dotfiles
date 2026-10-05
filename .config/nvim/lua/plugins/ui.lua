@@ -102,6 +102,62 @@ return {
 			local inactive = c.raised -- inactive tab body, lifted one step above fill so chips stay distinct
 			local active = c.selected -- active tab body, clearly lifted over inactive
 
+			-- Tabs whose worst diagnostic is a warning/error get a status-hued body:
+			-- solid on the active tab (dark text), a dim tint on inactive ones,
+			-- mirroring the active/inactive lift. Re-derived on :colorscheme.
+			local diag_tab_hls = {
+				warning = { "BufferLineWarnTab", "BufferLineWarnTabSelected" },
+				error = { "BufferLineErrorTab", "BufferLineErrorTabSelected" },
+			}
+			local function set_diag_tab_hls()
+				local hue = require("crafts69guy.hue_colors")
+				local p = hue.get()
+				for level, groups in pairs(diag_tab_hls) do
+					local color = p[level]
+					vim.api.nvim_set_hl(0, groups[1], { fg = color, bg = hue.blend(color, p.raised, 0.25) })
+					vim.api.nvim_set_hl(0, groups[2], { fg = p.canvas, bg = color, bold = true })
+				end
+			end
+			set_diag_tab_hls()
+			vim.api.nvim_create_autocmd("ColorScheme", {
+				group = vim.api.nvim_create_augroup("crafts69guy_bufferline_diag", { clear = true }),
+				callback = set_diag_tab_hls,
+			})
+
+			-- bufferline only recolors the name/count per diagnostic level; icon,
+			-- padding, indicator and modified dot keep the tab-body bg. Wrap
+			-- ui.element so a warning/error tab repaints every body segment
+			-- (separators excluded) with one group.
+			local ui = require("bufferline.ui")
+			if not ui._crafts69guy_diag_wrapped then
+				ui._crafts69guy_diag_wrapped = true
+				local element = ui.element
+				ui.element = function(state, tab)
+					local el = element(state, tab)
+					local d = el.diagnostics
+					local groups = d and (d.count or 0) > 0 and diag_tab_hls[d.level]
+					if not groups then
+						return el
+					end
+					local hl = el:current() and groups[2] or groups[1]
+					local render = el.component
+					el.component = function(next_item)
+						local segments = render(next_item)
+						for _, seg in ipairs(segments) do
+							-- drop `extends` so the name doesn't get re-tinted with BufferLineWarning*/Error*
+							if seg.attr then
+								seg.attr.extends = nil
+							end
+							if seg.highlight and not seg.highlight:find("^BufferLineSeparator") then
+								seg.highlight = hl
+							end
+						end
+						return segments
+					end
+					return el
+				end
+			end
+
 			return {
 				options = {
 					mode = "tabs",
