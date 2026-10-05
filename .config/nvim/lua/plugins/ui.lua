@@ -180,12 +180,54 @@ return {
 		priority = 1200,
 		config = function()
 			local c = require("crafts69guy.hue_colors").get()
-			-- hue-nvim is `transparent = true`, so the real backdrop is "NONE"
-			-- (terminal/wallpaper), not c.canvas's hex — the caps must sit on
-			-- NONE too, or they paint a mismatched solid rectangle behind the
-			-- pill instead of blending into the transparent editor bg.
-			local cap_left, cap_right = "", ""
+			-- Basenames too generic to identify a file on their own; show the
+			-- parent dir too (e.g. `Button/index.jsx`).
+			local generic = { index = true }
 
+			-- incline hardcodes `border = "none"` and a 1-row geometry. To get the
+			-- noice cmdline-popup look (rounded border box), patch the Winline
+			-- class: the class itself is private, so grab it from the metatable of
+			-- the first instance built through the module's __call constructor.
+			local winline_mt = getmetatable(require("incline.winline"))
+			local make = winline_mt.__call
+			local patched = false
+			winline_mt.__call = function(...)
+				local obj = make(...)
+				if not patched then
+					patched = true
+					local Winline = getmetatable(obj).__index
+
+					-- Float row/col address the border's outer corner, so shift the
+					-- box left by the 2 border columns to keep the right margin.
+					local get_win_config = Winline.get_win_config
+					function Winline:get_win_config()
+						local cfg = get_win_config(self)
+						cfg.border = "rounded"
+						cfg.col = math.max(cfg.col - 2, 0)
+						return cfg
+					end
+
+					-- The box now covers 3 rows and width + 2 cols; hide on all of them.
+					local overlaps_buffer = Winline.incline_overlaps_buffer_content
+					function Winline:cursor_overlaps_incline()
+						if not overlaps_buffer(self) then
+							return false
+						end
+						local cfg = self:get_win_config()
+						local pos = vim.api.nvim_win_get_position(self.target_win)
+						local row = pos[1] + vim.api.nvim_win_call(self.target_win, vim.fn.winline) - 1
+						local col = pos[2] + vim.api.nvim_win_call(self.target_win, vim.fn.wincol) - 1
+						return row >= cfg.row
+							and row < cfg.row + cfg.height + 2
+							and col >= cfg.col
+							and col < cfg.col + cfg.width + 2
+					end
+				end
+				return obj
+			end
+
+			-- hue-nvim is `transparent = true`: keep the box body on "NONE" so it
+			-- blends into the editor bg like the cmdline popup does.
 			require("incline").setup({
 				highlight = {
 					groups = {
@@ -195,32 +237,41 @@ return {
 				},
 				window = {
 					margin = { vertical = 0, horizontal = 1 },
-					padding = 0,
+					padding = 1,
 					winhighlight = {
-						active = { EndOfBuffer = { guibg = "NONE" } },
-						inactive = { EndOfBuffer = { guibg = "NONE" } },
+						active = {
+							EndOfBuffer = { guibg = "NONE" },
+							FloatBorder = { guifg = c.info, guibg = "NONE" },
+						},
+						inactive = {
+							EndOfBuffer = { guibg = "NONE" },
+							FloatBorder = { guifg = c.border, guibg = "NONE" },
+						},
 					},
 				},
 				hide = {
 					cursorline = true,
 				},
 				render = function(props)
-					local pill = props.focused and c.secondary or c.raised
-					local fg = props.focused and c.canvas or c.subtext
+					local fg = props.focused and c.text or c.subtext
 
-					local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
-					if vim.bo[props.buf].modified then
-						filename = "[+] " .. filename
+					local path = vim.api.nvim_buf_get_name(props.buf)
+					local filename = vim.fn.fnamemodify(path, ":t")
+					if filename == "" then
+						filename = "[No Name]"
+					end
+					local parent = ""
+					if generic[vim.fn.fnamemodify(filename, ":r")] then
+						parent = vim.fn.fnamemodify(path, ":h:t") .. "/"
 					end
 
 					local icon, icon_color = require("nvim-web-devicons").get_icon_color(filename)
 
 					return {
-						{ cap_left, guifg = pill, guibg = "NONE" },
-						{ (icon and icon .. " " or ""), guifg = icon_color, guibg = pill },
-						{ filename, guifg = fg, guibg = pill },
-						{ " ", guibg = pill },
-						{ cap_right, guifg = pill, guibg = "NONE" },
+						icon and { icon .. " ", guifg = icon_color } or "",
+						{ parent, guifg = c.subtext },
+						{ filename, guifg = fg, gui = props.focused and "bold" or "none" },
+						vim.bo[props.buf].modified and { " ●", guifg = c.warning } or "",
 					}
 				end,
 			})
