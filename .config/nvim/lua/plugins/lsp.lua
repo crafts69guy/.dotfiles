@@ -104,6 +104,26 @@ return {
 			if require("config.profile").is("web") then
 				servers.html = {}
 				servers.cssls = {}
+				-- vscode-eslint needs the project's own eslint package; without it the server
+				-- spams "Unable to find ESLint library". Skip attaching until deps are installed.
+				-- Root is resolved per buffer, so `:e` after `npm install` picks it up.
+				servers.eslint = {
+					root_dir = function(bufnr, on_dir)
+						local file = vim.api.nvim_get_runtime_file("lsp/eslint.lua", false)[1]
+						if not file then
+							return
+						end
+						dofile(file).root_dir(bufnr, function(root)
+							local has_eslint = vim.fs.root(bufnr, function(name, path)
+								return name == ".pnp.cjs"
+									or (name == "node_modules" and vim.uv.fs_stat(path .. "/node_modules/eslint") ~= nil)
+							end)
+							if has_eslint then
+								on_dir(root)
+							end
+						end)
+					end,
+				}
 				servers.tailwindcss = {
 					settings = {
 						tailwindCSS = {
