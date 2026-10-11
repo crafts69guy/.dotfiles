@@ -47,12 +47,12 @@ if git -C "$dir" rev-parse --git-dir >/dev/null 2>&1; then
 fi
 
 # ── 1. Repo name — bold yellow ────────────────────────────────────────────────
-printf "%s%s%s%s" "$(bold)" "$(rgb 255 210 0)" "$repo_name" "$(rst)"
+printf "%s%s %s%s" "$(bold)" "$(rgb 255 210 0)" "$repo_name" "$(rst)"
 
-# ── 2. Git branch — bold cyan in parens ──────────────────────────────────────
+# ── 2. Git branch — bold cyan ──────────────────────────────────────
 if [ -n "$branch" ]; then
   printf " %s" "$PIPE"
-  printf " 🌿%s%s(%s)%s" "$(bold)" "$(rgb 0 220 220)" "$branch" "$(rst)"
+  printf " %s%s %s%s" "$(bold)" "$(rgb 0 220 220)" "$branch" "$(rst)"
 fi
 
 # ── 3. Context bar (20 blocks, 24-bit RGB gradient) + dynamic emoji + % ───────
@@ -63,13 +63,13 @@ empty=$(( 20 - filled ))
 
 # pick emoji and percentage color by usage level
 if [ "$used" -lt 20 ]; then
-  emoji="🟢"; pct_r=0;   pct_g=220; pct_b=80
+  emoji="󰾆"; pct_r=0;   pct_g=220; pct_b=80
 elif [ "$used" -lt 70 ]; then
-  emoji="⚡"; pct_r=220; pct_g=200; pct_b=0
+  emoji="󰊚"; pct_r=220; pct_g=200; pct_b=0
 elif [ "$used" -lt 90 ]; then
-  emoji="🔥"; pct_r=220; pct_g=100; pct_b=0
+  emoji="󰓅"; pct_r=220; pct_g=100; pct_b=0
 else
-  emoji="🚨"; pct_r=220; pct_g=40;  pct_b=20
+  emoji="󰀦"; pct_r=220; pct_g=40;  pct_b=20
 fi
 
 printf " "
@@ -104,24 +104,46 @@ fi
 printf "$(rst)"
 
 # emoji + percentage
-printf " %s %s%s%s%d%%%s" \
-  "$emoji" \
+printf " %s%s%s %d%%%s" \
   "$(rgb $pct_r $pct_g $pct_b)" "$(bold)" \
-  "" "$used" "$(rst)"
+  "$emoji" "$used" "$(rst)"
 
 # ── 4. Session tokens (yellow) ────────────────────────────────────────────────
 printf " %s" "$PIPE"
-printf " %s%s~%s tok%s" "$(rgb 255 210 0)" "$(bold)" "$cost_str" "$(rst)"
+printf " %s%s %s tok%s" "$(rgb 255 210 0)" "$(bold)" "$cost_str" "$(rst)"
 
 # ── 5. Code velocity ──────────────────────────────────────────────────────────
 if [ "$vel_add" -gt 0 ] || [ "$vel_del" -gt 0 ]; then
   printf " %s" "$PIPE"
-  printf " %s%s+%s%s" "$(rgb 0 220 80)"  "$(bold)" "$vel_add" "$(rst)"
+  printf " %s %s+%s%s" "$(rgb 150 150 150)" "$(rgb 0 220 80)$(bold)" "$vel_add" "$(rst)"
   printf "%s%s-%s%s"  "$(rgb 220 60 40)" "$(bold)" "$vel_del" "$(rst)"
 fi
 
-# ── 6. Model name — magenta with cowboy ──────────────────────────────────────
+# ── 6. Model name — magenta with sparkle ──────────────────────────────────────
 printf " %s" "$PIPE"
-printf " 🤠%s%s%s%s" "$(rgb 200 80 220)" "$(bold)" "$model" "$(rst)"
+printf " %s%s󰙴 %s%s" "$(rgb 200 80 220)" "$(bold)" "$model" "$(rst)"
+
+# ── 7. Running subagents — type·model, from the session's subagent transcripts ─
+# A finished agent's transcript ends on an assistant turn with stop_reason end_turn.
+# ponytail: a killed agent never writes end_turn, so it shows until its file is 2h old.
+transcript=$(echo "$input" | jq -r '.transcript_path // empty')
+sub_dir="${transcript%.jsonl}/subagents"
+if [ -n "$transcript" ] && [ -d "$sub_dir" ]; then
+  agents=""
+  for f in $(find "$sub_dir" -name 'agent-*.jsonl' -mmin -120 2>/dev/null); do
+    stop=$(tail -n 1 "$f" | jq -r 'select(.type == "assistant") | .message.stop_reason // empty' 2>/dev/null)
+    [ "$stop" = "end_turn" ] && continue
+    type=$(jq -r '.agentType // "agent"' "${f%.jsonl}.meta.json" 2>/dev/null)
+    # claude-sonnet-5-5 → Sonnet 5.5
+    sub_model=$(grep -o '"model":"claude-[^"]*"' "$f" | tail -n 1 |
+      sed -E 's/"model":"claude-([a-z]+)-([0-9]+)-([0-9]+).*/\1 \2.\3/' |
+      awk '{print toupper(substr($0,1,1)) substr($0,2)}')
+    agents="${agents:+$agents, }${type}·${sub_model:-…}"
+  done
+  if [ -n "$agents" ]; then
+    printf " %s" "$PIPE"
+    printf " %s%s󰚩 %s%s" "$(rgb 120 170 255)" "$(bold)" "$agents" "$(rst)"
+  fi
+fi
 
 printf "\n"
