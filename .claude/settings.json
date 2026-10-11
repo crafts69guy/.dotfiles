@@ -22,7 +22,7 @@
   },
   "model": "sonnet",
   "statusLine": {
-    "command": "bash /Users/caongoccuong/.claude/statusline-command.sh",
+    "command": "nvim -l /Users/caongoccuong/Developments/github.com/crafts69guy/claude-statusline.nvim/bin/statusline.lua",
     "type": "command"
   },
   "theme": "dark",
