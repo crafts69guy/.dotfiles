@@ -55,8 +55,6 @@ if status is-interactive
     alias lla "ll -A"
     alias g git
     alias c claude
-    alias cyl "claude --dangerously-skip-permissions"
-    alias claude-yolo "claude --dangerously-skip-permissions"
     alias oc opencode
     alias hr herdr
     alias hrl "~/.scripts/ide-herdr"
