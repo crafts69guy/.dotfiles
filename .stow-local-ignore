@@ -8,3 +8,7 @@
 # Assets
 images
 README.md
+
+# Machine-local files
+^/\.claude/settings\.local\.json$
+nvim\.log
