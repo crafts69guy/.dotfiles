@@ -9,5 +9,8 @@ return {
 		main = "claude_statusline",
 		cmd = "ClaudeStatusline",
 		opts = {},
+		keys = {
+			{ "<leader>aP", "<cmd>ClaudeStatusline playground<cr>", desc = "Claude Statusline Playground" },
+		},
 	}),
 }
