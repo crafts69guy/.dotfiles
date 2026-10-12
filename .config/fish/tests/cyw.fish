@@ -3,7 +3,7 @@
 set -l here (path resolve (path dirname (status filename)))
 source $here/../functions/cyw.fish
 
-function cyl
+function orch
     set -g cyl_called "$argv"
 end
 
@@ -26,8 +26,8 @@ cd $repo
 
 set -g cyl_called
 cyw feat-x >/dev/null 2>&1
-test (pwd) = (path resolve $tmp/wt/feat-x); and test "$cyl_called" = --wf
-check "creates new branch worktree, cds, runs cyl --wf"
+test (pwd) = (path resolve $tmp/wt/feat-x); and test "$cyl_called" = "claude --yolo"
+check "creates new branch worktree, cds, runs orch claude --yolo"
 test (git rev-parse --abbrev-ref HEAD) = feat-x; and test (git rev-parse HEAD) = (git -C $repo rev-parse production)
 check "new branch is based on production"
 

@@ -1,4 +1,4 @@
-function cyw --description "new git worktree in ../wt/<name> from production, then cyl --wf"
+function cyw --description "new git worktree in ../wt/<name> from production, then orch claude --yolo"
     if test (count $argv) -ne 1
         echo "usage: cyw <branch>" >&2
         return 1
@@ -21,5 +21,5 @@ function cyw --description "new git worktree in ../wt/<name> from production, th
         git worktree add -b $name $dir production
     end
     or return
-    cd $dir; and cyl --wf
+    cd $dir; and orch claude --yolo
 end
