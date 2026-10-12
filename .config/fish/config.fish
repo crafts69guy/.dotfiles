@@ -5,6 +5,11 @@ set -gx XDG_CONFIG_HOME $HOME/.config
 set -gx RCT_NEW_ARCH_ENABLED 1
 set -gx REACT_TERMINAL Ghostty
 
+# Orchestra workflow plugin (cyl --wf / cdx --wf)
+if test -d $HOME/Developments/github.com/crafts69guy/orchestra
+    set -gx ORCH_DIR $HOME/Developments/github.com/crafts69guy/orchestra
+end
+
 # User-installed CLIs must also be available to non-interactive runners such as Codex.
 fish_add_path $HOME/.local/bin
 

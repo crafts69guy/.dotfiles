@@ -1,4 +1,7 @@
 {
+  "env": {
+    "PONYTAIL_SUBAGENT_MATCHER": "^(?!orch:(scoper|shipper)$)"
+  },
   "hooks": {
     "SessionStart": [
       {
