@@ -27,7 +27,8 @@
     "typescript-lsp@claude-plugins-official": true,
     "rust-analyzer-lsp@claude-plugins-official": true,
     "swift-lsp@claude-plugins-official": true,
-    "ponytail@ponytail": true
+    "ponytail@ponytail": true,
+    "orch@orchestra": true
   },
   "extraKnownMarketplaces": {
     "openai-codex": {
@@ -40,6 +41,12 @@
       "source": {
         "source": "github",
         "repo": "DietrichGebert/ponytail"
+      }
+    },
+    "orchestra": {
+      "source": {
+        "source": "github",
+        "repo": "crafts69guy/orchestra"
       }
     }
   },

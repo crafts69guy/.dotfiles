@@ -30,7 +30,7 @@ printf '#!/bin/sh\necho "orch-codex $*"\n' >$orch/bin/orch-codex
 chmod +x $orch/bin/orch-codex
 
 # cyl
-set -e ORCH_DIR
+set -e ORCH_DIR ORCH_DEV
 cyl -p hi
 test "$claude_argv" = "--dangerously-skip-permissions -p hi"; and test -z "$claude_orch"
 check "cyl: plain passes args, no ORCH"
@@ -42,8 +42,14 @@ check "cyl --wf without ORCH_DIR: ORCH=1, no --plugin-dir, --wf removed"
 
 set -gx ORCH_DIR $orch
 cyl --wf -p hi
+test "$claude_argv" = "--dangerously-skip-permissions --model opus -p hi"
+check "cyl --wf with ORCH_DIR but no ORCH_DEV: uses the installed plugin"
+
+set -gx ORCH_DEV 1
+cyl --wf -p hi
 test "$claude_argv" = "--dangerously-skip-permissions --model opus --plugin-dir $orch -p hi"; and test "$claude_orch" = 1
-check "cyl --wf with ORCH_DIR: --plugin-dir added, args passed through"
+check "cyl --wf with ORCH_DEV=1: --plugin-dir added, args passed through"
+set -e ORCH_DEV
 
 set -g claude_orch
 cyl -p hi
@@ -60,7 +66,7 @@ test $status -eq 0; and test "$out" = "orch-codex --dangerously-bypass-approvals
 check "cdx --wf: runs orch-codex with yolo flag and args, --wf removed"
 
 set -g codex_argv
-set -e ORCH_DIR
+set -e ORCH_DIR ORCH_DEV
 set -l err (cdx --wf 2>&1)
 test $status -eq 1; and string match -q "*ORCH_DIR*" -- $err; and test -z "$codex_argv"
 check "cdx --wf errors when ORCH_DIR unset"
