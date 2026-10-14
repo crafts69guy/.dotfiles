@@ -52,8 +52,8 @@
     },
     "hue-theme": {
       "source": {
-        "source": "directory",
-        "path": "/Users/caongoccuong/Developments/github.com/crafts69guy/hue-theme"
+        "source": "github",
+        "repo": "crafts69guy/hue-theme"
       }
     }
   },
