@@ -22,7 +22,8 @@ The agent owns the `ccc` lifecycle for the current project — initialization, i
 
 Do not run `ccc` inside a known-restricted sandbox first merely to observe the expected permission failure.
 
-- **Initialization**: If `ccc search` or `ccc index` fails with an initialization error (e.g., "Not in an initialized project directory"), run `ccc init` from the project root directory, then `ccc index` to build the index, then retry the original command.
+- **MCP**: there is no global `cocoindex-code` server; `orch codex` injects it only in indexed repos. Use its `search` tool when present, otherwise the CLI.
+- **Initialization**: If `ccc search` fails with "Not in an initialized project directory": in a small repo (fewer than about 200 tracked files) do not index, use `rg` or `ccc grep`. Otherwise run `orch ccc init` (sets `max_file_size: 256KB` and builds the index), then retry the original command.
 - **Index freshness**: Keep the index up to date by running `ccc index` (or `ccc search --refresh`) when the index may be stale — e.g., at the start of a session, or after making significant code changes (new files, refactors, renamed modules). There is no need to re-index between consecutive searches if no code was changed in between.
 - **Installation**: If `ccc` itself is not found (command not found), refer to [management.md](references/management.md) for installation instructions and inform the user.
 

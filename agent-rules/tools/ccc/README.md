@@ -16,14 +16,23 @@ about a concept, behavior, or relationship.
 Run from the project root:
 
 ```text
+ccc search --refresh <conceptual query>   # re-index changed files, then search
 ccc search <conceptual query>
-ccc index
 ccc status
 ccc doctor
 ```
 
-If the project is not initialized, run `ccc init`, then `ccc index`, and retry
-the original request. Refresh the index before searching when it may be stale.
+Use `--refresh` when the index may be stale (start of a session, after
+significant changes); plain `ccc search` between searches with no code change.
+
+If the project is not initialized:
+
+- Fewer than about 200 tracked files (`git ls-files | wc -l`): do not index.
+  Use `rg`, or `ccc grep` (structural grep, no index or daemon needed).
+- Otherwise run `orch ccc init` from inside the repo, then retry. It initializes
+  the git root, sets `max_file_size: 256KB` and runs `ccc index`. Without
+  `orch`, do the same by hand: `ccc init`, add `max_file_size: 256KB` to
+  `.cocoindex_code/settings.yml`, `ccc index`.
 
 Useful search options:
 
@@ -38,11 +47,15 @@ paginating when the first result page is not enough.
 
 ## Agent-specific execution
 
+- MCP: there is no global `cocoindex-code` server. `orch claude` and
+  `orch codex` inject it per run, only when the git root is indexed and `ccc`
+  is on `PATH` (`ORCH_CCC=0` turns it off). Use `mcp__cocoindex-code__search`
+  when it is listed; otherwise use the CLI.
 - Codex: run `ccc` with its required elevated sandbox permission because the
   daemon uses `~/.cocoindex_code`.
-- Claude Code: prefer the `cocoindex-code` MCP server when available. If it is
-  unavailable, use the installed `ccc` CLI and follow its native permission
-  flow.
+- Claude Code: run the CLI through its native permission flow.
+- Install with `uv tool install cocoindex-code`; `orch doctor` checks it and
+  `orch update` upgrades it.
 
 If a command fails, inspect the daemon log reported by `ccc doctor`.
 
@@ -66,7 +79,8 @@ metadata should be indexed without checking the project settings.
   project root above the repo, stop and remove that stray settings file
   instead of searching.
 - Small repos do not need an index; use `rg` there.
-- Every project sets `max_file_size: 256KB` in `settings.yml` so lockfiles,
+- Every project sets `max_file_size: 256KB` in `settings.yml` (`orch ccc init`
+  adds it, and re-running it fixes a repo that lacks it) so lockfiles,
   generated parsers, and generated API schemas stay out of the index. Raise it
   only when real source files exceed it.
 - After changing include/exclude patterns or `max_file_size`, preview with

@@ -2,11 +2,11 @@
 
 ## Installation
 
-Install CocoIndex Code via pipx. Two install styles:
+Install CocoIndex Code with uv (this machine uses the `[full]` install). Two install styles:
 
 ```bash
-pipx install 'cocoindex-code[full]'      # batteries included (local embeddings via sentence-transformers)
-pipx install cocoindex-code              # slim (LiteLLM-only; requires a cloud embedding provider + API key)
+uv tool install 'cocoindex-code[full]'   # batteries included (local embeddings via sentence-transformers)
+uv tool install cocoindex-code           # slim (LiteLLM-only; requires a cloud embedding provider + API key)
 ```
 
 The `[full]` extra pulls in `sentence-transformers` so the first-run default (local embeddings, no API key) works out of the box. The slim install is for environments where you don't want the torch/transformers deps and plan to use a LiteLLM-supported cloud provider instead.
@@ -14,7 +14,7 @@ The `[full]` extra pulls in `sentence-transformers` so the first-run default (lo
 To upgrade to the latest version:
 
 ```bash
-pipx upgrade cocoindex-code
+orch update          # or: uv tool upgrade cocoindex-code
 ```
 
 After installation, the `ccc` command is available globally.
