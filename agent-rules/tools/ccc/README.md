@@ -54,3 +54,23 @@ databases, API keys, daemon state, or session history.
 
 Do not assume hidden directories, generated artifacts, dependencies, or agent
 metadata should be indexed without checking the project settings.
+
+## Index scope
+
+- One index per repository. Never run `ccc init` (or `ccc index`, which
+  auto-inits) in a directory that holds several repos, such as
+  `~/Developments/github.com/<owner>/`. `ccc` resolves the project by walking
+  up to the nearest `.cocoindex_code/settings.yml`, so a parent index silently
+  captures every uninitialized child repo and re-embeds all of them.
+- Before `ccc init`, run `ccc status` from the repo root. If it reports a
+  project root above the repo, stop and remove that stray settings file
+  instead of searching.
+- Small repos do not need an index; use `rg` there.
+- Every project sets `max_file_size: 256KB` in `settings.yml` so lockfiles,
+  generated parsers, and generated API schemas stay out of the index. Raise it
+  only when real source files exceed it.
+- After changing include/exclude patterns or `max_file_size`, preview with
+  `ccc doctor`, then run `ccc index`; no reset or daemon restart is needed.
+- If the machine runs hot, check `ccc daemon status` (loaded projects) and
+  `ccc status` (chunk count). An unexpectedly large chunk count means the
+  index is covering the wrong tree.
