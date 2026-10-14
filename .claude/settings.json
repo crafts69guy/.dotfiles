@@ -18,7 +18,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "nvim -l /Users/caongoccuong/Developments/github.com/crafts69guy/claude-statusline.nvim/bin/statusline.lua"
+    "command": "nvim -l /Users/caongoccuong/Developments/github.com/crafts69guy/claude-statusline.nvim/bin/statusline.lua --config /Users/caongoccuong/Developments/github.com/crafts69guy/hue-theme/packages/claude-code-plugin/statusline/hue-mua.json"
   },
   "enabledPlugins": {
     "codex@openai-codex": true,
@@ -28,7 +28,8 @@
     "rust-analyzer-lsp@claude-plugins-official": true,
     "swift-lsp@claude-plugins-official": true,
     "ponytail@ponytail": true,
-    "orch@orchestra": true
+    "orch@orchestra": true,
+    "hue-theme@hue-theme": true
   },
   "extraKnownMarketplaces": {
     "openai-codex": {
@@ -48,6 +49,12 @@
         "source": "github",
         "repo": "crafts69guy/orchestra"
       }
+    },
+    "hue-theme": {
+      "source": {
+        "source": "directory",
+        "path": "/Users/caongoccuong/Developments/github.com/crafts69guy/hue-theme"
+      }
     }
   },
   "effortLevel": "high",
@@ -61,7 +68,7 @@
   },
   "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
-  "theme": "dark",
+  "theme": "custom:hue-theme:hue-mua",
   "editorMode": "vim",
   "autoMode": {
     "environment": [
