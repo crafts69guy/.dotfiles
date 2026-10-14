@@ -4,8 +4,8 @@ keymode = "insert"
 [projects]
 split_direction = "right"
 default_target = "workspace"
-sort = "recent"
-default_tab = "starred"
+sort = "provider"
+default_tab = "repos"
 
 [fnm]
 enabled = true

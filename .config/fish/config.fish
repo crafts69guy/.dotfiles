@@ -43,50 +43,10 @@ if status is-interactive && command -q fnm
 end
 
 # pnpm
-set -gx PNPM_HOME /Users/caongoccuong/Library/pnpm
-
-if status is-interactive
-    set -gx TERM tmux-256color
-
-    # aliases
-    alias ls "ls -p -G"
-    alias la "ls -A"
-    alias ll "ls -l"
-    alias lla "ll -A"
-    alias g git
-    alias c claude
-    alias oc opencode
-    alias hr herdr
-    alias hrl "~/.scripts/ide-herdr"
-    command -qv nvim && alias vim nvim
-
-    set -gx EDITOR nvim
-
-    # Never put a relative `bin` on PATH: any repo's ./bin would shadow real commands.
-    # fish_add_path skips missing dirs and never duplicates in nested shells.
-    fish_add_path ~/bin
-    # Commands to run in interactive sessions can go here
-    set -g fish_prompt_pwd_dir_length 1
-    set -g theme_display_user yes
-    set -g theme_hide_hostname no
-    set -g theme_hostname always
-    set -g theme_git_worktree_support yes
-    set -g theme_display_docker_machine yes
-    set -g theme_display_node yes
-    set -g theme_powerline_fonts yes
-    set -g theme_display_user ssh
-    set -g theme_display_hostname ssh
-
-    switch (uname)
-        case Darwin
-            source (dirname (status --current-filename))/config-osx.fish
-        case Linux
-            source (dirname (status --current-filename))/config-linux.fish
-        case '*'
-            source (dirname (status --current-filename))/config-windows.fish
-    end
+set -gx PNPM_HOME '/Users/caongoccuong/Library/pnpm'
+if test "$PATH[1]" != "$PNPM_HOME/bin"
+  set -gx PATH "$PNPM_HOME/bin" $PATH
 end
-
 # pnpm end
 if not string match -q -- $PNPM_HOME $PATH
     set -gx PATH "$PNPM_HOME" $PATH
