@@ -1,7 +1,6 @@
 .DS_Store
 
 # Git
-.gitconfig
 .git
 .gitignore
 
@@ -12,3 +11,5 @@ README.md
 # Machine-local files
 ^/\.claude/settings\.local\.json$
 nvim\.log
+\.cocoindex_code
+\.stowrc

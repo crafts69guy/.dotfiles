@@ -192,6 +192,7 @@ Pods/
 .summarize/cache
 .summarize/logs
 .summarize/daemon.json
+.summarize/cli-state.json
 .summarize/cache.**
 
 # Superpowers runtime plans
