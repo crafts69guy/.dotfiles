@@ -57,3 +57,10 @@ fish_add_path /Users/caongoccuong/.opencode/bin
 
 # Added by Antigravity
 fish_add_path /Users/caongoccuong/.antigravity/antigravity/bin
+
+switch (uname)
+    case Darwin
+        source (dirname (status --current-filename))/config-osx.fish
+    case Linux
+        source (dirname (status --current-filename))/config-linux.fish
+end
