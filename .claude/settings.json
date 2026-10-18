@@ -1,6 +1,6 @@
 {
   "env": {
-    "PONYTAIL_SUBAGENT_MATCHER": "^(?!orch:(scoper|shipper)$)"
+    "PONYTAIL_SUBAGENT_MATCHER": "^(?!orc:(scoper|shipper)$)"
   },
   "hooks": {
     "SessionStart": [
@@ -28,7 +28,7 @@
     "rust-analyzer-lsp@claude-plugins-official": true,
     "swift-lsp@claude-plugins-official": true,
     "ponytail@ponytail": true,
-    "orch@orchestra": true,
+    "orc@orchestra": true,
     "hue-theme@hue-theme": true
   },
   "extraKnownMarketplaces": {
