@@ -29,7 +29,8 @@
     "swift-lsp@claude-plugins-official": true,
     "ponytail@ponytail": true,
     "orc@orchestra": true,
-    "hue-theme@hue-theme": true
+    "hue-theme@hue-theme": true,
+    "cc-plugin-you-should-know@builtin": true
   },
   "extraKnownMarketplaces": {
     "openai-codex": {
@@ -70,6 +71,7 @@
   "skipDangerousModePermissionPrompt": true,
   "theme": "custom:hue-theme:hue-mua",
   "editorMode": "vim",
+  "idleCompaction": false,
   "autoMode": {
     "environment": [
       "### Org-wide",
