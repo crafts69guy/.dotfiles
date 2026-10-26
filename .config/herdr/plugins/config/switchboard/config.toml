@@ -23,3 +23,19 @@ scrim = false
 # them on exit; the original is backed up to
 # ~/.local/state/herdr-switchboard/herdr-config.backup.toml.
 chrome = "full"
+
+# orc launchers (fish functions in ~/.config/fish/functions), filled into the pane you came from.
+[[commands.presets]]
+label = "orc pair mode, yolo (cyp)"
+command = "cyp"
+cwd = "origin"
+
+[[commands.presets]]
+label = "orc pair mode, with prompts (ocp)"
+command = "ocp"
+cwd = "origin"
+
+[[commands.presets]]
+label = "orc claude, yolo (cyl)"
+command = "cyl"
+cwd = "origin"
