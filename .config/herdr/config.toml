@@ -191,6 +191,14 @@ type = "plugin_action"
 command = "switchboard.open-split"
 description = "Open repository in split (Switchboard)"
 
+# orc pair mode: a new tab in the current pane's directory running `cyp`
+# (Claude orchestrator; it splits a Codex implementer pane to the right per task).
+[[keys.command]]
+key = "prefix+alt+o"
+type = "shell"
+command = "p=$(\"$HERDR_BIN_PATH\" tab create --cwd \"$PWD\" --label pair --focus | jq -r .result.root_pane.pane_id) && \"$HERDR_BIN_PATH\" pane run \"$p\" cyp"
+description = "orc pair mode in a new tab (cyp)"
+
 [ui]
 mouse_capture = true
 pane_borders = "auto"
