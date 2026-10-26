@@ -1,3 +1,3 @@
-function cyl --description "claude yolo (orc workflow: orc claude --yolo)"
-    claude --dangerously-skip-permissions $argv
+function cyl --description "orc claude --yolo: orc workflow, no permission prompts"
+    orc claude --yolo $argv
 end
