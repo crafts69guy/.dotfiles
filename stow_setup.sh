@@ -47,17 +47,6 @@ if command -v delta >/dev/null 2>&1; then
   fi
 fi
 
-# Guard: warn (non-fatal) if the Rex Hue module has drifted, and if the launchd
-# agent that themes terminals opened later isn't loaded.
-if [[ -d "/Applications/Rex Beta.app" ]]; then
-  if ! "$HOME/.dotfiles/.scripts/sync-hue-rex.sh" --check; then
-    echo "warning: Rex Hue module is stale or unreachable — run .scripts/sync-hue-rex.sh to update." >&2
-  fi
-  if ! launchctl print "gui/$(id -u)/com.crafts69guy.hue-rex-watch" >/dev/null 2>&1; then
-    echo "warning: Rex Hue watcher not loaded — run .scripts/hue-rex-agent.sh install" >&2
-  fi
-fi
-
 # Guard: warn (non-fatal) if the herdr Hue theme plugin isn't installed. Unlike
 # Ghostty/tmux, herdr has no scriptable theme API — the "hue-theme" plugin
 # (packages/herdr-plugin in the hue-theme repo) owns applying it, so it needs
