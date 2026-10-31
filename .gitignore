@@ -208,3 +208,9 @@ docs/superpowers/plans/
 .config/herdr/plugins/config/switchboard/.migrated-from-ghq
 # CocoIndex Code (ccc)
 /.cocoindex_code/
+
+# Anthropic CLI credentials/profiles
+.config/anthropic/
+
+# Wrangler (Cloudflare) auth token, logs, cache
+.config/.wrangler/
