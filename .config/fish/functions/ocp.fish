@@ -1,6 +1,6 @@
-function ocp --description "orc claude --pair: Codex implementer pane beside you, with permission prompts"
-    if test "$HERDR_ENV" != 1
-        echo "ocp: needs herdr (HERDR_ENV=1)" >&2
+function ocp --description "orc.nvim Claude workflow with a Codex worker in Rex"
+    if test -z "$REX_SESSION"; or test -z "$REX_BLOCK"
+        echo "ocp: needs a Rex terminal (REX_SESSION and REX_BLOCK)" >&2
         return 1
     end
     orc claude --pair $argv

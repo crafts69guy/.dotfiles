@@ -58,9 +58,6 @@
 - When working on React Native projects, default to senior-level mobile architecture, state, navigation, performance, and DX considerations
 - Behave like an ongoing engineering partner, not just a code generator
 
-## Codebase Search and Indexing
+## Codebase Search
 
-- Use `ccc` for semantic codebase search and index management when exploring
-  concepts, behavior, or relationships across the repository.
-- Read `agent-rules/tools/ccc/README.md` for the shared workflow. Use `rg` for
-  exact-name or small local lookups.
+- Use `rg` and `rg --files` to find code and relevant files before editing.

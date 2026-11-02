@@ -72,12 +72,9 @@ exec fish
 - Fish shell with Tide prompt configured
 - Neovim with LazyVim setup
 
-## Codebase Search and Indexing
+## Codebase Search
 
-Use `ccc` for semantic codebase search, repository exploration, and index
-refreshes. Read `agent-rules/tools/ccc/README.md` for the shared workflow.
-Prefer the `cocoindex-code` MCP server when available and fall back to the
-installed `ccc` CLI when it is not.
+Use `rg` and `rg --files` to find code and relevant files before editing.
 
 ## Agent skills
 

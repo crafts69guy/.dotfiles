@@ -37,7 +37,7 @@
     "rust-analyzer-lsp@claude-plugins-official": true,
     "swift-lsp@claude-plugins-official": true,
     "ponytail@ponytail": true,
-    "orc@orchestra": true,
+    "orc@orc-nvim": true,
     "hue-theme@hue-theme": true,
     "cc-plugin-you-should-know@builtin": true
   },
@@ -54,10 +54,10 @@
         "repo": "DietrichGebert/ponytail"
       }
     },
-    "orchestra": {
+    "orc-nvim": {
       "source": {
-        "source": "github",
-        "repo": "crafts69guy/orchestra"
+        "source": "directory",
+        "path": "/Users/caongoccuong/Developments/github.com/crafts69guy/orc.nvim"
       }
     },
     "hue-theme": {

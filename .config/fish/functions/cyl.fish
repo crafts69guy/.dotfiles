@@ -1,3 +1,3 @@
-function cyl --description "orc claude --yolo: orc workflow (ORC=1, opus), claude --dangerously-skip-permissions"
+function cyl --description "orc.nvim Lua Claude workflow (ORC=1, opus), --yolo"
     orc claude --yolo $argv
 end
