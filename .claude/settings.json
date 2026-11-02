@@ -109,5 +109,6 @@
       "**Trusted repo**: /Users/caongoccuong/Developments/github.com/crafts69guy/herdr-switchboard (origin: gh-personal:crafts69guy/herdr-switchboard.git) — visibility unverified, treat as possibly public: scope commits/pushes there to this repo's own work only, never port in outside content",
       "**Org-specific CLIs**: None configured — project-specific tools observed: `herdr` (plugin CLI, 60×), `ghq` (repo management), `gh` (GitHub CLI)"
     ]
-  }
+  },
+  "autoCompactEnabled": false
 }
