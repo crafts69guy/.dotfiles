@@ -12,24 +12,30 @@ local function focused_cwd(block_id)
   return (path:gsub("%%(%x%x)", function(h) return string.char(tonumber(h, 16)) end))
 end
 
--- Lazygit in a floating pane over the current tab, opened in the focused pane's repo.
--- The float closes itself when lazygit quits (q).
-rex.action{
-  name     = "lazygit",
-  title    = "Open Lazygit",
-  category = "Git",
-  keywords = "git lazygit float",
-  run      = function(ctx)
-    local _, err = rex.session.new_layer{
-      bounds = { 0.05, 0.05, 0.9, 0.9 },
-      focus  = true,
-      layout = rex.layout.block{
-        flavor  = terminal .. ".shell",
-        options = { command = { "lazygit" }, cwd = focused_cwd(ctx.block_id) },
-      },
-    }
-    if err ~= nil then error(err, 0) end
-  end,
-}
+-- A TUI in a floating pane over the current tab, opened in the focused pane's repo.
+-- The float closes itself when the program quits.
+local function float_action(name, title, command)
+  rex.action{
+    name     = name,
+    title    = title,
+    category = "Git",
+    keywords = "git float " .. name,
+    run      = function(ctx)
+      local _, err = rex.session.new_layer{
+        bounds = { 0.05, 0.05, 0.9, 0.9 },
+        focus  = true,
+        layout = rex.layout.block{
+          flavor  = terminal .. ".shell",
+          options = { command = command, cwd = focused_cwd(ctx.block_id) },
+        },
+      }
+      if err ~= nil then error(err, 0) end
+    end,
+  }
+end
+
+float_action("lazygit", "Open Lazygit", { "lazygit" })
+float_action("tuicr", "Open Tuicr Review", { "tuicr" })
 
 rex.bind("ctrl+cmd+g", "lazygit")
+rex.bind("ctrl+cmd+r", "tuicr")
