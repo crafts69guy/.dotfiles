@@ -8,11 +8,10 @@ Reload changes with `rex config reload`; validate with `rex config check`.
 | Ctrl+Cmd+R | Tuicr in a floating pane |
 | Ctrl+Cmd+P | Search ghq repositories and open a new Rex session |
 
-The repository picker uses orc.nvim and **Telescope**, with the existing Neovim
-configuration. The plugin spec pins Telescope v0.2.2 and includes plenary.nvim.
-It requires `nvim`, `ghq`, and `rex` on the terminal's PATH.
+The repository picker uses orc.nvim and the **Snacks** picker that LazyVim
+already loads with the existing Neovim configuration. It requires `nvim`, `ghq`, and `rex` on the terminal's PATH.
 If `rex` is absent from PATH, it uses the CLI bundled with `/Applications/Rex Beta.app`.
-No native fzf extension is required. Other Snacks features are unchanged.
+No native fzf extension is required.
 
 The command palette also offers **Open Orc Tasks** (`orc_tasks`). This opens the
 task panel for the focused pane's directory. It does not launch an agent.
