@@ -466,22 +466,23 @@ return {
 				-- Window options
 				win = {
 					input = {
+						-- A plain-string spec maps normal mode only; the input starts in insert mode.
 						keys = {
 							["<Esc>"] = "close",
-							["<C-c>"] = "close",
-							["<CR>"] = "confirm",
-							["<C-s>"] = "edit_split",
-							["<C-v>"] = "edit_vsplit",
-							["<C-t>"] = "tab",
-							["<Tab>"] = "select_next",
-							["<S-Tab>"] = "select_prev",
-							["<C-j>"] = "list_down",
-							["<C-k>"] = "list_up",
-							["<C-d>"] = "preview_scroll_down",
-							["<C-u>"] = "preview_scroll_up",
-							["<C-q>"] = "qflist",
-							["<a-p>"] = "toggle_preview",
-							["<a-f>"] = "toggle_follow",
+							["<C-c>"] = { "close", mode = { "n", "i" } },
+							["<CR>"] = { "confirm", mode = { "n", "i" } },
+							["<C-s>"] = { "edit_split", mode = { "n", "i" } },
+							["<C-v>"] = { "edit_vsplit", mode = { "n", "i" } },
+							["<C-t>"] = { "tab", mode = { "n", "i" } },
+							["<Tab>"] = { "select_next", mode = { "n", "i" } },
+							["<S-Tab>"] = { "select_prev", mode = { "n", "i" } },
+							["<C-j>"] = { "list_down", mode = { "n", "i" } },
+							["<C-k>"] = { "list_up", mode = { "n", "i" } },
+							["<C-d>"] = { "preview_scroll_down", mode = { "n", "i" } },
+							["<C-u>"] = { "preview_scroll_up", mode = { "n", "i" } },
+							["<C-q>"] = { "qflist", mode = { "n", "i" } },
+							["<a-p>"] = { "toggle_preview", mode = { "n", "i" } },
+							["<a-f>"] = { "toggle_follow", mode = { "n", "i" } },
 						},
 					},
 					preview = {
