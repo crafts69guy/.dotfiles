@@ -16,6 +16,17 @@ return {
 		-- JS/TS file with oxfmt defaults, even in projects that don't use it.
 		opts.formatters.oxfmt = vim.tbl_deep_extend("force", opts.formatters.oxfmt or {}, { require_cwd = true })
 
+		-- Prettier's config search climbs to ~/.prettierrc, so a project with an explicit
+		-- oxfmt config must veto it or every save rewrites files with the home style.
+		local prettier_condition = vim.tbl_get(opts.formatters, "prettier", "condition")
+		opts.formatters.prettier = opts.formatters.prettier or {}
+		opts.formatters.prettier.condition = function(self, ctx)
+			if vim.fs.root(ctx.dirname, { ".oxfmtrc.json", ".oxfmtrc.jsonc", "oxfmt.config.ts" }) then
+				return false
+			end
+			return prettier_condition == nil or prettier_condition(self, ctx)
+		end
+
 		for ft, list in pairs(opts.formatters_by_ft) do
 			if type(list) == "table" then
 				-- Extras append independently, so the same formatter can appear twice.
