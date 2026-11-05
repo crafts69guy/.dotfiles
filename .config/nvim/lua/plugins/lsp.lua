@@ -124,6 +124,22 @@ return {
 						end)
 					end,
 				}
+				-- Prefer a project's pinned tsrs (drop-in TS7 server). root_dir and cmd must come
+				-- from one dofile: they share the private cache of the resolved tsc binary.
+				local tsc_file = vim.api.nvim_get_runtime_file("lsp/tsc.lua", false)[1]
+				if tsc_file then
+					local tsc = dofile(tsc_file)
+					servers.tsc = servers.tsc or {}
+					servers.tsc.root_dir = tsc.root_dir
+					servers.tsc.cmd = function(dispatchers, config)
+						local root = (config or {}).root_dir
+						local tsrs = root and vim.fs.joinpath(root, "node_modules/.bin/tsrs")
+						if tsrs and vim.fn.executable(tsrs) == 1 then
+							return vim.lsp.rpc.start({ tsrs, "--lsp", "--stdio" }, dispatchers)
+						end
+						return tsc.cmd(dispatchers, config)
+					end
+				end
 				servers.tailwindcss = {
 					settings = {
 						tailwindCSS = {
