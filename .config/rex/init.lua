@@ -32,7 +32,7 @@ local function float_action(name, title, command, needs_cwd)
   rex.action{
     name     = name,
     title    = title,
-    category = name == "orc_tasks" and "Orc" or "Git",
+    category = name:match("^orc_") and "Orc" or "Git",
     keywords = "git float " .. name,
     run      = function(ctx)
       local cwd = focused_cwd(ctx.block_id)
@@ -62,7 +62,7 @@ local function orc_popup(method)
   return function(ctx, cwd)
     assert(ctx.client_id and ctx.client_id ~= "", "Open the orc popup from a Rex app")
     local options = ("client_id=%q,quit_on_close=true"):format(ctx.client_id)
-    if method == "open" then options = options .. (",cwd=%q"):format(cwd) end
+    if method == "open" or method == "workers" then options = options .. (",cwd=%q"):format(cwd) end
     return {
       "nvim", "-n", "-i", "NONE", "-c",
       ("lua require('orc').%s({%s})"):format(method, options),
@@ -72,7 +72,62 @@ end
 
 float_action("ghq_projects", "Open GHQ Repository in New Session", orc_popup("projects"))
 float_action("orc_tasks", "Open Orc Tasks", orc_popup("open"), true)
+float_action("orc_workers", "Jump to Orc Worker", orc_popup("workers"), true)
+
+rex.action{
+  name = "orc_orchestrator",
+  title = "Open Orc Orchestrator",
+  category = "Orc",
+  run = function(ctx)
+    local cwd = focused_cwd(ctx.block_id)
+    assert(cwd, "The focused pane has not reported a project directory")
+    assert(ctx.session_id and ctx.session_id ~= "", "Open the orc orchestrator from a Rex session")
+    local split, err = rex.session.new_split{
+      session_id = ctx.session_id,
+      anchor_id = ctx.block_id,
+      direction = "horizontal",
+      side = "after",
+      focus = true,
+      layout = rex.layout.block{
+        flavor = terminal .. ".shell",
+        options = { command = { "orc", "claude" }, cwd = cwd },
+      },
+    }
+    if err ~= nil then error(err, 0) end
+    return split
+  end,
+}
+
+rex.action{
+  name = "orc_prune",
+  title = "Close Finished Orc Workers",
+  category = "Orc",
+  run = function(ctx)
+    local cwd = focused_cwd(ctx.block_id)
+    assert(cwd, "The focused pane has not reported a project directory")
+    local home = os.getenv("HOME")
+    assert(home and home:sub(1, 1) == "/", "HOME must be an absolute path to locate orc")
+    -- The Rex server's PATH is /usr/bin:/bin, but bin/orc's shebang needs nvim.
+    local path = home .. "/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+    local result, err = rex.exec(
+      { "/usr/bin/env", "PATH=" .. path, home .. "/.local/bin/orc", "pane", "prune", "--path", cwd },
+      { cwd = cwd, timeout = 25 })
+    if result == nil then error(err, 0) end
+    if not result.ok then
+      -- orc reports failures as JSON on stdout.
+      local message = result.stderr
+      if not message or message == "" then message = result.stdout end
+      if not message or message == "" then message = "Orc worker prune failed" end
+      error(message, 0)
+    end
+    return { output = result.stdout }
+  end,
+}
 
 rex.bind("ctrl+cmd+g", "lazygit")
 rex.bind("ctrl+cmd+r", "tuicr")
 rex.bind("ctrl+cmd+p", "ghq_projects")
+rex.bind("ctrl+cmd+o", "orc_tasks")
+rex.bind("ctrl+cmd+a", "orc_orchestrator")
+rex.bind("ctrl+cmd+w", "orc_workers")
+rex.bind("ctrl+cmd+x", "orc_prune")
