@@ -23,6 +23,8 @@ No native fzf extension is required.
 The command palette also offers **Open Orc Tasks** (`orc_tasks`). This opens the
 task panel for the focused pane's directory. It does not launch an agent.
 The pane must have reported an absolute local directory, normally through OSC 7.
+A pane running a program without a shell (such as `orc claude`) never sends OSC 7;
+the actions then use the foreground process's working directory.
 
 All four Orc shortcuts require that directory. **Open Orc Orchestrator**
 (`orc_orchestrator`) opens a focused new tab named "Orc" in the same session,

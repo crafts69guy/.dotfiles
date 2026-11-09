@@ -1,7 +1,7 @@
 -- Run with nvim --headless -u NONE -l .config/rex/integration-test.lua.
 local config_dir = vim.fs.dirname(vim.uv.fs_realpath(arg[0]))
 local actions, bindings, layers, pwd, hostname, layer_error, hostname_error
-local splits, exec_calls, split_error, exec_error, exec_result, focused, queued
+local splits, exec_calls, split_error, exec_error, exec_result, focused, queued, proc_cwd
 local origin = 'client:origin"; error("unexpected") --'
 local context = { client_id = origin, session_id = "session:source", block_id = "block:source" }
 local invoked
@@ -29,8 +29,9 @@ local function load_config()
     end,
     block = {
       call = function(flavor, method, opts)
-        assert(flavor == "com.superlogical.terminal" and method == "pwd")
+        assert(flavor == "com.superlogical.terminal" and (method == "pwd" or method == "process"))
         assert(opts.block_id == context.block_id)
+        if method == "process" then return proc_cwd and { foreground = { cwd = proc_cwd } } or nil end
         return pwd and { pwd = pwd } or nil
       end,
     },
@@ -181,6 +182,22 @@ for _, absent in ipairs({ false, "" }) do
   assert(#layers == 0 and #splits == 0 and #exec_calls == 0)
   invoke(popup("ghq_projects"))
 end
+
+-- A pane running claude directly never sends OSC 7: fall back to the foreground process's cwd.
+for _, absent in ipairs({ false, "" }) do
+  pwd, proc_cwd = absent, "/repo from process"
+  load_config()
+  assert(popup("lazygit").cwd == proc_cwd and popup("tuicr").cwd == proc_cwd)
+  options = popup("orc_tasks")
+  invoke(options)
+  assert(invoked.opts.cwd == proc_cwd)
+  actions.orc_orchestrator.run(context)
+  assert(splits[1].layout.options.cwd == proc_cwd)
+  proc_cwd = "relative/repo"
+  load_config()
+  assert(not pcall(actions.orc_tasks.run, context) and #layers == 0)
+end
+proc_cwd = nil
 
 pwd = "/repo"
 load_config()

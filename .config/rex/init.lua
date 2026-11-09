@@ -3,13 +3,19 @@
 
 local terminal = "com.superlogical.terminal"
 
--- The focused pane's directory as a plain path, or nil when the shell never reported one.
+-- The focused pane's directory as a plain path, or nil when nothing reported one.
 local function focused_cwd(block_id)
   if not block_id then return nil end
   local r = rex.block.call(terminal, "pwd", { block_id = block_id })
-  if r == nil or r.pwd == nil or r.pwd == "" then return nil end
-  assert(type(r.pwd) == "string", "Rex pane reported an invalid directory")
-  local path = r.pwd
+  local path = r and r.pwd
+  if path == nil or path == "" then
+    -- Programs started without a shell (claude, orc workers) never send OSC 7; use the process's own cwd.
+    local p = rex.block.call(terminal, "process", { block_id = block_id })
+    local fg = p and (p.foreground or p.child)
+    path = fg and fg.cwd
+    if path == nil or path == "" then return nil end
+  end
+  assert(type(path) == "string", "Rex pane reported an invalid directory")
   if path:sub(1, 7) == "file://" then
     local host
     host, path = path:match("^file://([^/]*)(/.*)$")
