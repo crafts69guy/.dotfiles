@@ -6,14 +6,17 @@ Reload changes with `rex config reload`; validate with `rex config check`.
 | --- | --- |
 | Ctrl+Cmd+G | Lazygit in a floating pane |
 | Ctrl+Cmd+R | Tuicr in a floating pane |
-| Ctrl+Cmd+P | Search ghq repositories and open a new Rex session |
+| Ctrl+Cmd+P | Search ghq repositories (small centered popup) and open a new Rex session |
 | Ctrl+Cmd+O | Open Orc Tasks for the focused pane's directory |
 | Ctrl+Cmd+A | Open a new tab (like Cmd+T) running the Orc orchestrator (`orc claude`) |
-| Ctrl+Cmd+W | Jump to an Orc worker in a floating picker |
+| Ctrl+Cmd+W | Jump to an Orc worker in a small centered picker |
 | Ctrl+Cmd+X | Close finished Orc workers for the focused repository |
 
-The repository picker uses orc.nvim and the **Snacks** picker that LazyVim
-already loads with the existing Neovim configuration. It requires `nvim`, `ghq`, and `rex` on the terminal's PATH.
+The Orc popups (repositories, tasks, workers) run `nvim --clean -u orc-popup.lua`,
+not the LazyVim configuration. `orc-popup.lua` loads only snacks.nvim (from
+`~/.local/share/nvim/lazy`), orc.nvim and the Hue theme from their checkouts under
+`~/Developments/github.com/crafts69guy`; update it if those move. It requires
+`nvim`, `ghq`, and `rex` on the terminal's PATH.
 If `rex` is absent from PATH, it uses the CLI bundled with `/Applications/Rex Beta.app`.
 No native fzf extension is required.
 

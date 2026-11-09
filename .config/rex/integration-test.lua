@@ -72,19 +72,23 @@ local function load_config()
   assert(bindings["ctrl+cmd+x"] == "orc_prune")
 end
 
+local picker_actions = { ghq_projects = true, orc_workers = true }
+
 local function popup(name, ctx)
   local result = actions[name].run(ctx or context)
   assert(result.layer_id == "layer:popup")
   local options = layers[#layers]
-  assert(vim.deep_equal(options.bounds, { 0.05, 0.05, 0.9, 0.9 }) and options.focus)
+  local bounds = picker_actions[name] and { 0.25, 0.2, 0.5, 0.6 } or { 0.05, 0.05, 0.9, 0.9 }
+  assert(vim.deep_equal(options.bounds, bounds) and options.focus)
   assert(options.session_id == (ctx or context).session_id)
   assert(options.layout.flavor == "com.superlogical.terminal.shell")
   return options.layout.options
 end
 
 local function invoke(options)
-  assert(vim.deep_equal(vim.list_slice(options.command, 1, 5), { "nvim", "-n", "-i", "NONE", "-c" }))
-  assert(loadstring(options.command[6]:gsub("^lua ", "")))()
+  assert(vim.deep_equal(vim.list_slice(options.command, 1, 6),
+    { "nvim", "--clean", "-u", home .. "/.config/rex/orc-popup.lua", "-n", "-c" }))
+  assert(loadstring(options.command[7]:gsub("^lua ", "")))()
   assert(invoked.opts.client_id == origin and invoked.opts.quit_on_close == true)
 end
 

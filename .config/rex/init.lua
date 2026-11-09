@@ -28,7 +28,7 @@ end
 
 -- A TUI in a floating pane over the current tab, opened in the focused pane's repo.
 -- The float closes itself when the program quits.
-local function float_action(name, title, command, needs_cwd)
+local function float_action(name, title, command, needs_cwd, bounds)
   rex.action{
     name     = name,
     title    = title,
@@ -39,7 +39,7 @@ local function float_action(name, title, command, needs_cwd)
       assert(not needs_cwd or cwd, "The focused pane has not reported a project directory")
       local layer, err = rex.session.new_layer{
         session_id = ctx.session_id,
-        bounds = { 0.05, 0.05, 0.9, 0.9 },
+        bounds = bounds or { 0.05, 0.05, 0.9, 0.9 },
         focus  = true,
         layout = rex.layout.block{
           flavor  = terminal .. ".shell",
@@ -63,16 +63,21 @@ local function orc_popup(method)
     assert(ctx.client_id and ctx.client_id ~= "", "Open the orc popup from a Rex app")
     local options = ("client_id=%q,quit_on_close=true"):format(ctx.client_id)
     if method == "open" or method == "workers" then options = options .. (",cwd=%q"):format(cwd) end
+    local home = os.getenv("HOME")
+    assert(home and home:sub(1, 1) == "/", "HOME must be an absolute path to locate orc-popup.lua")
+    -- --clean skips LazyVim (dashboard, tabline, statusline); orc-popup.lua loads only what the popup needs.
     return {
-      "nvim", "-n", "-i", "NONE", "-c",
+      "nvim", "--clean", "-u", home .. "/.config/rex/orc-popup.lua", "-n", "-c",
       ("lua require('orc').%s({%s})"):format(method, options),
     }
   end
 end
 
-float_action("ghq_projects", "Open GHQ Repository in New Session", orc_popup("projects"))
+-- Pickers fill their popup, so a small centered layer keeps the current tab visible around them.
+local picker_bounds = { 0.25, 0.2, 0.5, 0.6 }
+float_action("ghq_projects", "Open GHQ Repository in New Session", orc_popup("projects"), false, picker_bounds)
 float_action("orc_tasks", "Open Orc Tasks", orc_popup("open"), true)
-float_action("orc_workers", "Jump to Orc Worker", orc_popup("workers"), true)
+float_action("orc_workers", "Jump to Orc Worker", orc_popup("workers"), true, picker_bounds)
 
 rex.action{
   name = "orc_orchestrator",
