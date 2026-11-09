@@ -14,7 +14,7 @@ Reload changes with `rex config reload`; validate with `rex config check`.
 
 The Orc popups (repositories, tasks, workers) run `nvim --clean -u orc-popup.lua`,
 not the LazyVim configuration. `orc-popup.lua` loads only snacks.nvim (from
-`~/.local/share/nvim/lazy`), orc.nvim and the Hue theme from their checkouts under
+Neovim's `stdpath("data")/lazy`), orc.nvim and the Hue theme from their checkouts under
 `~/Developments/github.com/crafts69guy`; update it if those move. It requires
 `nvim`, `ghq`, and `rex` on the terminal's PATH.
 If `rex` is absent from PATH, it uses the CLI bundled with `/Applications/Rex Beta.app`.

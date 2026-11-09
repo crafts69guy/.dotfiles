@@ -2,7 +2,8 @@
 -- Only Snacks, orc and the Hue theme load: no LazyVim dashboard, tabline or statusline.
 local home = vim.env.HOME
 local repos = home .. "/Developments/github.com/crafts69guy"
-vim.opt.rtp:prepend({ home .. "/.local/share/nvim/lazy/snacks.nvim", repos .. "/orc.nvim" })
+-- Same plugin dir as the editor (nvim/lua/config/profile.lua); --clean keeps stdpath.
+vim.opt.rtp:prepend({ vim.fn.stdpath("data") .. "/lazy/snacks.nvim", repos .. "/orc.nvim" })
 vim.o.laststatus, vim.o.showtabline, vim.o.cmdheight = 0, 0, 0
 vim.o.ruler, vim.o.showmode, vim.o.termguicolors = false, false, true
 
