@@ -82,11 +82,10 @@ rex.action{
     local cwd = focused_cwd(ctx.block_id)
     assert(cwd, "The focused pane has not reported a project directory")
     assert(ctx.session_id and ctx.session_id ~= "", "Open the orc orchestrator from a Rex session")
-    local split, err = rex.session.new_split{
+    -- A new tab, like Cmd+T, so the orchestrator gets the full window.
+    local window, err = rex.session.new_window{
       session_id = ctx.session_id,
-      anchor_id = ctx.block_id,
-      direction = "horizontal",
-      side = "after",
+      window_label = "Orc",
       focus = true,
       layout = rex.layout.block{
         flavor = terminal .. ".shell",
@@ -94,7 +93,16 @@ rex.action{
       },
     }
     if err ~= nil then error(err, 0) end
-    return split
+    -- Put keyboard focus on the orchestrator's terminal, not just the tab.
+    local block = window.block_ids and window.block_ids[1]
+    assert(block, "Rex did not report the orchestrator's pane")
+    local _, focus_err = rex.session.focus_block{ session_id = ctx.session_id, block_id = block }
+    if focus_err ~= nil then error(focus_err, 0) end
+    -- The app keeps its own tab selection; queue the switch on the app that ran the shortcut.
+    if ctx.client_id and ctx.client_id ~= "" then
+      rex.client.queue("session.select", { session_id = ctx.session_id, window_id = window.window_id })
+    end
+    return window
   end,
 }
 

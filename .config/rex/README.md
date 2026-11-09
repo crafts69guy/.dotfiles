@@ -8,7 +8,7 @@ Reload changes with `rex config reload`; validate with `rex config check`.
 | Ctrl+Cmd+R | Tuicr in a floating pane |
 | Ctrl+Cmd+P | Search ghq repositories and open a new Rex session |
 | Ctrl+Cmd+O | Open Orc Tasks for the focused pane's directory |
-| Ctrl+Cmd+A | Split right and launch the Orc orchestrator (`orc claude`) |
+| Ctrl+Cmd+A | Open a new tab (like Cmd+T) running the Orc orchestrator (`orc claude`) |
 | Ctrl+Cmd+W | Jump to an Orc worker in a floating picker |
 | Ctrl+Cmd+X | Close finished Orc workers for the focused repository |
 
@@ -22,8 +22,8 @@ task panel for the focused pane's directory. It does not launch an agent.
 The pane must have reported an absolute local directory, normally through OSC 7.
 
 All four Orc shortcuts require that directory. **Open Orc Orchestrator**
-(`orc_orchestrator`) creates a focused split to the right of the originating pane
-in the same session, running `orc claude` in that directory. Orc enables pane
+(`orc_orchestrator`) opens a focused new tab named "Orc" in the same session,
+like Cmd+T, running `orc claude` in that directory. Orc enables pane
 mode automatically inside Rex.
 
 **Jump to Orc Worker** (`orc_workers`) opens the worker picker for that directory;

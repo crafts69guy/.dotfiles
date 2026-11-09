@@ -1,7 +1,7 @@
 -- Run with nvim --headless -u NONE -l .config/rex/integration-test.lua.
 local config_dir = vim.fs.dirname(vim.uv.fs_realpath(arg[0]))
 local actions, bindings, layers, pwd, hostname, layer_error, hostname_error
-local splits, exec_calls, split_error, exec_error, exec_result
+local splits, exec_calls, split_error, exec_error, exec_result, focused, queued
 local origin = 'client:origin"; error("unexpected") --'
 local context = { client_id = origin, session_id = "session:source", block_id = "block:source" }
 local invoked
@@ -20,7 +20,7 @@ package.loaded.orc = {
 
 local function load_config()
   actions, bindings, layers, invoked = {}, {}, {}, nil
-  splits, exec_calls = {}, {}
+  splits, exec_calls, focused, queued = {}, {}, nil, {}
   _G.rex = {
     action = function(action) actions[action.name] = action end,
     bind = function(key, action)
@@ -34,6 +34,7 @@ local function load_config()
         return pwd and { pwd = pwd } or nil
       end,
     },
+    client = { queue = function(name, args) queued[#queued + 1] = { name = name, args = args } end },
     exec = function(argv, opts)
       exec_calls[#exec_calls + 1] = { argv = argv, opts = opts }
       if argv[1] == "hostname" then
@@ -51,10 +52,11 @@ local function load_config()
         if layer_error then return nil, layer_error end
         return { layer_id = "layer:popup", block_ids = { "block:popup" } }
       end,
-      new_split = function(opts)
+      focus_block = function(opts) focused = opts; return {} end,
+      new_window = function(opts)
         splits[#splits + 1] = opts
         if split_error then return nil, split_error end
-        return { block_ids = { "block:orchestrator" } }
+        return { window_id = "window:orc", block_ids = { "block:orchestrator" } }
       end,
     },
   }
@@ -104,11 +106,13 @@ assert(actions.orc_workers.title == "Jump to Orc Worker" and actions.orc_workers
 assert(actions.orc_orchestrator.title == "Open Orc Orchestrator")
 local result = actions.orc_orchestrator.run(context)
 assert(result.block_ids[1] == "block:orchestrator")
+assert(vim.deep_equal(focused, { session_id = context.session_id, block_id = "block:orchestrator" }))
+assert(vim.deep_equal(queued, {
+  { name = "session.select", args = { session_id = context.session_id, window_id = "window:orc" } },
+}))
 assert(vim.deep_equal(splits[1], {
   session_id = context.session_id,
-  anchor_id = context.block_id,
-  direction = "horizontal",
-  side = "after",
+  window_label = "Orc",
   focus = true,
   layout = { flavor = "com.superlogical.terminal.shell", options = { command = { "orc", "claude" }, cwd = pwd } },
 }))
@@ -194,9 +198,9 @@ for _, name in ipairs({ "ghq_projects", "orc_tasks", "orc_workers" }) do
   local ok, err = pcall(actions[name].run, context)
   assert(not ok and err == "layer refused")
 end
-split_error = "split refused"
+split_error = "window refused"
 local ok, err = pcall(actions.orc_orchestrator.run, context)
-assert(not ok and err == "split refused")
+assert(not ok and err == "window refused")
 exec_error = "orc executable missing"
 ok, err = pcall(actions.orc_prune.run, context)
 assert(not ok and err == exec_error)
