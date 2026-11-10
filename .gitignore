@@ -82,6 +82,11 @@ Pods/
 
 # Android
 .config/.android/avd/
+.config/.android/cache/
+
+# Worktrunk local command approvals
+.config/worktrunk/approvals.toml
+.config/worktrunk/approvals.toml.lock
 
 # Tmux
 .config/tmux/plugins
