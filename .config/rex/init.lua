@@ -86,6 +86,28 @@ float_action("orc_tasks", "Open Orc Tasks", orc_popup("open"), true)
 float_action("orc_workers", "Jump to Orc Worker", orc_popup("workers"), true, picker_bounds)
 
 rex.action{
+  name = "new_dev_session",
+  title = "New Session in Developments",
+  category = "Session",
+  run = function(ctx)
+    assert(ctx.client_id and ctx.client_id ~= "", "Open the new session from a Rex app")
+    local home = os.getenv("HOME")
+    assert(home and home:sub(1, 1) == "/", "HOME must be an absolute path to locate Developments")
+    local session, err = rex.call("session.create", {
+      initial_windows = {{
+        layout = rex.layout.block{
+          flavor = terminal .. ".shell",
+          options = { cwd = home .. "/Developments" },
+        },
+      }},
+    })
+    if err ~= nil then error(err, 0) end
+    rex.client.queue("session.select", { session_id = session.session_id })
+    return session
+  end,
+}
+
+rex.action{
   name = "orc_orchestrator",
   title = "Open Orc Orchestrator",
   category = "Orc",
@@ -143,6 +165,7 @@ rex.action{
   end,
 }
 
+rex.bind("shift+cmd+n", "new_dev_session")
 rex.bind("ctrl+cmd+g", "lazygit")
 rex.bind("ctrl+cmd+r", "tuicr")
 rex.bind("ctrl+cmd+p", "ghq_projects")

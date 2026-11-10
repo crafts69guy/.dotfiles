@@ -4,6 +4,7 @@ Reload changes with `rex config reload`; validate with `rex config check`.
 
 | Shortcut | Action |
 | --- | --- |
+| Shift+Cmd+N | Create and display a fresh shell session in `~/Developments` |
 | Ctrl+Cmd+G | Lazygit in a floating pane |
 | Ctrl+Cmd+R | Tuicr in a floating pane |
 | Ctrl+Cmd+P | Search ghq repositories (small centered popup) and open a new Rex session |
@@ -11,6 +12,12 @@ Reload changes with `rex config reload`; validate with `rex config check`.
 | Ctrl+Cmd+A | Open a new tab (like Cmd+T) running the Orc orchestrator (`orc claude`) |
 | Ctrl+Cmd+W | Jump to an Orc worker in a small centered picker |
 | Ctrl+Cmd+X | Close finished Orc workers for the focused repository |
+
+**New Session in Developments** (`new_dev_session`) uses the Rex server's
+`HOME .. "/Developments"` as its fixed directory, regardless of the focused pane.
+To customize it, change `options.cwd` in that action in `init.lua` to an absolute
+server path, then reload the configuration. If the directory is missing, the
+terminal falls back to home. The menu's **New Session** action is unchanged.
 
 The Orc popups (repositories, tasks, workers) run `nvim --clean -u orc-popup.lua`,
 not the LazyVim configuration. `orc-popup.lua` loads only snacks.nvim (from

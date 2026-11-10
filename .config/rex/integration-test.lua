@@ -2,6 +2,8 @@
 local config_dir = vim.fs.dirname(vim.uv.fs_realpath(arg[0]))
 local actions, bindings, layers, pwd, hostname, layer_error, hostname_error
 local splits, exec_calls, split_error, exec_error, exec_result, focused, queued, proc_cwd
+local creations, creation_error
+local created_session = { session_id = "session:developments" }
 local origin = 'client:origin"; error("unexpected") --'
 local context = { client_id = origin, session_id = "session:source", block_id = "block:source" }
 local invoked
@@ -21,11 +23,17 @@ package.loaded.orc = {
 local function load_config()
   actions, bindings, layers, invoked = {}, {}, {}, nil
   splits, exec_calls, focused, queued = {}, {}, nil, {}
+  creations = {}
   _G.rex = {
     action = function(action) actions[action.name] = action end,
     bind = function(key, action)
       assert(bindings[key] == nil, "Duplicate shortcut: " .. key)
       bindings[key] = action
+    end,
+    call = function(method, opts)
+      creations[#creations + 1] = { method = method, opts = opts }
+      if creation_error then return nil, creation_error end
+      return created_session
     end,
     block = {
       call = function(flavor, method, opts)
@@ -62,8 +70,10 @@ local function load_config()
     },
   }
   dofile(config_dir .. "/init.lua")
-  assert(#layers == 0 and #splits == 0 and #exec_calls == 0, "Loading config must never create resources")
-  assert(vim.tbl_count(actions) == 7 and vim.tbl_count(bindings) == 7)
+  assert(#layers == 0 and #splits == 0 and #exec_calls == 0 and #creations == 0 and #queued == 0,
+    "Loading config must never create resources")
+  assert(vim.tbl_count(actions) == 8 and vim.tbl_count(bindings) == 8)
+  assert(bindings["shift+cmd+n"] == "new_dev_session")
   assert(bindings["ctrl+cmd+g"] == "lazygit")
   assert(bindings["ctrl+cmd+r"] == "tuicr")
   assert(bindings["ctrl+cmd+p"] == "ghq_projects")
@@ -94,6 +104,26 @@ local function invoke(options)
 end
 
 pwd = '/repo literal%20 with "quotes" and \\slashes;$()'
+load_config()
+assert(actions.new_dev_session.run({ client_id = origin }) == created_session)
+assert(vim.deep_equal(creations, {{
+  method = "session.create",
+  opts = { initial_windows = {{
+    layout = { flavor = "com.superlogical.terminal.shell", options = { cwd = home .. "/Developments" } },
+  }} },
+}}))
+assert(vim.deep_equal(queued, {
+  { name = "session.select", args = { session_id = created_session.session_id } },
+}))
+load_config()
+for _, ctx in ipairs({ {}, { client_id = "" } }) do
+  assert(not pcall(actions.new_dev_session.run, ctx))
+end
+assert(#creations == 0 and #queued == 0)
+creation_error = "session refused"
+local created, creation_err = pcall(actions.new_dev_session.run, context)
+assert(not created and creation_err == creation_error and #creations == 1 and #queued == 0)
+creation_error = nil
 load_config()
 assert(vim.deep_equal(popup("lazygit").command, { "lazygit" }))
 assert(vim.deep_equal(popup("tuicr").command, { "tuicr" }))
@@ -244,10 +274,12 @@ for _, missing_home in ipairs({ false, "", "relative/home" }) do
   home = missing_home
   load_config()
   assert(not pcall(actions.orc_prune.run, context) and #exec_calls == 0)
+  assert(not pcall(actions.new_dev_session.run, context) and #creations == 0 and #queued == 0)
 end
 home = nil
 load_config()
 assert(not pcall(actions.orc_prune.run, context) and #exec_calls == 0)
+assert(not pcall(actions.new_dev_session.run, context) and #creations == 0 and #queued == 0)
 os.getenv = old_getenv
 package.loaded.orc = old_orc
 print("rex integration: all assertions passed")
