@@ -1,16 +1,12 @@
 ![dotfiles Neovim desktop](./images/dotfiles_neovim_desktop.png)
 
-![herdr agent session screenshot](./images/herdr_agent_session.png)
-![herdr switchboard screenshot](./images/herdr_keybinds.png)
-
 **Warning**: Don’t blindly use my settings unless you know what that entails. Use at your own risk!
 
 ## **📌 Contents**
 
-- **Herdr** – Mouse-first multiplexer with native Claude Code/agent integration (daily-driver, replaces tmux)
-- **Tmux** – Kept as a minimal fallback for remote/SSH-only boxes without herdr
+- **Tmux** – Minimal terminal multiplexer configuration
 - **Neovim** – Custom plugins, keybindings, and themes (LazyVim)
-- **Hue Theme** – Custom Huế-inspired theme system across Fish/Tide, herdr, Ghostty, tmux, and Neovim
+- **Hue Theme** – Custom Huế-inspired theme system across Fish/Tide, Ghostty, tmux, and Neovim
 - **Git** – Configuration for efficient version control
 - **Karabiner** – Custom key mappings with Fn (Hyper) key
 - **Fish Shell** – Enhanced terminal experience with Tide prompt
@@ -46,17 +42,6 @@ sudo apt update && sudo apt install stow git fish tmux neovim
 sudo pacman -S stow git fish tmux neovim
 ```
 
-#### **Install herdr (daily-driver multiplexer)**
-
-herdr (https://herdr.dev) replaces tmux as the daily-driver terminal
-multiplexer; tmux is kept as a minimal fallback for remote/SSH-only boxes.
-
-```sh
-curl -fsSL https://herdr.dev/install.sh | sh
-herdr integration install claude
-herdr plugin install crafts69guy/hue-theme/packages/herdr-plugin
-```
-
 #### Install **Fisher**
 
 A plugin manager for Fish  
@@ -90,8 +75,8 @@ Then restart Fish with `exec fish`.
 
 #### Hue theme switcher
 
-Use the Fish command below to switch the Hue mood across Fish/Tide, herdr,
-tmux, Ghostty, and Neovim:
+Use the Fish command below to switch the Hue mood across Fish/Tide, tmux,
+Ghostty, Neovim, bat, lazygit, delta, and FZF:
 
 ```fish
 hue-theme mua
@@ -101,9 +86,8 @@ hue-theme cung
 
 The command stores the active mood in `~/.local/state/hue-theme/current`, so
 switching moods does not dirty this dotfiles repo. Dotfiles keep the switcher,
-host integration, and Ghostty theme files versioned. herdr has no scriptable
-theme API of its own, so its mood is applied by a separate herdr plugin (see
-[Herdr](#-herdr) below) that `hue-theme` triggers automatically.
+host integration, and generated theme files versioned. FZF reads the active
+Hue Tide palette and shares refreshed options across running Fish shells.
 
 ### **2. Clone This Repository**
 
@@ -161,38 +145,16 @@ Key entry points:
 - `agent-rules/README.md` – Cross-agent routing index
 - `agent-rules/shared/` – General Markdown and research/citation rules
 - `agent-rules/tools/inkdrop-v6/` – Inkdrop v6 note-taking, Mermaid, links, organization, and MCP token workflow
-- `agent-rules/tools/herdr/` – Herdr multiplexer config, agent panes, socket API scripting
 - `agent-rules/stacks/` – Stack-specific rules for React Native, Medusa, and Web3
 
 After stowing this repo, agents can resolve the shared rules from `~/agent-rules/...`.
 
 ---
 
-## **🐚 Herdr**
+## **🐚 Tmux**
 
-[Herdr](https://herdr.dev) is a mouse-first terminal multiplexer with native
-lifecycle-hook integration for AI coding agents (Claude Code, opencode, and
-others) — it reports `idle`/`working`/`blocked` pane state directly instead of
-polling, and shows it in its sidebar (screenshots at the top of this README).
-
-- Config: `.config/herdr/config.toml` — prefix `ctrl+t` (same muscle memory as
-  the tmux fallback below), lazygit/git-graph popups on `prefix+alt+g` /
-  `prefix+alt+shift+g`, mouse-first pane splitting, nested-session protection,
-  and pane history enabled.
-- Fish aliases: `hr` launches/attaches Herdr; `hrl` applies the saved IDE pane
-  layout from `.scripts/ide-herdr`.
-- Navigation: workspace navigation mode uses `j`/`k` for down/up, workspace
-  switching uses `prefix+ctrl+j/k`, agent switching uses `prefix+alt+j/k`, and
-  `prefix+alt+1..9` jumps directly to agent panes.
-- Agent integration: `herdr integration install claude` (and `opencode`) wires
-  up native session-state hooks — see `agent-rules/tools/herdr/README.md` for
-  the socket API/plugin caveats.
-- Theming: herdr has no scriptable theme API, so the Hue Tide theme is applied
-  by a small herdr plugin (`crafts69guy/hue-theme`, `packages/herdr-plugin`)
-  that `hue-theme.fish` triggers — see the Hue theme switcher above.
-- tmux (`.config/tmux/tmux.conf`) is kept as a trimmed-down fallback for
-  remote/SSH-only boxes without herdr installed; its `tpm`/`tmux-summarize`
-  plugins still apply there.
+`.config/tmux/tmux.conf` provides a minimal multiplexer setup with `ctrl+t`
+as the prefix, vi-style copy mode, and the `tpm`/`tmux-summarize` plugins.
 
 ---
 
@@ -269,7 +231,7 @@ brew install fzf fd ripgrep bat eza ghq
   - [WezTerm](https://github.com/wez/wezterm)
   - [Alacritty](https://github.com/alacritty/alacritty)
 - Colorscheme: [hue-nvim](https://github.com/crafts69guy/hue-theme) — the same
-  Hue Tide mood system used across Fish/Tide, herdr, Ghostty, and tmux (see
+  Hue Tide mood system used across Fish/Tide, Ghostty, and tmux (see
   the Hue theme switcher above)
 - Plugin versions are pinned in `.config/nvim/lazy-lock.json` and should be
   committed whenever Lazy updates the lockfile.

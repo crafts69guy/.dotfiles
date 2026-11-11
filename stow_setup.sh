@@ -47,13 +47,5 @@ if command -v delta >/dev/null 2>&1; then
   fi
 fi
 
-# Guard: warn (non-fatal) if the herdr Hue theme plugin isn't installed. Unlike
-# Ghostty/tmux, herdr has no scriptable theme API — the "hue-theme" plugin
-# (packages/herdr-plugin in the hue-theme repo) owns applying it, so it needs
-# `herdr plugin install crafts69guy/hue-theme/packages/herdr-plugin` once.
-if command -v herdr >/dev/null 2>&1 && ! herdr plugin list --json 2>/dev/null | grep -q '"plugin_id":"hue-theme"'; then
-  echo "warning: herdr Hue theme plugin not installed — run: herdr plugin install crafts69guy/hue-theme/packages/herdr-plugin" >&2
-fi
-
 # Run Tide configuration
 fish ~/.dotfiles/.config/fish/scripts/tide_setup.fish

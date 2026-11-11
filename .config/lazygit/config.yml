@@ -6,8 +6,7 @@ customCommands:
     loadingText: 'opening commitizen commit tool'
     output: terminal
 os:
-  # LazyGit runs inside a Herdr pane, so edit files with LazyVim in that same
-  # terminal and return to LazyGit when Neovim exits.
+  # Edit files in this terminal and return to LazyGit when Neovim exits.
   editPreset: nvim
 gui:
   mouseEvents: true

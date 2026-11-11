@@ -2,49 +2,20 @@
 # Based on official fzf documentation: https://github.com/junegunn/fzf
 # Optimized for fd, ripgrep, bat integration
 #
-# Colors are derived from herdr's [theme.custom] (kept in sync with the
-# active Hue mood by the hue-theme herdr plugin), so fzf follows hue-theme
-# without a hardcoded palette. hue-theme.fish calls __hue_fzf_refresh on mood
-# switch; the universal variable then updates every running shell.
+# Colors use the active Hue palette loaded by 00-hue-tide.fish.
+# hue-theme.fish calls __hue_fzf_refresh on mood switch; the universal
+# variable then updates every running shell.
 
-function __hue_fzf_colors -d "Derive fzf --color from herdr's [theme.custom] (active Hue mood)"
-    set -l config $HOME/.config/herdr/config.toml
-    if set -q HERDR_CONFIG_PATH
-        set config $HERDR_CONFIG_PATH
-    end
-    test -r "$config"; or return 1
-
-    set -l accent ""
-    set -l text ""
-    set -l subtext ""
-    set -l surface ""
-    set -l overlay ""
-    set -l green ""
-    set -l teal ""
-    for line in (awk '
-        /^\[theme\.custom\]/ { s = 1; next }
-        /^\[/ { s = 0 }
-        s && match($0, /"#[0-9a-fA-F]{6}"/) { print $1 "=" substr($0, RSTART + 1, RLENGTH - 2) }
-    ' "$config")
-        set -l kv (string split -m1 = -- $line)
-        switch $kv[1]
-            case accent
-                set accent $kv[2]
-            case text
-                set text $kv[2]
-            case subtext0
-                set subtext $kv[2]
-            case surface1
-                set surface $kv[2]
-            case overlay0
-                set overlay $kv[2]
-            case green
-                set green $kv[2]
-            case teal
-                set teal $kv[2]
-        end
-    end
-    test -n "$accent" -a -n "$text"; or return 1
+function __hue_fzf_colors -d "Derive fzf --color from the active Hue Tide palette"
+    set -q tide_character_color[1] tide_os_color[1] tide_pwd_color_truncated_dirs[1] \
+        tide_prompt_color_frame_and_connection[1] tide_git_color_staged[1] tide_git_color_branch[1]; or return 1
+    set -l accent $tide_character_color
+    set -l text $tide_os_color
+    set -l subtext $tide_pwd_color_truncated_dirs
+    set -l surface $tide_prompt_color_frame_and_connection
+    set -l overlay $tide_prompt_color_frame_and_connection
+    set -l green $tide_git_color_staged
+    set -l teal $tide_git_color_branch
 
     echo "--color=bg:-1,gutter:-1,fg:$text,fg+:$text,bg+:$surface,hl:$accent,hl+:$accent,prompt:$accent,pointer:$accent,marker:$green,spinner:$teal,info:$subtext,header:$subtext,border:$overlay,separator:$overlay,scrollbar:$overlay,label:$accent,query:$text"
 end

@@ -28,7 +28,7 @@ if status is-interactive && command -q fnm
     # fnm's initial PWD hook runs while this script is sourced. Keep that
     # bootstrap quiet, then restore the user's log level for interactive use.
     set -l fnm_log_level $FNM_LOGLEVEL
-    # Nested shells (tmux, herdr, claude) inherit the parent's multishell; drop it
+    # Nested shells (tmux, claude) inherit the parent's multishell; drop it
     # so only this shell's multishell stays on PATH.
     set -gx PATH (string match -v -- '*/fnm_multishells/*' $PATH)
     fnm env --log-level quiet --use-on-cd --corepack-enabled --shell fish | source
@@ -63,8 +63,6 @@ if status is-interactive
     alias g git
     alias c claude
     alias oc opencode
-    alias hr herdr
-    alias hrl "~/.scripts/ide-herdr"
     command -qv nvim && alias vim nvim
 
     set -gx EDITOR nvim

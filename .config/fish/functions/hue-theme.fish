@@ -1,4 +1,4 @@
-function hue-theme -d "Switch the Hue theme across shell, tmux, Ghostty, Neovim, herdr, bat, lazygit, delta, and fzf"
+function hue-theme -d "Switch the Hue theme across shell, tmux, Ghostty, Neovim, bat, lazygit, delta, and fzf"
     set -l mood $argv[1]
 
     set -l state_home $HOME/.local/state
@@ -33,7 +33,6 @@ function hue-theme -d "Switch the Hue theme across shell, tmux, Ghostty, Neovim,
     __hue_theme_apply_tmux $mood
     __hue_theme_apply_ghostty $mood
     __hue_theme_apply_nvim $mood
-    __hue_theme_apply_herdr $mood
     __hue_theme_apply_bat $mood
     __hue_theme_apply_lazygit $mood
     __hue_theme_apply_delta $mood
@@ -96,16 +95,6 @@ function __hue_theme_apply_nvim --argument-names mood
     end
 end
 
-function __hue_theme_apply_herdr --argument-names mood
-    command -q herdr; or return 0
-
-    # herdr has no scriptable theme API (no CLI/socket command to switch
-    # colors) — the "hue-theme" herdr plugin (packages/herdr-plugin in the
-    # hue-theme repo) owns the config.toml splice + reload-config; it reads
-    # the same $state_file this function just wrote, so this just triggers it.
-    herdr plugin action invoke apply-mood --plugin hue-theme >/dev/null 2>&1
-end
-
 function __hue_theme_apply_bat --argument-names mood
     command -q bat; or return 0
 
@@ -143,10 +132,8 @@ function __hue_theme_apply_delta --argument-names mood
 end
 
 function __hue_theme_apply_fzf --argument-names mood
-    # fzf colors derive from herdr's [theme.custom], which
-    # __hue_theme_apply_herdr updated just before this runs. The refresh
-    # writes a universal variable, so every running shell follows instantly
-    # (same mechanism as BAT_THEME).
+    # Tide has already loaded this mood's palette. The universal variable
+    # updates every running shell (same mechanism as BAT_THEME).
     functions -q __hue_fzf_refresh; or return 0
     __hue_fzf_refresh
 end

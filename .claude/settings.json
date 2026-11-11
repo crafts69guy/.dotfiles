@@ -6,16 +6,6 @@
   "hooks": {
     "SessionStart": [
       {
-        "matcher": "^(startup|resume|clear|compact|fork)$",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash '/Users/caongoccuong/.claude/hooks/herdr-agent-state.sh' session",
-            "timeout": 10
-          }
-        ]
-      },
-      {
         "hooks": [
           {
             "type": "command",
@@ -96,7 +86,6 @@
       "**CI/CD deploy targets**: None configured",
       "**Network posture**: None configured",
       "**Host containment**: None configured — assume Claude Code runs on an ordinary developer machine with open internet",
-      "**Source control**: The trusted repo (origin, alias `gh-personal:crafts69guy/herdr-switchboard.git`) and its remote only — no additional orgs configured",
       "**Trusted internal domains**: None configured",
       "**Trusted cloud buckets**: None configured",
       "**Key internal services**: None configured",
@@ -107,9 +96,8 @@
       "**Protected deployment namespaces / environments**: None configured — fall back to the Sensitive remote targets heuristic",
       "**Protected IaC scopes**: IAM, RBAC, networking, quota, and node-pool resources; anything whose name or tag carries `prod` or `production` as a whole word or name segment",
       "### User-specific",
-      "**Primary use of Claude Code**: software development (Rust TUI plugin development for herdr-switchboard, a herdr plugin)",
-      "**Trusted repo**: /Users/caongoccuong/Developments/github.com/crafts69guy/herdr-switchboard (origin: gh-personal:crafts69guy/herdr-switchboard.git) — visibility unverified, treat as possibly public: scope commits/pushes there to this repo's own work only, never port in outside content",
-      "**Org-specific CLIs**: None configured — project-specific tools observed: `herdr` (plugin CLI, 60×), `ghq` (repo management), `gh` (GitHub CLI)"
+      "**Primary use of Claude Code**: software development",
+      "**Org-specific CLIs**: None configured — project-specific tools observed: `ghq` (repo management), `gh` (GitHub CLI)"
     ]
   }
 }
