@@ -65,15 +65,18 @@
     },
     "claude-opus-5-5": {
       "effortLevel": "high",
-      "autoCompactWindow": 400000
+      "autoCompactWindow": 300000
     }
   },
+  "awaySummaryEnabled": false,
   "tui": "fullscreen",
+  "timeFormat": "24-hour-utc",
   "skipDangerousModePermissionPrompt": true,
   "theme": "custom:hue-theme:hue-mua",
   "editorMode": "vim",
-  "autoCompactEnabled": false,
-  "idleCompaction": false,
+  "autoCompactEnabled": true,
+  "idleCompaction": true,
+  "attribution": false,
   "autoMode": {
     "environment": [
       "### Org-wide",
