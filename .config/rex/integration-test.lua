@@ -104,7 +104,7 @@ local function load_config()
   dofile(config_dir .. "/init.lua")
   assert(#layers == 0 and #splits == 0 and #exec_calls == 0 and #creations == 0 and #queued == 0 and #prompts == 0,
     "Loading config must never create resources")
-  assert(vim.tbl_count(actions) == 10 and vim.tbl_count(bindings) == 8)
+  assert(vim.tbl_count(actions) == 11 and vim.tbl_count(bindings) == 9)
   assert(bindings["shift+cmd+n"] == "new_dev_session")
   assert(bindings["ctrl+cmd+g"] == "lazygit")
   assert(bindings["ctrl+cmd+r"] == "tuicr")
@@ -113,6 +113,7 @@ local function load_config()
   assert(bindings["ctrl+cmd+a"] == "orc_orchestrator")
   assert(bindings["ctrl+cmd+w"] == "orc_workers")
   assert(bindings["ctrl+cmd+x"] == "orc_prune")
+  assert(bindings["ctrl+cmd+i"] == "copy_pane_id")
 end
 
 local picker_actions = { orc_workers = true }
@@ -136,6 +137,72 @@ local function invoke(options)
 end
 
 pwd = '/repo literal%20 with "quotes" and \\slashes;$()'
+load_config()
+local attached = 0
+rex.call = function(method, opts)
+  if method == "session.attach_all" then
+    assert(opts.event_scope == "session")
+    attached = attached + 1
+    return {}
+  end
+  assert(method == "session.list")
+  return { sessions = {
+    { session_id = context.session_id, label = "Source" },
+    { session_id = "session:closed", label = "Closed" },
+    { session_id = "session:work", label = "Work" },
+  } }
+end
+rex.session.view = function(opts)
+  if opts.session_id == "session:closed" then return nil, "Session closed" end
+  if opts.session_id == context.session_id then
+    return { windows = { { label = "Shell", layers = { { blocks = {
+      { block_id = context.block_id, label = "shell" },
+    } } } } } }
+  end
+  assert(opts.session_id == "session:work")
+  if attached == 0 then return nil, "stream is not attached to session (status=409 code=conflict)" end
+  return { windows = {
+    { label = "Logs", layers = {
+      { blocks = {
+        { block_id = "block:logs", label = "tail" },
+        { block_id = context.block_id, label = "moved shell" },
+      } },
+      { kind = "floating", blocks = { { block_id = "block:popup", flavor = "terminal.shell" } } },
+    } },
+  } }
+end
+answers = {
+  { value = "block:popup" }, { reason = "cancelled" }, { reason = "no_client" },
+  { value = "block:logs" }, { value = "block:logs" },
+}
+assert(actions.copy_pane_id.run(context).block_id == "block:popup")
+assert(prompts[1].method == "pick" and vim.deep_equal(prompts[1].opts.items, {
+  { id = context.block_id, title = "Source / Shell / shell", subtitle = context.block_id, detail = "Focused" },
+  { id = "block:logs", title = "Work / Logs / tail", subtitle = "block:logs" },
+  { id = "block:popup", title = "Work / Logs / terminal.shell", subtitle = "block:popup" },
+}))
+assert(vim.deep_equal(warnings, { { "warn", "Session closed" } }))
+assert(actions.copy_pane_id.run(context) == nil)
+local picked, pick_err = pcall(actions.copy_pane_id.run, context)
+assert(not picked and pick_err == "Rex picker: no_client")
+assert(vim.deep_equal(exec_calls, {
+  { argv = { "/usr/bin/pbcopy" }, opts = { stdin = "block:popup", timeout = 2 } },
+  { argv = { "/usr/bin/osascript", "-e", 'display alert "Block ID copied" giving up after 2' }, opts = { timeout = 5 } },
+}))
+exec_result = { ok = false, stderr = "Clipboard unavailable" }
+local copied, copy_err = pcall(actions.copy_pane_id.run, context)
+assert(not copied and copy_err:find("Clipboard unavailable", 1, true))
+assert(#exec_calls == 3 and exec_calls[3].argv[1] == "/usr/bin/pbcopy")
+exec_result = nil
+project_exec = function(argv)
+  if argv[1] == "/usr/bin/osascript" then return nil, "Alert unavailable" end
+  return success()
+end
+assert(actions.copy_pane_id.run(context).block_id == "block:logs")
+assert(vim.deep_equal(warnings[#warnings], { "warn", "Alert unavailable" }))
+project_exec = nil
+assert(attached == 1 and focused == nil and #queued == 0)
+
 load_config()
 assert(actions.new_dev_session.run({ client_id = origin }) == created_session)
 assert(vim.deep_equal(creations, {{

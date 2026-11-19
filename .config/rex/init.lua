@@ -124,6 +124,70 @@ orc_popup("orc_tasks", "Open Orc Tasks", "open")
 orc_popup("orc_workers", "Jump to Orc Worker", "workers", { 0.25, 0.2, 0.5, 0.6 })
 
 rex.action{
+  name = "copy_pane_id",
+  title = "Copy Block ID from Picker…",
+  category = "Pane",
+  keywords = "copy pane block id clipboard selector session",
+  run = function(ctx)
+    local inventory, list_err = rex.call("session.list")
+    if not inventory then error(list_err, 0) end
+
+    local items, seen = {}, {}
+    local attached_all = false
+    for _, session in ipairs(inventory.sessions or {}) do
+      local view, view_err = rex.session.view{ session_id = session.session_id }
+      -- Keep the caller's event scope when it can already read the session.
+      if not view and not attached_all and view_err:find("stream is not attached to session", 1, true) then
+        local attached, attach_err = rex.call("session.attach_all", { event_scope = "session" })
+        if not attached then error(attach_err, 0) end
+        attached_all = true
+        view, view_err = rex.session.view{ session_id = session.session_id }
+      end
+      if not view then rex.log("warn", view_err) end
+      local name = session.label ~= "" and session.label or session.session_id
+      for index, window in ipairs(view and view.windows or {}) do
+        local tab = window.label or ("Tab " .. index)
+        for _, layer in ipairs(window.layers or {}) do
+          for _, block in ipairs(layer.blocks or {}) do
+            local id = block.block_id
+            if not seen[id] then
+              seen[id] = true
+              items[#items + 1] = {
+                id = id,
+                title = name .. " / " .. tab .. " / " .. (block.label or block.flavor),
+                subtitle = id,
+                detail = id == ctx.block_id and "Focused" or nil,
+              }
+            end
+          end
+        end
+      end
+    end
+    assert(#items > 0, "There are no available panes on this Rex server")
+
+    local block_id, reason, detail = rex.ui.pick{
+      title = "Copy Block ID",
+      placeholder = "Filter by session, tab, pane, or ID",
+      items = items,
+    }
+    if reason == "cancelled" then return end
+    if not block_id then error(detail or ("Rex picker: " .. tostring(reason)), 0) end
+
+    local result, copy_err = rex.exec({ "/usr/bin/pbcopy" }, { stdin = block_id, timeout = 2 })
+    if not result then error(copy_err, 0) end
+    assert(result.ok, result.stderr ~= "" and result.stderr or "Could not copy the block ID")
+
+    local alert, alert_err = rex.exec({
+      "/usr/bin/osascript", "-e", 'display alert "Block ID copied" giving up after 2',
+    }, { timeout = 5 })
+    if not alert or not alert.ok then
+      rex.log("warn", alert_err or ("Could not show copy confirmation: " .. alert.stderr))
+    end
+    return { block_id = block_id }
+  end,
+}
+
+rex.action{
   name = "new_dev_session",
   title = "New Session in Developments",
   category = "Session",
@@ -211,3 +275,4 @@ rex.bind("ctrl+cmd+o", "orc_tasks")
 rex.bind("ctrl+cmd+a", "orc_orchestrator")
 rex.bind("ctrl+cmd+w", "orc_workers")
 rex.bind("ctrl+cmd+x", "orc_prune")
+rex.bind("ctrl+cmd+i", "copy_pane_id")

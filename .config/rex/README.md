@@ -12,6 +12,16 @@ Reload changes with `rex config reload`; validate with `rex config check`.
 | Ctrl+Cmd+A | Open a new tab (like Cmd+T) running the Orc orchestrator (`orc claude`) |
 | Ctrl+Cmd+W | Jump to an Orc worker in a small centered picker |
 | Ctrl+Cmd+X | Close finished Orc workers for the focused repository |
+| Ctrl+Cmd+I | Copy a pane ID from any session on the current Rex server |
+
+## Pane IDs
+
+**Copy Block ID from Picker…** (`copy_pane_id`) opens the native Rex picker with
+panes listed by session, including floating panes. Filter by session, tab,
+pane label, or block ID. Return copies the full `block:…` ID to the clipboard
+on the Rex server's Mac without switching sessions or tabs. The macOS
+**Block ID copied** alert closes after two seconds. Esc cancels the picker.
+[Rex Custom UI](https://www.superlogical.com/rex/docs/customize/custom-ui)
 
 ## GHQ projects and Git worktrees
 
