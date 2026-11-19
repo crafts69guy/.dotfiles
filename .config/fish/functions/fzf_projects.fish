@@ -4,48 +4,39 @@
 # Helpers: _fzf_run (from conf.d/fzf_helpers.fish)
 
 function fzf_projects --description "Search projects with fzf and cd (using ghq)"
-    set -l preview_cmd
-    if type -q eza
-        set preview_cmd "eza --tree --level=2 --color=always --icons {}"
-    else
-        set preview_cmd "ls -la {}"
-    end
-
-    set -l selected_project
-
+    set -l projects
     if type -q ghq
-        set -l ghq_root (ghq root)
-        set -l ghq_preview "eza --tree --level=2 --color=always --icons $ghq_root/{} 2>/dev/null || ls -la $ghq_root/{}"
-
-        set selected_project (ghq list | _fzf_run "85%,70%" \
-            --border-label="  Projects " \
-            --preview "$ghq_preview" \
-            --preview-window "right:50%:border-rounded" \
-            --preview-label=" 󰙅 Tree " \
-            --header="  ⌨  enter cd │ esc cancel")
-
-        if test -n "$selected_project"
-            cd "$ghq_root/$selected_project"
-            commandline -f repaint
-        end
-    else
-        # Fallback to Developments folder
-        if test -d "$HOME/Developments"
-            set selected_project (find "$HOME/Developments" -maxdepth 3 -type d -name .git | sed 's/\/\.git$//' | \
-                _fzf_run "85%,70%" \
-                    --border-label="  Projects " \
-                    --preview "$preview_cmd" \
-                    --preview-window "right:50%:border-rounded" \
-                    --preview-label=" 󰙅 Tree " \
-                    --header="  ⌨  enter cd │ esc cancel")
-
-            if test -n "$selected_project"
-                cd "$selected_project"
-                commandline -f repaint
-            end
-        else
-            echo "ghq not found and ~/Developments does not exist"
+        set projects (ghq list --full-path); or begin
+            echo 'fzf_projects: ghq list --full-path failed' >&2
             return 1
         end
+    else if test -d "$HOME/Developments"
+        set projects (find "$HOME/Developments" -maxdepth 3 -type d -name .git); or return 1
+        set projects (string replace -r '/\.git$' '' -- $projects)
+    else
+        echo 'fzf_projects: ghq not found and ~/Developments does not exist' >&2
+        return 1
+    end
+
+    set -l selected_project (string join \n -- $projects | _fzf_run "85%,70%" \
+        --border-label="  Projects " \
+        --with-shell '/bin/sh -c' \
+        --preview '/bin/sh -c \'eza --tree --level=2 --color=always --icons -- "$1" 2>/dev/null || ls -la -- "$1"\' sh {}' \
+        --preview-window "right:50%:border-rounded" \
+        --preview-label=" 󰙅 Tree " \
+        --header="  ⌨  enter cd │ esc cancel")
+    switch $status
+        case 1 130
+            return 0
+        case 0
+            test -n "$selected_project"; or return 0
+        case '*'
+            echo 'fzf_projects: project picker failed' >&2
+            return 1
+    end
+
+    cd -- "$selected_project"; or return 1
+    if status is-interactive
+        commandline -f repaint
     end
 end

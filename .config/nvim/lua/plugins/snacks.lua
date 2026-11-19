@@ -1,8 +1,78 @@
+local function buffer_cwd()
+	local path = vim.api.nvim_buf_get_name(0)
+	if vim.bo.buftype == "" and path ~= "" and not path:match("^%w[%w+.-]*://") then
+		if vim.fn.isdirectory(path) == 1 then
+			return path
+		end
+		for parent in vim.fs.parents(path) do
+			if vim.fn.isdirectory(parent) == 1 then
+				return parent
+			end
+		end
+	end
+	return vim.fn.getcwd()
+end
+
+local function review_git(cwd, args, error_message, on_success)
+	local cmd = vim.list_extend({ "git" }, args)
+	local on_exit = vim.schedule_wrap(function(result)
+		if result.code ~= 0 then
+			local detail = vim.trim(result.stderr)
+			vim.notify(error_message .. (detail ~= "" and ("\n" .. detail) or ""), vim.log.levels.ERROR)
+			return
+		end
+		on_success(vim.trim(result.stdout))
+	end)
+	local ok, err = pcall(vim.system, cmd, { cwd = cwd, text = true }, on_exit)
+	if not ok then
+		vim.notify(error_message .. "\n" .. tostring(err), vim.log.levels.ERROR)
+	end
+end
+
+local function tuicr_review(opts)
+	if vim.fn.executable("tuicr") == 0 then
+		vim.notify("TuicrReview requires tuicr on PATH", vim.log.levels.ERROR)
+		return
+	end
+	local cwd = buffer_cwd()
+	if opts.args == "" then
+		Snacks.terminal({ "tuicr", "-w" }, { cwd = cwd })
+		return
+	end
+
+	local base = opts.args
+	if base:sub(1, 1) == "-" then
+		vim.notify(("Git review base cannot start with a hyphen: %q"):format(base), vim.log.levels.ERROR)
+		return
+	end
+	review_git(
+		cwd,
+		{ "rev-parse", "--verify", base .. "^{commit}" },
+		("Could not resolve Git review base %q in %s"):format(base, cwd),
+		function(commit)
+			review_git(
+				cwd,
+				{ "merge-base", "HEAD", commit },
+				("Could not find a Git merge base between HEAD and %q in %s"):format(base, cwd),
+				function(merge_base)
+					Snacks.terminal({ "tuicr", "-r", merge_base .. "..HEAD" }, { cwd = cwd })
+				end
+			)
+		end
+	)
+end
+
 return {
 	{
 		"folke/snacks.nvim",
 		priority = 1000,
 		lazy = false,
+		init = function()
+			vim.api.nvim_create_user_command("TuicrReview", tuicr_review, {
+				nargs = "?",
+				desc = "Review local changes or changes since a Git base in Tuicr",
+			})
+		end,
 		keys = {
 			{
 				"<leader>e",
@@ -297,14 +367,15 @@ return {
 			{
 				"<leader>gg",
 				function()
-					Snacks.lazygit()
+					local cwd = buffer_cwd()
+					Snacks.lazygit({ cwd = Snacks.git.get_root(cwd) or cwd })
 				end,
 				desc = "Lazygit (Root Dir)",
 			},
 			{
 				"<leader>gG",
 				function()
-					Snacks.lazygit({ cwd = vim.fn.expand("%:p:h") })
+					Snacks.lazygit({ cwd = buffer_cwd() })
 				end,
 				desc = "Lazygit (Current Dir)",
 			},

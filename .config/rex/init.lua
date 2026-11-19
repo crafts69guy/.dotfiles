@@ -2,6 +2,7 @@
 -- Docs: https://www.superlogical.com/rex/docs/customize/config
 
 local terminal = "com.superlogical.terminal"
+local projects = require("ghq-projects")
 
 -- The focused pane's directory as a plain path, or nil when nothing reported one.
 local function focused_cwd(block_id)
@@ -32,58 +33,95 @@ local function focused_cwd(block_id)
   return path
 end
 
--- A TUI in a floating pane over the current tab, opened in the focused pane's repo.
--- The float closes itself when the program quits.
-local function float_action(name, title, command, needs_cwd, bounds)
+local function open_float(ctx, options, bounds)
+  local layer, err = rex.session.new_layer{
+    session_id = ctx.session_id,
+    bounds = bounds or { 0.05, 0.05, 0.9, 0.9 },
+    focus = true,
+    layout = rex.layout.block{ flavor = terminal .. ".shell", options = options },
+  }
+  if err ~= nil then error(err, 0) end
+  return layer
+end
+
+local function git_float_action(name, title, command, git_only, args)
   rex.action{
     name     = name,
     title    = title,
-    category = name:match("^orc_") and "Orc" or "Git",
+    category = "Git",
     keywords = "git float " .. name,
-    run      = function(ctx)
+    args     = args,
+    run      = function(ctx, opts)
+      projects.require_local(ctx)
       local cwd = focused_cwd(ctx.block_id)
-      assert(not needs_cwd or cwd, "The focused pane has not reported a project directory")
-      local layer, err = rex.session.new_layer{
-        session_id = ctx.session_id,
-        bounds = bounds or { 0.05, 0.05, 0.9, 0.9 },
-        focus  = true,
-        layout = rex.layout.block{
-          flavor  = terminal .. ".shell",
-          options = {
-            command = type(command) == "function" and command(ctx, cwd) or command,
-            cwd = cwd,
-          },
-        },
-      }
-      if err ~= nil then error(err, 0) end
-      return layer
+      assert(cwd, "The focused pane has not reported a project directory")
+      local argv
+      if type(command) == "function" then
+        argv = command(cwd, opts)
+        if not argv then return end
+      else
+        projects.validate_tool_cwd(cwd, git_only)
+        argv = command
+      end
+      return open_float(ctx, { cwd = cwd, command = argv, interactive = true })
     end,
   }
 end
 
-float_action("lazygit", "Open Lazygit", { "lazygit" })
-float_action("tuicr", "Open Tuicr Review", { "tuicr" })
+git_float_action("lazygit", "Open Lazygit", { "lazygit" }, true)
+git_float_action("tuicr", "Open Tuicr Review", { "tuicr", "-w" })
+git_float_action("tuicr_review_branch", "Review Branch…", function(cwd, args)
+  local range = projects.review_range(cwd, args and args.base)
+  if range then return { "tuicr", "-r", range } end
+end, true, { base = "string?" })
 
-local function orc_popup(method)
-  return function(ctx, cwd)
-    assert(ctx.client_id and ctx.client_id ~= "", "Open the orc popup from a Rex app")
-    local options = ("client_id=%q,quit_on_close=true"):format(ctx.client_id)
-    if method == "open" or method == "workers" then options = options .. (",cwd=%q"):format(cwd) end
-    local home = os.getenv("HOME")
-    assert(home and home:sub(1, 1) == "/", "HOME must be an absolute path to locate orc-popup.lua")
-    -- --clean skips LazyVim (dashboard, tabline, statusline); orc-popup.lua loads only what the popup needs.
-    return {
-      "nvim", "--clean", "-u", home .. "/.config/rex/orc-popup.lua", "-n", "-c",
-      ("lua require('orc').%s({%s})"):format(method, options),
-    }
-  end
+rex.action{
+  name = "ghq_projects",
+  title = "Open GHQ Repository in New Session",
+  category = "Git",
+  keywords = "ghq project repository checkout",
+  args = { project = "string?" },
+  run = projects.open_project,
+}
+
+rex.action{
+  name = "git_worktrees",
+  title = "Open or Create Git Worktree…",
+  category = "Git",
+  keywords = "project repository checkout worktree branch",
+  run = function(ctx)
+    projects.require_local(ctx)
+    local cwd = focused_cwd(ctx.block_id)
+    assert(cwd, "The focused pane has not reported a project directory")
+    return projects.open_worktrees(ctx, cwd)
+  end,
+}
+
+local function orc_popup(name, title, method, bounds)
+  rex.action{
+    name = name,
+    title = title,
+    category = "Orc",
+    keywords = "git float " .. name,
+    run = function(ctx)
+      local cwd = focused_cwd(ctx.block_id)
+      assert(cwd, "The focused pane has not reported a project directory")
+      assert(ctx.client_id and ctx.client_id ~= "", "Open the orc popup from a Rex app")
+      local options = ("client_id=%q,quit_on_close=true,cwd=%q"):format(ctx.client_id, cwd)
+      local home = os.getenv("HOME")
+      assert(home and home:sub(1, 1) == "/", "HOME must be an absolute path to locate orc-popup.lua")
+      -- --clean skips LazyVim (dashboard, tabline, statusline); orc-popup.lua loads only what the popup needs.
+      local command = {
+        "nvim", "--clean", "-u", home .. "/.config/rex/orc-popup.lua", "-n", "-c",
+        ("lua require('orc').%s({%s})"):format(method, options),
+      }
+      return open_float(ctx, { cwd = cwd, command = command }, bounds)
+    end,
+  }
 end
 
--- Pickers fill their popup, so a small centered layer keeps the current tab visible around them.
-local picker_bounds = { 0.25, 0.2, 0.5, 0.6 }
-float_action("ghq_projects", "Open GHQ Repository in New Session", orc_popup("projects"), false, picker_bounds)
-float_action("orc_tasks", "Open Orc Tasks", orc_popup("open"), true)
-float_action("orc_workers", "Jump to Orc Worker", orc_popup("workers"), true, picker_bounds)
+orc_popup("orc_tasks", "Open Orc Tasks", "open")
+orc_popup("orc_workers", "Jump to Orc Worker", "workers", { 0.25, 0.2, 0.5, 0.6 })
 
 rex.action{
   name = "new_dev_session",

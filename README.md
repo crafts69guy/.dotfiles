@@ -7,7 +7,7 @@
 - **Tmux** – Minimal terminal multiplexer configuration
 - **Neovim** – Custom plugins, keybindings, and themes (LazyVim)
 - **Hue Theme** – Custom Huế-inspired theme system across Fish/Tide, Ghostty, tmux, and Neovim
-- **Git** – Configuration for efficient version control
+- **Git** – [Project navigation, worktrees, and code review](#git-workflow)
 - **Karabiner** – Custom key mappings with Fn (Hyper) key
 - **Fish Shell** – Enhanced terminal experience with Tide prompt
 - **FZF** – Fuzzy finder with fd, ripgrep, bat integration
@@ -235,6 +235,18 @@ brew install fzf fd ripgrep bat eza ghq
   the Hue theme switcher above)
 - Plugin versions are pinned in `.config/nvim/lazy-lock.json` and should be
   committed whenever Lazy updates the lockfile.
+
+---
+
+## Git workflow
+
+- In Rex, use `Ctrl+Cmd+P` to open a GHQ project or worktree, `Ctrl+Cmd+G` for Lazygit, and `Ctrl+Cmd+R` for local Tuicr review. [Rex shortcuts and worktree actions](.config/rex/README.md)
+- In Neovim, `:Orc projects` opens the Snacks GHQ picker to start a Rex session for a project.
+- Use `<leader>gg` to open Snacks Lazygit at the active buffer’s Git checkout root or `<leader>gG` to start it in the buffer’s directory.
+- `:TuicrReview` opens Tuicr for uncommitted changes. `:TuicrReview origin/main` reviews the commits from the merge base with `origin/main` through `HEAD`. Both open from the buffer’s directory and use the editor cwd for non-file buffers. [Tuicr CLI](https://github.com/agavra/tuicr/blob/main/docs/CLI.md)
+- In Fish, `fzf_projects` previews projects across all GHQ roots and changes to the selected directory. When GHQ is unavailable, it searches `~/Developments`.
+
+Use Worktrunk in Fish to manage your own worktrees. `wt list` shows the checkouts, `wt switch <branch>` switches to one, and `wt merge` or `wt remove` finishes a worktree. Use Orc for agent-owned task worktrees. [Worktrunk](https://worktrunk.dev/)
 
 ---
 
