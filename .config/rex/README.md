@@ -12,7 +12,7 @@ Reload changes with `rex config reload`; validate with `rex config check`.
 | Ctrl+Cmd+A | Open a new tab (like Cmd+T) running the Orc orchestrator (`orc claude`) |
 | Ctrl+Cmd+W | Jump to an Orc worker in a small centered picker |
 | Ctrl+Cmd+X | Close finished Orc workers for the focused repository |
-| Ctrl+Cmd+I | Copy a pane ID from any session on the current Rex server |
+| Ctrl+Shift+Cmd+I | Copy a pane ID from any session on the current Rex server |
 
 ## Pane IDs
 

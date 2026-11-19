@@ -113,7 +113,7 @@ local function load_config()
   assert(bindings["ctrl+cmd+a"] == "orc_orchestrator")
   assert(bindings["ctrl+cmd+w"] == "orc_workers")
   assert(bindings["ctrl+cmd+x"] == "orc_prune")
-  assert(bindings["ctrl+cmd+i"] == "copy_pane_id")
+  assert(bindings["ctrl+shift+cmd+i"] == "copy_pane_id")
 end
 
 local picker_actions = { orc_workers = true }
