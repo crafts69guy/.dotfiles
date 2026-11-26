@@ -25,7 +25,7 @@ Use Inkdrop as the persistent knowledge base and treat the user as a technical c
 - Do not duplicate the note title inside the note body as a Markdown H1. The Inkdrop title is the note title.
 - Do not include a `Tags: #...` line in the note body. Use Inkdrop native tags through the MCP `tags` field instead.
 - Set new notes to `active` status by default unless the user asks for another status or the note is explicitly archival/reference-only.
-- Use `create_note` for new notes, `update_note` for whole-note replacements, and `patch_note` only after reading the note and identifying one exact replacement string.
+- For reads by link, note edits, and templates, follow [the MCP workflow](~/agent-rules/tools/inkdrop-v6/mcp-token-workflow.md). Use the tool schemas exposed by the current session.
 - Use `create_tag` only when an intended tag is missing; prefer existing lowercase tags.
 - Treat notebook creation, deletion, rename, reorder, and UI-only behavior as user-assisted manual actions unless the current MCP exposes a safe tool for them.
 
