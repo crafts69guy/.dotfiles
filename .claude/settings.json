@@ -2,6 +2,11 @@
   "env": {
     "PONYTAIL_SUBAGENT_MATCHER": "^(?!orc:(scoper|shipper)$)"
   },
+  "attribution": {
+    "commit": "",
+    "pr": "",
+    "sessionUrl": false
+  },
   "model": "opus",
   "hooks": {
     "SessionStart": [
@@ -48,7 +53,7 @@
     "orc-nvim": {
       "source": {
         "source": "directory",
-        "path": "/Users/caongoccuong/Developments/github.com/crafts69guy/orc.nvim"
+        "path": "/Users/caongoccuong/.local/share/orc.nvim"
       }
     },
     "hue-theme": {
@@ -64,8 +69,8 @@
       "effortLevel": "medium"
     },
     "claude-opus-5-5": {
-      "effortLevel": "high",
-      "autoCompactWindow": 300000
+      "effortLevel": "xhigh",
+      "autoCompactWindow": 400000
     }
   },
   "awaySummaryEnabled": false,
@@ -76,7 +81,6 @@
   "editorMode": "vim",
   "autoCompactEnabled": true,
   "idleCompaction": true,
-  "attribution": false,
   "autoMode": {
     "environment": [
       "### Org-wide",
